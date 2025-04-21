@@ -8,6 +8,6 @@ redirect_from:
 ---
 
 {% include base_path %}
-
-<img src='/files/Resume-v2-RTL-1.png'>
 [Link to PDF](https://github.com/abhinavnandwani/abhinavnandwani.github.io/commits/master/files/Resume-v2-RTL.pdf)
+<img src='/files/Resume-v2-RTL-1.png'>
+
