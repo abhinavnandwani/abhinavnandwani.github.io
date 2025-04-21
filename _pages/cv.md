@@ -11,9 +11,13 @@ redirect_from:
 
 Education
 ======
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
-* M.S. in Jekyll, GitHub University, 2014
-* B.S. in GitHub, GitHub University, 2012
+**University of Wisconsin–Madison, College of Engineering**  
+*Bachelor of Science in Computer Engineering (Machine Learning option) and Computer Science*  
+**GPA:** 3.9/4.0  
+**Expected Graduation:** May 2026  
+**Relevant Coursework:**  
+Digital Design and Synthesis, Computer Architecture, Advanced Algorithms, Quantum System Architecture, Compilers, Design of Operating Systems
+
 
 Work experience
 ======
