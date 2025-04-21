@@ -10,7 +10,7 @@ redirect_from:
 
 
 
-I'm Abhinav Nandwani, a Computer Engineering and Computer Science student at the University of Wisconsin–Madison with a passion for building intelligent systems at the intersection of hardware and AI. With a strong foundation in RTL design, GPU microarchitecture, and scalable machine learning, I enjoy turning low-level engineering into high-impact innovation.
+A Computer Engineering and Computer Science student at the University of Wisconsin–Madison with a passion for building intelligent systems at the intersection of hardware and AI. With a strong foundation in RTL design, GPU microarchitecture, and scalable machine learning, I enjoy turning low-level engineering into high-impact innovation.
 
 A systems architecture-level thinker who leverages deep RTL/hardware knowledge to drive the design of domain-specific accelerators (DSAs). This involves the following 
 
