@@ -1,4 +1,11 @@
-
+---
+permalink: /
+title: #"Academic Pages is a ready-to-fork GitHub Pages template for academic personal websites"
+author_profile: true
+redirect_from: 
+  - /about/
+  - /about.html
+---
 
 I'm Abhinav Nandwani, a Computer Engineering and Computer Science student at the University of Wisconsin–Madison with a passion for building intelligent systems at the intersection of hardware and AI. With a strong foundation in RTL design, GPU microarchitecture, and scalable machine learning, I enjoy turning low-level engineering into high-impact innovation.
 
