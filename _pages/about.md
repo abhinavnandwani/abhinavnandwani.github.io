@@ -20,6 +20,6 @@ A systems architecture-level thinker who leverages deep RTL/hardware knowledge t
 4. Adhere to performance, memory hierarchy, communication models, and software implications making them implementation guides for teams (RTL, VLSI, verification, compiler)
 
 
-## Recent updates
+## Recent Work
 
 <img src='/files/fault-model-poster-ece.png'>
