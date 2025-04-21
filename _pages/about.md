@@ -17,6 +17,6 @@ My work spans across developing AI accelerators on FPGAs, architecting pipelined
 Whether I’m designing autonomous robots or simulating instruction-level faults in tensor cores, I’m driven by curiosity, precision, and the desire to push technical boundaries. I'm always looking to collaborate on transformative projects in AI, hardware design, and systems research.
 
 
+## Recent updates
 
-
-<img src='/images/500x300.png'>
+<img src='/files/fault-model-poster-ece.png'>
