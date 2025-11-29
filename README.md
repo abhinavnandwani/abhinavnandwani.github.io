@@ -1,89 +1,151 @@
-# Academic Pages
-**Academic Pages is a GitHub Pages template for personal and professional portfolio-oriented websites.**
+# Personal Website
 
-![Academic Pages template example](images/homepage.png "Academic Pages template example")
+A minimal personal website for Abhinav Nandwani, hosted on GitHub Pages.
 
-# Getting Started
+## Site Structure
 
-1. Register a GitHub account if you don't have one and confirm your e-mail (required!)
-1. Click the "Use this template" button in the top right.
-1. On the "New repository" page, enter your repository name as "[your GitHub username].github.io", which will also be your website's URL.
-1. Set site-wide configuration and add your content.
-1. Upload any files (like PDFs, .zip files, etc.) to the `files/` directory. They will appear at https://[your GitHub username].github.io/files/example.pdf.
-1. Check status by going to the repository settings, in the "GitHub pages" section
-1. (Optional) Use the Jupyter notebooks or python scripts in the `markdown_generator` folder to generate markdown files for publications and talks from a TSV file.
-
-See more info at https://academicpages.github.io/
-
-## Running locally
-
-When you are initially working on your website, it is very useful to be able to preview the changes locally before pushing them to GitHub. To work locally you will need to:
-
-1. Clone the repository and made updates as detailed above.
-1. Make sure you have ruby-dev, bundler, and nodejs installed
-    
-    On most Linux distribution and [Windows Subsystem Linux](https://learn.microsoft.com/en-us/windows/wsl/about) the command is:
-    ```bash
-    sudo apt install ruby-dev ruby-bundler nodejs
-    ```
-    If you see error `Unable to locate package ruby-bundler`, `Unable to locate package nodejs `, run the following:
-    ```bash
-    sudo apt update && sudo apt upgrade -y
-    ```
-    then try run `sudo apt install ruby-dev ruby-bundler nodejs` again.
-
-    On MacOS the commands are:
-    ```bash
-    brew install ruby
-    brew install node
-    gem install bundler
-    ```
-1. Run `bundle install` to install ruby dependencies. If you get errors, delete Gemfile.lock and try again.
-
-    If you see file permission error like `Fetching bundler-2.6.3.gem ERROR:  While executing gem (Gem::FilePermissionError) You don't have write permissions for the /var/lib/gems/3.2.0 directory.` or `Bundler::PermissionError: There was an error while trying to write to /usr/local/bin.`
-    Install Gems Locally (Recommended):
-    ```bash
-    bundle config set --local path 'vendor/bundle'
-    ```
-    then try run `bundle install` again. If succeeded, you should see a folder called `vendor` and open `.gitignore` then add `vendor` inside it.
-
-1. Run `jekyll serve -l -H localhost` to generate the HTML and serve it from `localhost:4000` the local server will automatically rebuild and refresh the pages on change.
-    You may also try `bundle exec jekyll serve -l -H localhost` to ensure jekyll to use specific dependencies on your own local machine.
-
-If you are running on Linux it may be necessary to install some additional dependencies prior to being able to run locally: `sudo apt install build-essential gcc make`
-
-## Using Docker
-
-Working from a different OS, or just want to avoid installing dependencies? You can use the provided `Dockerfile` to build a container that will run the site for you if you have [Docker](https://www.docker.com/) installed.
-
-You can build and execute the container by running the following command in the repository:
-
-```bash
-docker compose up
+```
+abhinavnandwani.github.io/
+├── index.html          # Home page with bio
+├── resume.html         # Resume/CV page
+├── blog.html           # Blog listing
+├── css/
+│   └── style.css       # Stylesheet
+├── js/                 # JavaScript (if needed)
+├── posts/              # Individual blog posts
+├── images/             # Images and favicon
+│   ├── profile.png
+│   └── favicon.ico
+├── files/              # Downloadable files
+│   └── Resume-v2-RTL.pdf
+└── CNAME               # Custom domain config
 ```
 
-You should now be able to access the website from `localhost:4000`.
+## Local Development
 
-# Maintenance
+### Option 1: Using uv (Recommended)
 
-Bug reports and feature requests to the template should be [submitted via GitHub](https://github.com/academicpages/academicpages.github.io/issues/new/choose). For questions concerning how to style the template, please feel free to start a [new discussion on GitHub](https://github.com/academicpages/academicpages.github.io/discussions).
+This project uses [uv](https://github.com/astral-sh/uv) for Python dependency management.
 
-This repository was forked (then detached) by [Stuart Geiger](https://github.com/staeiou) from the [Minimal Mistakes Jekyll Theme](https://mmistakes.github.io/minimal-mistakes/), which is © 2016 Michael Rose and released under the MIT License (see LICENSE.md). It is currently being maintained by [Robert Zupko](https://github.com/rjzupkoii) and additional maintainers would be welcomed.
+```bash
+# Install uv if you don't have it
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
-## Bugfixes and enhancements
+# Run development server with simple HTTP server
+uv run serve
 
-If you have bugfixes and enhancements that you would like to submit as a pull request, you will need to [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) this repository as opposed to using it as a template. This will also allow you to [synchronize your copy](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) of template to your fork as well.
+# OR run with live reload (auto-refreshes on file changes) - RECOMMENDED
+uv run serve-reload
+```
 
-Unfortunately, one logistical issue with a template theme like Academic Pages that makes it a little tricky to get bug fixes and updates to the core theme. If you use this template and customize it, you will probably get merge conflicts if you attempt to synchronize. If you want to save your various .yml configuration files and markdown files, you can delete the repository and fork it again. Or you can manually patch.
+The `serve-reload` command watches for changes in HTML, CSS, and JS files and automatically refreshes your browser.
 
----
-<div align="center">
-    
-![pages-build-deployment](https://github.com/academicpages/academicpages.github.io/actions/workflows/pages/pages-build-deployment/badge.svg)
-[![GitHub contributors](https://img.shields.io/github/contributors/academicpages/academicpages.github.io.svg)](https://github.com/academicpages/academicpages.github.io/graphs/contributors)
-[![GitHub release](https://img.shields.io/github/v/release/academicpages/academicpages.github.io)](https://github.com/academicpages/academicpages.github.io/releases/latest)
-[![GitHub license](https://img.shields.io/github/license/academicpages/academicpages.github.io?color=blue)](https://github.com/academicpages/academicpages.github.io/blob/master/LICENSE)
+You can also run the scripts directly:
+```bash
+uv run python scripts/serve.py          # Simple server
+uv run python scripts/serve_livereload.py  # Live reload server
+```
 
-[![GitHub stars](https://img.shields.io/github/stars/academicpages/academicpages.github.io)](https://github.com/academicpages/academicpages.github.io)
-[![GitHub forks](https://img.shields.io/github/forks/academicpages/academicpages.github.io)](https://github.com/academicpages/academicpages.github.io/fork)
-</div>
+### Option 2: Without uv
+
+Simply open `index.html` in a browser, or use Python's built-in server:
+
+```bash
+python -m http.server 8000
+```
+
+Then visit `http://localhost:8000`
+
+## Adding Blog Posts
+
+1. Create a new HTML file in the `posts/` directory (e.g., `my-first-post.html`)
+2. Use this template:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Title - Abhinav Nandwani</title>
+    <meta name="description" content="Post description">
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="/" class="nav-home">Abhinav Nandwani</a>
+            <ul class="nav-links">
+                <li><a href="/resume.html">Resume</a></li>
+                <li><a href="/blog.html">Blog</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <article>
+            <header class="page-header">
+                <h1>Post Title</h1>
+                <div class="post-meta">
+                    <time datetime="2025-01-15">January 15, 2025</time>
+                </div>
+            </header>
+
+            <section>
+                <!-- Your post content here -->
+                <p>Your content...</p>
+            </section>
+
+            <div class="back-link">
+                <a href="/blog.html">← Back to Blog</a>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Abhinav Nandwani</p>
+        </div>
+    </footer>
+</body>
+</html>
+```
+
+3. Update `blog.html` to add a link to your new post:
+
+```html
+<article class="blog-post-preview">
+    <h2><a href="/posts/my-first-post.html">Post Title</a></h2>
+    <time datetime="2025-01-15">January 15, 2025</time>
+    <p>Brief excerpt of the post...</p>
+</article>
+```
+
+## Deployment
+
+This site is automatically deployed via GitHub Pages. Just push to the `master` branch:
+
+```bash
+git add .
+git commit -m "Update site"
+git push origin master
+```
+
+Changes will be live at https://abhinavnandwani.com in a few minutes.
+
+## Custom Domain
+
+The custom domain is configured via the `CNAME` file. Current domain: `abhinavnandwani.com`
+
+## Technologies
+
+- Plain HTML5
+- CSS3
+- No build process
+- No dependencies
+- GitHub Pages hosting
+
+## License
+
+© 2025 Abhinav Nandwani

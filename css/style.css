@@ -1,0 +1,476 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 18px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.7;
+    color: #0a0a0a;
+    background-color: #fafafa;
+    font-weight: 400;
+    letter-spacing: -0.011em;
+}
+
+/* Container - WIDESCREEN */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 3rem;
+}
+
+/* Navigation */
+nav {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e8e8e8;
+    padding: 1.25rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-home {
+    font-weight: 600;
+    color: #0a0a0a;
+    text-decoration: none;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    transition: color 0.2s ease;
+}
+
+.nav-home:hover {
+    color: #2563eb;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: #525252;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #2563eb;
+}
+
+/* Hero Section with Profile Image */
+.hero {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 4rem;
+    align-items: start;
+    margin: 4rem 0;
+}
+
+.hero-content {
+    max-width: 900px;
+}
+
+.profile-image-container {
+    position: relative;
+}
+
+.profile-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 16px;
+    object-fit: cover;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography */
+h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: #0a0a0a;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: #0a0a0a;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #0a0a0a;
+}
+
+p {
+    margin-bottom: 1.25rem;
+    font-size: 1.05rem;
+    color: #404040;
+    max-width: 75ch;
+}
+
+.subtitle {
+    color: #737373;
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+/* Page Header */
+.page-header {
+    margin-bottom: 3rem;
+}
+
+/* Links */
+a {
+    color: #2563eb;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+/* Lists */
+ol, ul {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+li {
+    margin-bottom: 0.75rem;
+    color: #404040;
+}
+
+ol li {
+    padding-left: 0.5rem;
+}
+
+/* Sections */
+section {
+    margin-bottom: 4rem;
+}
+
+.about p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+}
+
+/* Contact Links */
+.contact-links {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.contact-links li {
+    margin-bottom: 0;
+}
+
+.contact-links a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 1.2rem;
+    background-color: #ffffff;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 8px;
+    color: #0a0a0a;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.contact-links a:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 2rem 0;
+}
+
+.recent-work img {
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recent-work img:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Button */
+.button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #2563eb;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: 2px solid #2563eb;
+}
+
+.button:hover {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.download-link {
+    margin-bottom: 2rem;
+}
+
+/* Resume */
+.resume-content {
+    max-width: 1200px;
+}
+
+.pdf-container {
+    margin: 2rem 0;
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-container embed {
+    display: block;
+}
+
+.pdf-fallback {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e8e8e8;
+}
+
+/* Blog */
+.blog-posts {
+    margin-top: 3rem;
+    display: grid;
+    gap: 2rem;
+}
+
+.blog-post-preview {
+    padding: 2rem;
+    background-color: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.blog-post-preview:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-color: #d4d4d4;
+}
+
+.blog-post-preview h2 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.blog-post-preview h2 a {
+    color: #0a0a0a;
+    text-decoration: none;
+}
+
+.blog-post-preview h2 a:hover {
+    color: #2563eb;
+}
+
+.blog-post-preview time {
+    display: block;
+    color: #737373;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+.empty-state {
+    color: #737373;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+/* Blog Post Page */
+.post-meta {
+    color: #737373;
+    margin-bottom: 2.5rem;
+}
+
+.post-meta time {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e8e8e8;
+}
+
+/* Code */
+code {
+    font-family: "JetBrains Mono", "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f9fafb;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: 1px solid #e8e8e8;
+}
+
+pre {
+    background-color: #f9fafb;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid #e8e8e8;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+}
+
+/* Footer */
+footer {
+    margin-top: 6rem;
+    padding: 2.5rem 0;
+    border-top: 1px solid #e8e8e8;
+    background-color: #ffffff;
+}
+
+footer p {
+    color: #737373;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .container {
+        max-width: 1000px;
+        padding: 0 2rem;
+    }
+}
+
+@media (max-width: 900px) {
+    html {
+        font-size: 17px;
+    }
+
+    .container {
+        padding: 0 1.5rem;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .profile-image-container {
+        order: -1;
+    }
+
+    .profile-image {
+        width: 150px;
+        height: 150px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    nav .container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .nav-links {
+        gap: 1.25rem;
+    }
+
+    .contact-links {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .pdf-container embed {
+        height: 600px;
+    }
+}
+
+@media (max-width: 600px) {
+    html {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .profile-image {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Google Fonts - Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
