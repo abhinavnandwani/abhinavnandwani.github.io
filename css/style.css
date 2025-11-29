@@ -267,29 +267,116 @@ img {
     margin-bottom: 2rem;
 }
 
-/* Resume */
-.resume-content {
-    max-width: 1200px;
+/* Resume Page */
+.resume-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e8e8e8;
 }
 
-.pdf-container {
-    margin: 2rem 0;
-    border: 1px solid #e8e8e8;
-    border-radius: 12px;
-    overflow: hidden;
+.resume-header-content h1 {
+    margin-bottom: 0.5rem;
+}
+
+.resume-subtitle {
+    color: #737373;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.resume-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.button-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #ffffff;
+    color: #0a0a0a;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: 2px solid #e8e8e8;
+}
+
+.button-secondary:hover {
+    background-color: #fafafa;
+    border-color: #d4d4d4;
+    color: #0a0a0a;
+    transform: translateY(-1px);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.pdf-container embed {
+.button svg,
+.button-secondary svg {
+    flex-shrink: 0;
+}
+
+/* Resume Viewer */
+.resume-viewer {
+    position: relative;
+    width: 100%;
+}
+
+.pdf-embed-container {
+    width: 100%;
+    height: calc(100vh - 200px);
+    min-height: 800px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.05),
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.pdf-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
     display: block;
 }
 
-.pdf-fallback {
-    margin-top: 1.5rem;
-    padding: 1.5rem;
-    background-color: #f9fafb;
-    border-radius: 8px;
-    border: 1px solid #e8e8e8;
+/* Resume Fallback */
+.resume-fallback {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: #ffffff;
+    border-radius: 16px;
+    border: 2px dashed #e8e8e8;
+}
+
+.resume-fallback svg {
+    color: #737373;
+    margin-bottom: 1.5rem;
+}
+
+.resume-fallback h3 {
+    margin-bottom: 0.5rem;
+    color: #0a0a0a;
+}
+
+.resume-fallback p {
+    color: #737373;
+    margin-bottom: 2rem;
+}
+
+.fallback-actions {
+    display: flex;
+    gap: 1rem;
 }
 
 /* Blog */
@@ -452,8 +539,25 @@ footer p {
         gap: 0.75rem;
     }
 
-    .pdf-container embed {
+    .resume-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .resume-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .resume-actions a {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .pdf-embed-container {
         height: 600px;
+        min-height: 600px;
     }
 }
 

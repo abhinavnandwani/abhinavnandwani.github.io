@@ -24,20 +24,46 @@
     </nav>
 
     <main class="container">
-        <header class="page-header">
-            <h1>Resume</h1>
-            <p class="download-link">
-                <a href="/files/resume.pdf" download class="button">Download PDF</a>
-            </p>
-        </header>
+        <div class="resume-header">
+            <div class="resume-header-content">
+                <h1>Resume</h1>
+                <p class="resume-subtitle">Computer Engineering & Computer Science @ UW–Madison</p>
+            </div>
+            <div class="resume-actions">
+                <a href="/files/resume.pdf" target="_blank" class="button-secondary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/>
+                    </svg>
+                    Open in New Tab
+                </a>
+                <a href="/files/resume.pdf" download class="button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                    </svg>
+                    Download PDF
+                </a>
+            </div>
+        </div>
 
-        <section class="resume-content">
-            <div class="pdf-container">
-                <embed src="/files/resume.pdf" type="application/pdf" width="100%" height="800px">
+        <section class="resume-viewer">
+            <div class="pdf-embed-container">
+                <iframe src="/files/resume.pdf#view=FitH" class="pdf-iframe"></iframe>
             </div>
 
-            <div class="pdf-fallback">
-                <p>If the PDF doesn't display above, you can <a href="/files/resume.pdf" target="_blank">view it directly</a> or download it using the button above.</p>
+            <div class="resume-fallback">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
+                </svg>
+                <h3>Unable to display PDF</h3>
+                <p>The PDF viewer is not available in your browser.</p>
+                <div class="fallback-actions">
+                    <a href="/files/resume.pdf" target="_blank" class="button">Open PDF</a>
+                    <a href="/files/resume.pdf" download class="button-secondary">Download</a>
+                </div>
             </div>
         </section>
     </main>
