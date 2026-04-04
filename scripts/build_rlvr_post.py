@@ -354,10 +354,18 @@ def main() -> None:
 <body>
     <nav>
         <div class="container">
-            <a href="/" class="nav-home">Abhinav Nandwani</a>
-            <ul class="nav-links">
-                <li><a href="/blog.html">Blog</a></li>
+            <div class="nav-brand">
+                <a href="/" class="nav-home">Abhinav Nandwani</a>
+                <ul class="nav-inline">
+                    <li><a href="/blog.html" class="active">Blog</a></li>
+                </ul>
+            </div>
+            <ul class="nav-links nav-external" aria-label="Site and profiles">
                 <li><a href="/resume.html">Resume</a></li>
+                <li><a href="mailto:nandwani2@wisc.edu">Email</a></li>
+                <li><a href="https://github.com/abhinavnandwani" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                <li><a href="https://www.linkedin.com/in/abhinavnandwani" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                <li><a href="https://scholar.google.com/citations?user=KEqTDt4AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
             </ul>
         </div>
     </nav>
