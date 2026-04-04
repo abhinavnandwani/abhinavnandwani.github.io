@@ -1,55 +1,59 @@
-// Dark Mode Theme Toggle
-(function() {
-    const THEME_KEY = 'theme';
-    const LIGHT = 'light';
-    const DARK = 'dark';
+(function () {
+    var STORAGE_KEY = 'theme';
 
-    // Get the current theme from localStorage or default to light
-    function getTheme() {
-        const savedTheme = localStorage.getItem(THEME_KEY);
-        if (savedTheme) {
-            return savedTheme;
+    function getStored() {
+        try {
+            return localStorage.getItem(STORAGE_KEY);
+        } catch (e) {
+            return null;
         }
-
-        // Check system preference
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return DARK;
-        }
-
-        return LIGHT;
     }
 
-    // Set the theme
-    function setTheme(theme) {
+    /**
+     * Resolved theme for this page view. Does not write storage.
+     * - If the user has toggled before, use their saved light/dark.
+     * - Otherwise follow prefers-color-scheme (nothing persisted until they click).
+     */
+    function effectiveTheme() {
+        var s = getStored();
+        if (s === 'light' || s === 'dark') {
+            return s;
+        }
+        if (typeof window.matchMedia === 'function' &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+        }
+        return 'light';
+    }
+
+    function applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem(THEME_KEY, theme);
     }
 
-    // Toggle between light and dark
+    function persistTheme(theme) {
+        try {
+            localStorage.setItem(STORAGE_KEY, theme);
+        } catch (e) {}
+    }
+
+    applyTheme(effectiveTheme());
+
     function toggleTheme() {
-        const currentTheme = getTheme();
-        const newTheme = currentTheme === LIGHT ? DARK : LIGHT;
-        setTheme(newTheme);
+        var next = effectiveTheme() === 'light' ? 'dark' : 'light';
+        applyTheme(next);
+        persistTheme(next);
     }
 
-    // Initialize theme immediately (before page renders)
-    const initialTheme = getTheme();
-    setTheme(initialTheme);
-
-    // Set up toggle button when DOM is ready
-    document.addEventListener('DOMContentLoaded', function() {
-        const toggleButton = document.querySelector('.theme-toggle');
-        if (toggleButton) {
-            toggleButton.addEventListener('click', toggleTheme);
+    document.addEventListener('DOMContentLoaded', function () {
+        var btn = document.querySelector('.theme-toggle');
+        if (btn) {
+            btn.addEventListener('click', toggleTheme);
         }
 
-        // Listen for system theme changes
         if (window.matchMedia) {
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-                // Only auto-switch if user hasn't manually set a preference
-                const savedTheme = localStorage.getItem(THEME_KEY);
-                if (!savedTheme) {
-                    setTheme(e.matches ? DARK : LIGHT);
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+                if (getStored() !== 'light' && getStored() !== 'dark') {
+                    applyTheme(e.matches ? 'dark' : 'light');
                 }
             });
         }

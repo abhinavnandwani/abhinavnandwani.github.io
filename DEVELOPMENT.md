@@ -105,3 +105,6 @@ uv sync
 - Make sure you're using `serve_livereload.py`, not `serve.py`
 - Check that the browser console doesn't show connection errors
 - Try hard-refreshing the page (Cmd+Shift+R on Mac)
+
+### Theme always dark (or won’t follow the OS)
+Older builds wrote your OS theme into `localStorage` on every load, which could make the site feel stuck. Clear stored data for this site, or use the theme button once to set light/dark explicitly. Current behavior: only a **click** on the theme control persists a preference; otherwise the site follows `prefers-color-scheme`.

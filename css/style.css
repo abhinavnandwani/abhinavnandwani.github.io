@@ -7,6 +7,7 @@
 
 /* CSS Custom Properties for Theming */
 :root {
+    color-scheme: light;
     --bg-primary: #fafafa;
     --bg-secondary: #ffffff;
     --bg-tertiary: #f5f5f5;
@@ -22,6 +23,7 @@
 }
 
 [data-theme="dark"] {
+    color-scheme: dark;
     --bg-primary: #0a0a0a;
     --bg-secondary: #1a1a1a;
     --bg-tertiary: #141414;
@@ -697,6 +699,3 @@ footer p {
 [data-theme="dark"] .sun-icon {
     display: block;
 }
-
-/* Google Fonts - Inter */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
