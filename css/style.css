@@ -129,7 +129,7 @@ nav .container {
 .profile-image {
     width: 200px;
     height: 200px;
-    border-radius: 8px;
+    border-radius: 50%;
     object-fit: cover;
     transition: opacity 0.2s ease;
 }
