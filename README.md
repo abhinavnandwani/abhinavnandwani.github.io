@@ -1,151 +1,59 @@
 # Personal Website
 
-A minimal personal website for Abhinav Nandwani, hosted on GitHub Pages.
+A minimal personal website for Abhinav Nandwani, hosted on GitHub Pages with custom domain `abhinavnandwani.com` (see `CNAME`).
 
-## Site Structure
+## Site structure
 
 ```
 abhinavnandwani.github.io/
-├── index.html          # Home page with bio
-├── resume.html         # Resume/CV page
-├── blog.html           # Blog listing
-├── css/
-│   └── style.css       # Stylesheet
-├── js/                 # JavaScript (if needed)
-├── posts/              # Individual blog posts
-├── images/             # Images and favicon
-│   ├── profile.png
-│   └── favicon.ico
-├── files/              # Downloadable files
-│   └── Resume-v2-RTL.pdf
-└── CNAME               # Custom domain config
+├── index.html              # Home
+├── resume.html             # Resume (embeds /files/resume.pdf)
+├── blog.html               # Blog index
+├── CNAME                   # Custom domain
+├── css/style.css
+├── js/theme.js             # Light/dark preference (localStorage + system)
+├── posts/
+│   └── template.html       # Starting point for new posts
+├── images/                 # profile.png, favicon.ico, favicon.svg, PNG sizes
+└── files/                  # resume.pdf, posters, legacy PDFs
 ```
 
-## Local Development
+## Local development
 
-### Option 1: Using uv (Recommended)
+### Option 1: uv (recommended)
 
-This project uses [uv](https://github.com/astral-sh/uv) for Python dependency management.
+This project uses [uv](https://github.com/astral-sh/uv) for Python dependency management (dev server only; the live site has no runtime dependencies).
 
 ```bash
-# Install uv if you don't have it
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Run development server with simple HTTP server
-uv run serve
-
-# OR run with live reload (auto-refreshes on file changes) - RECOMMENDED
-uv run serve-reload
+curl -LsSf https://astral.sh/uv/install.sh | sh   # install uv once
+uv sync
+uv run serve-reload    # or: uv run serve
 ```
 
-The `serve-reload` command watches for changes in HTML, CSS, and JS files and automatically refreshes your browser.
+Then open `http://localhost:8000`.
 
-You can also run the scripts directly:
-```bash
-uv run python scripts/serve.py          # Simple server
-uv run python scripts/serve_livereload.py  # Live reload server
-```
-
-### Option 2: Without uv
-
-Simply open `index.html` in a browser, or use Python's built-in server:
+### Option 2: no Python
 
 ```bash
 python -m http.server 8000
 ```
 
-Then visit `http://localhost:8000`
+## Adding blog posts
 
-## Adding Blog Posts
-
-1. Create a new HTML file in the `posts/` directory (e.g., `my-first-post.html`)
-2. Use this template:
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Title - Abhinav Nandwani</title>
-    <meta name="description" content="Post description">
-    <link rel="icon" href="/images/favicon.ico">
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-    <nav>
-        <div class="container">
-            <a href="/" class="nav-home">Abhinav Nandwani</a>
-            <ul class="nav-links">
-                <li><a href="/resume.html">Resume</a></li>
-                <li><a href="/blog.html">Blog</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <main class="container">
-        <article>
-            <header class="page-header">
-                <h1>Post Title</h1>
-                <div class="post-meta">
-                    <time datetime="2025-01-15">January 15, 2025</time>
-                </div>
-            </header>
-
-            <section>
-                <!-- Your post content here -->
-                <p>Your content...</p>
-            </section>
-
-            <div class="back-link">
-                <a href="/blog.html">← Back to Blog</a>
-            </div>
-        </article>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Abhinav Nandwani</p>
-        </div>
-    </footer>
-</body>
-</html>
-```
-
-3. Update `blog.html` to add a link to your new post:
-
-```html
-<article class="blog-post-preview">
-    <h2><a href="/posts/my-first-post.html">Post Title</a></h2>
-    <time datetime="2025-01-15">January 15, 2025</time>
-    <p>Brief excerpt of the post...</p>
-</article>
-```
+1. Copy `posts/template.html` to `posts/your-slug.html`.
+2. Update the copy in the new file: `<title>`, `meta description`, Open Graph tags, `link rel="canonical"`, `<h1>`, `<time>`, and body content. Replace every `my-post` / placeholder string that matches the template.
+3. Add a preview block to `blog.html` (see existing `blog-post-preview` styles in `css/style.css`).
 
 ## Deployment
 
-This site is automatically deployed via GitHub Pages. Just push to the `master` branch:
-
-```bash
-git add .
-git commit -m "Update site"
-git push origin master
-```
-
-Changes will be live at https://abhinavnandwani.com in a few minutes.
-
-## Custom Domain
-
-The custom domain is configured via the `CNAME` file. Current domain: `abhinavnandwani.com`
+Push to `master`; GitHub Pages deploys automatically. The site is served at `https://abhinavnandwani.com` (allow a minute or two).
 
 ## Technologies
 
-- Plain HTML5
-- CSS3
-- No build process
-- No dependencies
-- GitHub Pages hosting
+- HTML, CSS, and a small amount of vanilla JavaScript
+- No build step for production assets
+- GitHub Pages + `CNAME` for the custom domain
 
 ## License
 
-© 2025 Abhinav Nandwani
+© 2026 Abhinav Nandwani

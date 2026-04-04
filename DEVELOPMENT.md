@@ -30,18 +30,20 @@ Visit: http://localhost:8000
 
 ```
 abhinavnandwani.github.io/
-├── index.html              # Home page
-├── resume.html             # Resume page
-├── blog.html               # Blog listing
-├── css/style.css          # Styles
-├── posts/                 # Blog posts
-│   └── template.html      # Template for new posts
-├── images/                # Images
-├── files/                 # Downloadable files
-├── scripts/               # Python dev scripts
-│   ├── serve.py          # Simple server
-│   └── serve_livereload.py  # Live reload server
-└── pyproject.toml        # Python project config
+├── index.html
+├── resume.html
+├── blog.html
+├── CNAME                   # abhinavnandwani.com
+├── css/style.css
+├── js/theme.js
+├── posts/
+│   └── template.html
+├── images/
+├── files/                  # resume.pdf, assets
+├── scripts/                # Dev-only Python servers
+│   ├── serve.py
+│   └── serve_livereload.py
+└── pyproject.toml
 ```
 
 ## Common Tasks

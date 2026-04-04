@@ -3,9 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Title - Abhinav Nandwani</title>
-    <meta name="description" content="Post description">
-    <link rel="icon" href="/images/favicon.ico">
+    <!-- Replace title and meta below when copying this file -->
+    <title>Post title - Abhinav Nandwani</title>
+    <meta name="description" content="One-line summary for search and social previews.">
+    <meta property="og:title" content="Post title - Abhinav Nandwani">
+    <meta property="og:description" content="One-line summary for search and social previews.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://abhinavnandwani.com/posts/my-post.html">
+    <meta property="og:image" content="https://abhinavnandwani.com/images/profile.png">
+    <link rel="canonical" href="https://abhinavnandwani.com/posts/my-post.html">
+    <link rel="icon" href="/images/favicon.ico" sizes="any">
+    <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/images/favicon-192x192.png">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -22,21 +31,20 @@
     <main class="container">
         <article>
             <header class="page-header">
-                <h1>Post Title</h1>
+                <h1>Post title</h1>
                 <div class="post-meta">
-                    <time datetime="2025-01-15">January 15, 2025</time>
+                    <time datetime="2026-01-01">January 1, 2026</time>
                 </div>
             </header>
 
             <section>
-                <!-- Your post content here -->
-                <p>Your content goes here...</p>
+                <p>Opening paragraph.</p>
 
-                <h2>Section Heading</h2>
-                <p>More content...</p>
+                <h2>Section heading</h2>
+                <p>Body text.</p>
 
                 <h3>Subsection</h3>
-                <p>Even more content...</p>
+                <p>More body text.</p>
 
                 <pre><code>// Code example
 function example() {
@@ -53,8 +61,19 @@ function example() {
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Abhinav Nandwani</p>
+            <p>&copy; 2026 Abhinav Nandwani</p>
         </div>
     </footer>
+
+    <button type="button" class="theme-toggle" aria-label="Toggle light or dark theme">
+        <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+    </button>
+
+    <script src="/js/theme.js"></script>
 </body>
 </html>
