@@ -1,31 +1,29 @@
 # RLVR GPU training costs, benchmarks, and pricing
 
-**Reinforcement Learning from Verifiable Rewards (RLVR)—rewards from checks, not learned human-preference models—has, in the author’s view, become a central paradigm for training many reasoning-oriented LLM stacks, yet public throughput tables remain sparse and concentrated on 7B-scale models.** Surveys of RL with verifiable rewards formalize this shift from narrow “preference-model RLHF” toward rule- and environment-based signals.[^39] The strongest public **GRPO** throughput numbers cited here (**1,544 tokens/GPU/second** on an H100 SXM for a 7B model at 1K response length) come from an AMD ROCm blog post that is **branded as RLHF** but reports **GRPO/PPO on GSM8K** (verifiable rewards) with veRL — the same **RLVR-style** algorithm family as many math RL setups, though at **short** response lengths, not long chain-of-thought RLVR.[^1] Those GRPO runs are roughly **1.7–2.5× faster than PPO** in that table — consistent with eliminating the critic versus classic PPO-based RLHF stacks.[^1][^2] However, RLVR’s characteristic long chain-of-thought rollouts (8K–32K tokens) create a massive generation bottleneck that consumes **70–90% of total wall-clock time**, making it approximately **5–10× slower than supervised fine-tuning**.[^3][^4] Cloud GPU costs for RLVR training range from **$0.29 to $1.11 per million tokens** at 7B scale depending on GPU type and provider, with MI300X offering the best price-performance at current market rates. Published training runs span a wide cost range — from a **README-style** ~**$2.62** for a 2B visual GRPO run[^5] to order-of-magnitude **~$200K** for DeepSeek-R1-Zero’s 671B MoE GRPO training at an **illustrative ~$2/H800 GPU-hour** assumption.[^6][^7][^42]
+**This note connects RLVR training costs to measured baselines and published runs.** **RLVR** (reinforcement learning from verifiable rewards) uses checkable signals—rules, parsers, tests—not learned human-preference reward models.[^39] When rollouts stay short, wall time looks like ordinary RLHF-style loops; when **long** chain-of-thought dominates (**8K–32K** tokens), generation often eats **70–90%** of wall time and training can land **~5–10×** slower than plain SFT.[^3][^4] The sections below use **7B short-rollout** throughput and cloud list prices to illustrate **$0.29–$1.11 per million tokens** at that scale (MI300X leads on raw $/throughput in the tables), then extrapolate as rollouts and model size grow. Example run costs range from small open demos to large-cluster GRPO.[^5][^6][^7][^42]
 
 ---
 
-## Measured GRPO throughput (short-rollout GSM8K; AMD blog is RLHF-framed)
+## Measured GRPO throughput (ROCm + veRL; short GSM8K rollouts)
 
-The AMD ROCm blog (April 2025) is titled and introduced as **RLHF**, but its throughput table is **GRPO and PPO on GSM8K** with veRL v0.3.0 — i.e. **rule-based / verifiable** rewards and **short** max response lengths (512–1024 tokens in that table), not long-CoT RLVR.[^1]
+The **AMD ROCm** walkthrough (April 2025) reports **GRPO and PPO on GSM8K** with **veRL v0.3.0** on MI300X and H100—i.e. **RLHF with rule-based rewards** on math, which is the standard pattern when **response lengths are short** (512–1024 tokens in their table).[^1] Those runs give a clean **GPU and algorithm comparison** (GRPO **1.7–2.5×** faster than PPO in the same harness) before we extrapolate to regimes where **long** rollouts dominate cost.[^1][^2]
 
-**What “GSM8K” means in this stack (and a common confusion):** GSM8K is the **grade-school math word-problem dataset** (Cobbe et al., arXiv:2110.14168); the **original paper** mainly studies training a **verifier (reward model)** for **Best-of-N** sampling. veRL’s official **GSM8K example** is different: it walks through **PPO (and related RL) on GSM8K with a rule-based reward** — extract the final answer after `####`, compare to the reference, assign a scalar reward — and veRL’s docs still call that an **“RLHF agent”** even though the reward is **not** a neural human-preference model.[^38] The AMD throughput table is the same **task family** (GSM8K in veRL) and the same **verifiable-reward** spirit as typical RLVR math setups, but it is **not** “the GSM8K paper’s verifier training recipe,” and it is **not** long chain-of-thought rollouts.
+**GSM8K in this stack:** GSM8K is Cobbe et al.’s **grade-school math word problems** (arXiv:2110.14168). veRL’s **GSM8K example** scores completions with a **simple rule** (parse the answer after `####`, compare to the label)—a **verifiable** reward that fits short generations and aligns with how many math RL pipelines are built; veRL’s docs describe that agent under the broad **RLHF** umbrella.[^38] The ROCm numbers are **measured system throughputs** for that recipe; the rest of the note scales from them toward **long-CoT** RLVR where decoding dominates.
 
-Treat these numbers as **public GRPO vs PPO system benchmarks** on that recipe, useful for **relative** GPU/framework comparisons, not as measurements of **8K–32K-token** reasoning rollouts.
+Additional related measurements come from **Yotta Labs** on MI300X + veRL[^8] and the **OpenRLHF** paper.[^2] This **7B** measured slice is still where **most public** tok/GPU/s tables live—**few comparable public** rows exist for 14B, 32B, or 70B in the same reporting format.
 
-**Credibility (plain language):** The AMD post is **credible for throughput** in its stated setup: vendor-published table, tied to a real framework (veRL) and dataset (GSM8K), and the token/s figures match what they print. The confusion is only **naming and scope** — “RLHF” in the title is **broader branding**; the run is **rule-based reward on math**, not “human preference model RLHF” in the narrow sense, and **not** the original GSM8K paper’s verifier/Best-of-N recipe. That limits **how far you can generalize** the numbers (short outputs, one task), not whether the table is **trustworthy as documentation of that run**.
 
-Additional related data come from Yotta Labs[^8] and the OpenRLHF framework paper.[^2] All of this measured data is concentrated on **7B-parameter models** — **few comparable public** benchmarks exist for 14B, 32B, or 70B models in standardized tokens/GPU/sec format.
+| GPU      | Model       | Algorithm | TP  | Tokens/GPU/sec | Response Length | Framework | Source             |
+| -------- | ----------- | --------- | --- | -------------- | --------------- | --------- | ------------------ |
+| H100 SXM | Qwen2-7B    | **GRPO**  | 2   | **1,544**      | 1,024           | veRL v0.3 | AMD ROCm Blog [^1] |
+| MI300X   | Qwen2-7B    | **GRPO**  | 2   | **1,748**      | 1,024           | veRL v0.3 | AMD ROCm Blog [^1] |
+| H100 SXM | DeepSeek-7B | **GRPO**  | 2   | **1,624**      | 1,024           | veRL v0.3 | AMD ROCm Blog [^1] |
+| MI300X   | DeepSeek-7B | **GRPO**  | 2   | **1,899**      | 1,024           | veRL v0.3 | AMD ROCm Blog [^1] |
+| H100 SXM | Qwen2-7B    | PPO       | 2   | 907            | 512             | veRL v0.3 | AMD ROCm Blog [^1] |
+| MI300X   | Qwen2-7B    | PPO       | 2   | 921            | 512             | veRL v0.3 | AMD ROCm Blog [^1] |
+| H100 SXM | DeepSeek-7B | PPO       | 4   | 624            | 512             | veRL v0.3 | AMD ROCm Blog [^1] |
+| MI300X   | DeepSeek-7B | PPO       | 4   | 767            | 512             | veRL v0.3 | AMD ROCm Blog [^1] |
 
-| GPU | Model | Algorithm | TP | Tokens/GPU/sec | Response Length | Framework | Source |
-|-----|-------|-----------|----|---------------|-----------------|-----------|--------|
-| H100 SXM | Qwen2-7B | **GRPO** | 2 | **1,544** | 1,024 | veRL v0.3 | AMD ROCm Blog [^1] |
-| MI300X | Qwen2-7B | **GRPO** | 2 | **1,748** | 1,024 | veRL v0.3 | AMD ROCm Blog [^1] |
-| H100 SXM | DeepSeek-7B | **GRPO** | 2 | **1,624** | 1,024 | veRL v0.3 | AMD ROCm Blog [^1] |
-| MI300X | DeepSeek-7B | **GRPO** | 2 | **1,899** | 1,024 | veRL v0.3 | AMD ROCm Blog [^1] |
-| H100 SXM | Qwen2-7B | PPO | 2 | 907 | 512 | veRL v0.3 | AMD ROCm Blog [^1] |
-| MI300X | Qwen2-7B | PPO | 2 | 921 | 512 | veRL v0.3 | AMD ROCm Blog [^1] |
-| H100 SXM | DeepSeek-7B | PPO | 4 | 624 | 512 | veRL v0.3 | AMD ROCm Blog [^1] |
-| MI300X | DeepSeek-7B | PPO | 4 | 767 | 512 | veRL v0.3 | AMD ROCm Blog [^1] |
 
 These benchmarks used 8 GPUs per node with train_batch_size=1024.[^1] Two critical patterns emerge: **GRPO achieves 1.7–2.5× higher throughput than PPO** because it eliminates the critic model entirely,[^9] and **MI300X outperforms H100 by 1–23%** across all configurations, likely due to its larger 192GB HBM3 memory enabling more efficient batching.[^1][^8] Yotta Labs separately confirmed MI300X efficiency with veRL v0.5.0, achieving **14.01% training MFU** for 7B GRPO with optimal TP=1 on a single MI300X, and near-linear scaling across data parallelism dimensions.[^8]
 
@@ -37,14 +35,16 @@ The OpenRLHF paper provides a framework-level comparison: OpenRLHF completes one
 
 Published RLVR throughput data is almost exclusively at 7B scale. The estimates below combine the measured 7B baselines with a **rough, non-cited** vLLM-style inference scaling heuristic (7B-class vs 32B-class decode often differs by roughly **~5×** on a single GPU in community reports; re-measure for your stack),[^40] the GPTOSS-20B MoE training benchmark (~500–598 tok/s on 512 H800 GPUs with veRL+Megatron),[^10] and the OLMo 3 32B RL training disclosure showing inference-to-training compute ratios of 5–14×.[^11]
 
-| Model Size | H100 SXM (tok/GPU/s) | MI300X (tok/GPU/s) | A100 80GB (tok/GPU/s) | Confidence | Basis |
-|-----------|----------------------|--------------------|-----------------------|------------|-------|
-| 7B | **1,544–1,624** | **1,748–1,899** | ~900–1,100 | **Measured** | AMD ROCm Blog [^1] (veRL v0.3, GRPO, 1K resp.) |
-| 14B | ~700–950 | ~800–1,100 | ~400–600 | Estimated | ~0.5–0.6× of 7B; heuristic scaling [^40] |
-| 32B | ~300–450 | ~350–520 | ~150–250 | Estimated | ~5× drop from 7B (heuristic [^40]); GPTOSS-20B MoE ~500–598 tok/s on 512 GPUs [^10] |
-| 70B | ~120–200 | ~140–240 | ~60–100 | Estimated | Requires multi-GPU TP; extrapolated from 32B |
-| 235B-A22B (MoE) | ~200–350 | ~230–400 | N/A | Estimated | MoE with ~22B active params ≈ 32B-scale compute |
-| 671B-A37B (MoE) | ~100–200 | ~120–250 | N/A | Estimated | Requires 96+ GPUs; EP+TP+PP parallelism [^7] |
+
+| Model Size      | H100 SXM (tok/GPU/s) | MI300X (tok/GPU/s) | A100 80GB (tok/GPU/s) | Confidence   | Basis                                                                               |
+| --------------- | -------------------- | ------------------ | --------------------- | ------------ | ----------------------------------------------------------------------------------- |
+| 7B              | **1,544–1,624**      | **1,748–1,899**    | ~900–1,100            | **Measured** | AMD ROCm Blog [^1] (veRL v0.3, GRPO, 1K resp.)                                      |
+| 14B             | ~700–950             | ~800–1,100         | ~400–600              | Estimated    | ~0.5–0.6× of 7B; heuristic scaling [^40]                                            |
+| 32B             | ~300–450             | ~350–520           | ~150–250              | Estimated    | ~5× drop from 7B (heuristic [^40]); GPTOSS-20B MoE ~500–598 tok/s on 512 GPUs [^10] |
+| 70B             | ~120–200             | ~140–240           | ~60–100               | Estimated    | Requires multi-GPU TP; extrapolated from 32B                                        |
+| 235B-A22B (MoE) | ~200–350             | ~230–400           | N/A                   | Estimated    | MoE with ~22B active params ≈ 32B-scale compute                                     |
+| 671B-A37B (MoE) | ~100–200             | ~120–250           | N/A                   | Estimated    | Requires 96+ GPUs; EP+TP+PP parallelism [^7]                                        |
+
 
 **Critical caveat**: These estimates assume short (1K) response lengths matching the benchmark conditions. At RLVR-typical response lengths of 8K–32K tokens, overall step throughput stays roughly proportional (more tokens produced per step), but **each step takes 8–32× longer to complete** because autoregressive generation scales linearly with output length. KV cache pressure at longer contexts can also force batch size reductions, further degrading effective throughput. The QeRL paper notes that typical RL training for reasoning models takes **20–100 hours on 8× H100 GPUs** — suggesting effective throughput is significantly lower than these per-token rates imply when accounting for real-world RLVR conditions.[^12]
 
@@ -54,21 +54,23 @@ Published RLVR throughput data is almost exclusively at 7B scale. The estimates 
 
 The table below compiles **selected** RLVR-style training runs with disclosed compute details. Dollar costs use **illustrative** $/GPU-hour assumptions where sources do not publish invoices (see [^42]). Costs span from a **third-party README** ~**$2.62** to order-of-magnitude **~$200,000**, driven primarily by model scale and rollout length.
 
-| Run | Model | Size | Algorithm | GPUs | Wall-Clock | GPU-Hours | Est. Cost | Framework |
-|-----|-------|------|-----------|------|-----------|-----------|-----------|-----------|
-| DeepSeek-R1-Zero [^6][^7] | DeepSeek-V3-Base | 671B MoE | GRPO | 512×H800 | ~198 hrs | ~101K | ~$200K | Custom |
-| DeepSeek-R1 (RL stage) [^6][^7] | DeepSeek-V3-Base | 671B MoE | GRPO | 512×H800 | ~80 hrs | ~41K | ~$82K | Custom |
-| ProRL-1.5B-v2 [^13] | — | 1.5B | RLVR | H100s | — | >20K | ~$60K+ | OpenRLHF |
-| DAPO [^14] | Qwen2.5-32B | 32B | DAPO | 128×H20 | Several days | Not disclosed | — | veRL |
-| SimpleRL-Zoo (32B) [^15] | Qwen2.5-32B | 32B | GRPO | 64×H100 | ~36 hrs | ~2,300 | ~$4,600 | veRL |
-| DeepScaleR [^16] | R1-Distill-Qwen-1.5B | 1.5B | GRPO | 8–32×A100 | Multi-stage | 3,800 | ~$4,500 | veRL |
-| SimpleRL-Zoo (7B) [^15] | Qwen2.5-7B | 7B | GRPO | 16×H100 | ~15 hrs | ~240 | ~$500 | veRL |
-| Dr. GRPO [^17] | Qwen2.5-Math-7B | 7B | Dr. GRPO | 8×A100 | ~27 hrs | ~216 | ~$430 | Oat |
-| Open-R1 [^18] | Qwen2.5-Math-7B | 7B | GRPO | 8×H100 | ~3 hrs | 24 | ~$72 | TRL |
-| Mini-R1 [^18] | Qwen2.5-3B-Instruct | 3B | GRPO | 4×H100 | ~6 hrs | 24 | ~$72 | TRL |
-| microR1 [^18] | Qwen2.5-3B-Instruct | 3B | GRPO | 8×A100 | ~3 hrs | 24 | ~$44 | Pure PyTorch |
-| TinyZero [^9] | Qwen2.5-3B | 3B | PPO | 2×H200 | <5 hrs | <10 | <$30 | veRL |
-| R1-V [^5] | Qwen2-VL-2B | 2B VLM | GRPO | 8×A100 | 30 min | 4 | **$2.62** | TRL |
+
+| Run                             | Model                | Size     | Algorithm | GPUs      | Wall-Clock   | GPU-Hours     | Est. Cost | Framework    |
+| ------------------------------- | -------------------- | -------- | --------- | --------- | ------------ | ------------- | --------- | ------------ |
+| DeepSeek-R1-Zero [^6][^7]       | DeepSeek-V3-Base     | 671B MoE | GRPO      | 512×H800  | ~198 hrs     | ~101K         | ~$200K    | Custom       |
+| DeepSeek-R1 (RL stage) [^6][^7] | DeepSeek-V3-Base     | 671B MoE | GRPO      | 512×H800  | ~80 hrs      | ~41K          | ~$82K     | Custom       |
+| ProRL-1.5B-v2 [^13]             | —                    | 1.5B     | RLVR      | H100s     | —            | >20K          | ~$60K+    | OpenRLHF     |
+| DAPO [^14]                      | Qwen2.5-32B          | 32B      | DAPO      | 128×H20   | Several days | Not disclosed | —         | veRL         |
+| SimpleRL-Zoo (32B) [^15]        | Qwen2.5-32B          | 32B      | GRPO      | 64×H100   | ~36 hrs      | ~2,300        | ~$4,600   | veRL         |
+| DeepScaleR [^16]                | R1-Distill-Qwen-1.5B | 1.5B     | GRPO      | 8–32×A100 | Multi-stage  | 3,800         | ~$4,500   | veRL         |
+| SimpleRL-Zoo (7B) [^15]         | Qwen2.5-7B           | 7B       | GRPO      | 16×H100   | ~15 hrs      | ~240          | ~$500     | veRL         |
+| Dr. GRPO [^17]                  | Qwen2.5-Math-7B      | 7B       | Dr. GRPO  | 8×A100    | ~27 hrs      | ~216          | ~$430     | Oat          |
+| Open-R1 [^18]                   | Qwen2.5-Math-7B      | 7B       | GRPO      | 8×H100    | ~3 hrs       | 24            | ~$72      | TRL          |
+| Mini-R1 [^18]                   | Qwen2.5-3B-Instruct  | 3B       | GRPO      | 4×H100    | ~6 hrs       | 24            | ~$72      | TRL          |
+| microR1 [^18]                   | Qwen2.5-3B-Instruct  | 3B       | GRPO      | 8×A100    | ~3 hrs       | 24            | ~$44      | Pure PyTorch |
+| TinyZero [^9]                   | Qwen2.5-3B           | 3B       | PPO       | 2×H200    | <5 hrs       | <10           | <$30      | veRL         |
+| R1-V [^5]                       | Qwen2-VL-2B          | 2B VLM   | GRPO      | 8×A100    | 30 min       | 4             | **$2.62** | TRL          |
+
 
 DeepSeek-R1-Zero represents the largest published RLVR run: **512 H800 GPUs for 198 hours** training the 671B MoE model with GRPO.[^6][^7] The full DeepSeek-R1 pipeline (including V3 pre-training) consumed **2.788 million H800 GPU-hours** at an estimated **$5.58M** (same order-of-magnitude $/GPU-hr caveat as [^42]).[^7] At the other extreme, community GRPO-on-VLM writeups report **~30 minutes on 8 A100s** with a **README-derived** total of **~$2.62** (GPU-hours × quoted rates)—use as an **illustration**, not a peer-reviewed benchmark.[^5] DeepScaleR's iterative context-length scaling approach (8K→16K→24K) reduced estimated compute from ~70K to just 3,800 A100-hours — demonstrating that **curriculum-based context scaling is a critical cost optimization** for RLVR.[^16]
 
@@ -76,7 +78,7 @@ DeepSeek-R1-Zero represents the largest published RLVR run: **512 H800 GPUs for 
 
 ## RLVR is faster than RLHF but far slower than SFT
 
-**GRPO eliminates the critic model that PPO requires**,[^9] and practitioners often cite an **order-of-magnitude ~40–50% memory** savings versus four-model PPO+RM stacks—treat that band as a **heuristic**, not a controlled measurement in this note. Throughput gains in the AMD table are **measured**: GRPO is **1.7–2.5×** faster than PPO there.[^1] Traditional PPO-based RLHF requires four large models in GPU memory simultaneously (policy, reference, reward model, critic), while GRPO needs only two (policy and reference).[^9] DAPO goes further by removing the KL penalty entirely, eliminating even the reference model.[^14]
+**GRPO eliminates the critic model that PPO requires**,[^9] and practitioners often cite an **order-of-magnitude ~40–50% memory** savings versus four-model PPO+RM stacks—treat that band as a **heuristic**, not a controlled measurement in this note. The **ROCm + veRL** GRPO vs PPO comparison is **measured**: GRPO is **1.7–2.5×** faster than PPO under the same settings.[^1] Traditional PPO-based RLHF requires four large models in GPU memory simultaneously (policy, reference, reward model, critic), while GRPO needs only two (policy and reference).[^9] DAPO goes further by removing the KL penalty entirely, eliminating even the reference model.[^14]
 
 The throughput hierarchy is clear from measured data. GRPO on a 7B model achieves **1,544 tok/GPU/s** versus PPO's **907 tok/GPU/s** on an H100 — a **1.70× improvement**.[^1] On MI300X, GRPO reaches **1,748 tok/GPU/s** versus PPO's **921 tok/GPU/s** (1.90×).[^1] One **non-peer-reviewed** Substack overview claims GRPO can reduce overall training cost to roughly **1/18** of some traditional PPO-style RL setups when memory savings enable larger batches—use as anecdotal context, not a universal ratio.[^9]
 
@@ -88,19 +90,21 @@ However, RLVR's rule-based verification advantage (no neural reward model forwar
 
 Four major frameworks dominate RLVR training, each with distinct strengths. The table below reflects capabilities as of early April 2026.
 
-| Feature | OpenRLHF v0.9.9 [^2][^21] | veRL v0.7.1 [^22] | TRL v1.0.0 [^23] | NeMo RL [^24][^25] |
-|---------|-----------------|-------------|------------|---------|
-| **GRPO** | ✅ | ✅ | ✅ | ✅ |
-| **DAPO** | ✅ (via flags) | ✅ (reference impl.) | ❌ | ✅ |
-| **Dr. GRPO** | ✅ | ✅ | ❌ | ❌ |
-| **REINFORCE++** | ✅ (native, recommended) | ✅ | ❌ | ❌ |
-| **PRIME** | ❌ | ✅ | ❌ | ❌ |
-| **Max proven scale** | 70B+ dense | **671B MoE** | ~72B (with DeepSpeed) | 340B+ |
-| **Inference backend** | vLLM | vLLM + SGLang | vLLM | Megatron native |
-| **Training backend** | DeepSpeed ZeRO-3 | FSDP/Megatron | HF Accelerate | Megatron Core |
-| **Async training** | ✅ (--async_train) | ✅ (1-step off-policy) | Experimental | ✅ |
-| **FP8 end-to-end** | ❌ | ❌ | ❌ | **✅** |
-| **Ease of use** | Medium | Medium-High | **Highest** | Low |
+
+| Feature               | OpenRLHF v0.9.9 [^2][^21] | veRL v0.7.1 [^22]     | TRL v1.0.0 [^23]      | NeMo RL [^24][^25] |
+| --------------------- | ------------------------- | --------------------- | --------------------- | ------------------ |
+| **GRPO**              | ✅                         | ✅                     | ✅                     | ✅                  |
+| **DAPO**              | ✅ (via flags)             | ✅ (reference impl.)   | ❌                     | ✅                  |
+| **Dr. GRPO**          | ✅                         | ✅                     | ❌                     | ❌                  |
+| **REINFORCE++**       | ✅ (native, recommended)   | ✅                     | ❌                     | ❌                  |
+| **PRIME**             | ❌                         | ✅                     | ❌                     | ❌                  |
+| **Max proven scale**  | 70B+ dense                | **671B MoE**          | ~72B (with DeepSpeed) | 340B+              |
+| **Inference backend** | vLLM                      | vLLM + SGLang         | vLLM                  | Megatron native    |
+| **Training backend**  | DeepSpeed ZeRO-3          | FSDP/Megatron         | HF Accelerate         | Megatron Core      |
+| **Async training**    | ✅ (--async_train)         | ✅ (1-step off-policy) | Experimental          | ✅                  |
+| **FP8 end-to-end**    | ❌                         | ❌                     | ❌                     | **✅**              |
+| **Ease of use**       | Medium                    | Medium-High           | **Highest**           | Low                |
+
 
 **OpenRLHF** (widely used open-source RLHF/RLVR stack; EMNLP 2025) is the throughput leader for dense models up to 70B in the OpenRLHF team’s own comparisons, achieving **1.22–1.68× speedup over veRL** in long-CoT RLVR settings across 1.5B–14B models with 1K–8K generation lengths.[^2] Its Ray+vLLM+DeepSpeed architecture is battle-tested by Google, ByteDance, NVIDIA, and Tencent.[^21] The team explicitly recommends REINFORCE++-baseline for RLVR tasks due to its robustness across reward patterns.[^2]
 
@@ -120,48 +124,56 @@ RLVR training demands multi-GPU clusters with high-bandwidth interconnect (NVLin
 
 ### H100 SXM 80GB
 
-| Provider | On-Demand | Spot/Community | Reserved | InfiniBand |
-|----------|-----------|---------------|----------|------------|
-| Vast.ai | ~$1.54 | ~$1.50+ | Available | Varies [^29] |
-| RunPod (Community) | ~$1.99–$2.49 | — | Enterprise | NVLink [^26] |
-| FluidStack | ~$2.10 | — | Custom | ✅ |
-| Vultr (36-mo) | $2.30 | — | 36-mo prepaid | NVLink |
-| Lambda (1-Click) | **$2.76** | — | 1–3 yr custom | **✅** [^31] |
-| RunPod (Secure) | ~$2.69–$2.99 | — | Enterprise | NVLink [^26] |
-| DigitalOcean (8×) | $2.99 | — | $1.99 (committed) | NVLink [^28] |
-| Crusoe | $3.90 | Contact sales | Custom | ✅ |
-| Lambda (Instance) | $3.99–$4.29 | — | Custom | NVLink [^31] |
-| CoreWeave | **$6.16** | — | Up to 60% off | ✅ [^27] |
+
+| Provider           | On-Demand    | Spot/Community | Reserved          | InfiniBand   |
+| ------------------ | ------------ | -------------- | ----------------- | ------------ |
+| Vast.ai            | ~$1.54       | ~$1.50+        | Available         | Varies [^29] |
+| RunPod (Community) | ~$1.99–$2.49 | —              | Enterprise        | NVLink [^26] |
+| FluidStack         | ~$2.10       | —              | Custom            | ✅            |
+| Vultr (36-mo)      | $2.30        | —              | 36-mo prepaid     | NVLink       |
+| Lambda (1-Click)   | **$2.76**    | —              | 1–3 yr custom     | **✅** [^31]  |
+| RunPod (Secure)    | ~$2.69–$2.99 | —              | Enterprise        | NVLink [^26] |
+| DigitalOcean (8×)  | $2.99        | —              | $1.99 (committed) | NVLink [^28] |
+| Crusoe             | $3.90        | Contact sales  | Custom            | ✅            |
+| Lambda (Instance)  | $3.99–$4.29  | —              | Custom            | NVLink [^31] |
+| CoreWeave          | **$6.16**    | —              | Up to 60% off     | ✅ [^27]      |
+
 
 ### H200 SXM 141GB
 
-| Provider | On-Demand | Reserved | Notes |
-|----------|-----------|----------|-------|
-| Vast.ai | ~$1.50–$4.00 | Available | Marketplace, variable [^29] |
-| DigitalOcean | $3.44 | Multi-month discount | NVLink HGX [^28] |
-| Crusoe | **$4.29** | Custom | InfiniBand |
-| CoreWeave | $6.31 | Up to 60% off | InfiniBand [^27] |
+
+| Provider     | On-Demand    | Reserved             | Notes                       |
+| ------------ | ------------ | -------------------- | --------------------------- |
+| Vast.ai      | ~$1.50–$4.00 | Available            | Marketplace, variable [^29] |
+| DigitalOcean | $3.44        | Multi-month discount | NVLink HGX [^28]            |
+| Crusoe       | **$4.29**    | Custom               | InfiniBand                  |
+| CoreWeave    | $6.31        | Up to 60% off        | InfiniBand [^27]            |
+
 
 ### MI300X 192GB
 
-| Provider | On-Demand | Reserved | Notes |
-|----------|-----------|----------|-------|
-| Vast.ai | ~$0.95–$3.12 | Available | Marketplace spot from $0.95 [^29] |
-| TensorWave | **$2.25** | $1.71 (dedicated) | Bare metal, Infinity Fabric |
-| Vultr | $1.85 (preempt.) | $1.85 (24-mo) | 24-month prepaid |
-| DigitalOcean | **$1.99** | Multi-month | Infinity Fabric [^28] |
-| Crusoe | $3.45 | Custom | Infinity Fabric |
+
+| Provider     | On-Demand        | Reserved          | Notes                             |
+| ------------ | ---------------- | ----------------- | --------------------------------- |
+| Vast.ai      | ~$0.95–$3.12     | Available         | Marketplace spot from $0.95 [^29] |
+| TensorWave   | **$2.25**        | $1.71 (dedicated) | Bare metal, Infinity Fabric       |
+| Vultr        | $1.85 (preempt.) | $1.85 (24-mo)     | 24-month prepaid                  |
+| DigitalOcean | **$1.99**        | Multi-month       | Infinity Fabric [^28]             |
+| Crusoe       | $3.45            | Custom            | Infinity Fabric                   |
+
 
 ### A100 80GB SXM
 
-| Provider | On-Demand | Spot | Notes |
-|----------|-----------|------|-------|
-| Vast.ai | ~$0.50–$2.00 | From ~$0.50 | Marketplace [^29] |
-| RunPod (Community) | ~$0.89 | — | Per-second billing [^26] |
-| Crusoe | $1.95 | $1.30 | Clean energy |
-| RunPod (Secure) | ~$1.89 | — | SOC2 [^26] |
-| CoreWeave | $2.70 | — | InfiniBand [^27] |
-| Lambda | $2.79 | — | 8× nodes [^31] |
+
+| Provider           | On-Demand    | Spot        | Notes                    |
+| ------------------ | ------------ | ----------- | ------------------------ |
+| Vast.ai            | ~$0.50–$2.00 | From ~$0.50 | Marketplace [^29]        |
+| RunPod (Community) | ~$0.89       | —           | Per-second billing [^26] |
+| Crusoe             | $1.95        | $1.30       | Clean energy             |
+| RunPod (Secure)    | ~$1.89       | —           | SOC2 [^26]               |
+| CoreWeave          | $2.70        | —           | InfiniBand [^27]         |
+| Lambda             | $2.79        | —           | 8× nodes [^31]           |
+
 
 For serious RLVR training at scale (multi-node with InfiniBand), Lambda 1-Click Clusters at **$2.76/GPU/hr** for H100 and DigitalOcean at **$1.99/GPU/hr** for MI300X represent the strongest price-performance combinations with production-grade interconnect.[^28][^31] Vast.ai offers the lowest absolute prices but lacks guaranteed InfiniBand connectivity.[^29]
 
@@ -173,36 +185,42 @@ The following calculations combine measured GRPO throughput at 7B scale (1K resp
 
 ### H100 SXM — 7B GRPO (1,544 tok/GPU/s = 5.56M tok/GPU/hr) [^1]
 
-| Provider | $/GPU/hr | $/M Tokens | Notes |
-|----------|----------|------------|-------|
-| Vast.ai | $1.54 | **$0.28** | Marketplace; reliability varies [^29] |
-| RunPod (Community) | $1.99 | $0.36 | Per-second billing [^26] |
-| Lambda (1-Click) | $2.76 | $0.50 | InfiniBand clusters [^31] |
-| DigitalOcean (8×) | $2.99 | $0.54 | NVLink HGX [^28] |
-| Crusoe | $3.90 | $0.70 | Clean energy |
-| Lambda (Instance) | $3.99 | $0.72 | Self-serve [^31] |
-| CoreWeave | $6.16 | **$1.11** | Enterprise; reserved ~$2.46→$0.44 [^27] |
+
+| Provider           | $/GPU/hr | $/M Tokens | Notes                                   |
+| ------------------ | -------- | ---------- | --------------------------------------- |
+| Vast.ai            | $1.54    | **$0.28**  | Marketplace; reliability varies [^29]   |
+| RunPod (Community) | $1.99    | $0.36      | Per-second billing [^26]                |
+| Lambda (1-Click)   | $2.76    | $0.50      | InfiniBand clusters [^31]               |
+| DigitalOcean (8×)  | $2.99    | $0.54      | NVLink HGX [^28]                        |
+| Crusoe             | $3.90    | $0.70      | Clean energy                            |
+| Lambda (Instance)  | $3.99    | $0.72      | Self-serve [^31]                        |
+| CoreWeave          | $6.16    | **$1.11**  | Enterprise; reserved ~$2.46→$0.44 [^27] |
+
 
 ### MI300X — 7B GRPO (1,748 tok/GPU/s = 6.29M tok/GPU/hr) [^1]
 
-| Provider | $/GPU/hr | $/M Tokens | Notes |
-|----------|----------|------------|-------|
-| Vast.ai (spot) | $0.95 | **$0.15** | Marketplace; lowest possible [^29] |
-| Vultr (24-mo) | $1.85 | $0.29 | Prepaid commitment |
-| DigitalOcean | $1.99 | **$0.32** | Best reliable value [^28] |
-| TensorWave | $2.25 | $0.36 | Bare metal, dedicated |
-| Crusoe | $3.45 | $0.55 | InfiniBand |
+
+| Provider       | $/GPU/hr | $/M Tokens | Notes                              |
+| -------------- | -------- | ---------- | ---------------------------------- |
+| Vast.ai (spot) | $0.95    | **$0.15**  | Marketplace; lowest possible [^29] |
+| Vultr (24-mo)  | $1.85    | $0.29      | Prepaid commitment                 |
+| DigitalOcean   | $1.99    | **$0.32**  | Best reliable value [^28]          |
+| TensorWave     | $2.25    | $0.36      | Bare metal, dedicated              |
+| Crusoe         | $3.45    | $0.55      | InfiniBand                         |
+
 
 ### Estimated cost scaling by model size (H100, Lambda 1-Click ~$2.76/hr) [^31]
 
-| Model Size | Est. tok/GPU/s | M tok/GPU/hr | $/M Tokens | Est. Cost for 1B Token Run |
-|-----------|---------------|--------------|------------|---------------------------|
-| 7B | 1,544 (measured [^1]) | 5.56 | **$0.50** | $500 |
-| 14B | ~800 (est.) | ~2.88 | ~$0.96 | $960 |
-| 32B | ~375 (est.) | ~1.35 | ~$2.04 | $2,040 |
-| 70B | ~160 (est.) | ~0.58 | ~$4.76 | $4,760 |
 
-MI300X provides a **30–45% cost advantage** over H100 for RLVR training at current market rates, combining higher throughput (+13% for 7B GRPO [^1]) with lower pricing (DigitalOcean MI300X at $1.99 [^28] vs Lambda H100 at $2.76 [^31]). The primary risk is ROCm ecosystem maturity — veRL supports MI300X natively,[^8] but not all frameworks have been validated on AMD hardware.
+| Model Size | Est. tok/GPU/s        | M tok/GPU/hr | $/M Tokens | Est. Cost for 1B Token Run |
+| ---------- | --------------------- | ------------ | ---------- | -------------------------- |
+| 7B         | 1,544 (measured [^1]) | 5.56         | **$0.50**  | $500                       |
+| 14B        | ~800 (est.)           | ~2.88        | ~$0.96     | $960                       |
+| 32B        | ~375 (est.)           | ~1.35        | ~$2.04     | $2,040                     |
+| 70B        | ~160 (est.)           | ~0.58        | ~$4.76     | $4,760                     |
+
+
+MI300X provides a **30–45% cost advantage** over H100 for RLVR training at current market rates, combining higher throughput (+13% for 7B GRPO [^1]) with lower pricing (DigitalOcean MI300X at $1.99 [^28] vs Lambda H100 at $2.76 [^31]). **veRL documents strong MI300X support** (ROCm integration and tuning notes).[^8] For other frameworks, confirm AMD paths in upstream docs before committing to a stack.
 
 ---
 
@@ -232,13 +250,13 @@ KV cache memory scales linearly with sequence length. For a Qwen-32B model, host
 
 Every number in this report carries a confidence level that readers should understand when making cost projections.
 
-**Measured benchmarks (high confidence):** The AMD ROCm Blog GRPO/PPO throughput numbers (veRL v0.3, 7B models, 8 GPUs, GSM8K) are reproducible and well-documented; the post is **RLHF-branded** but the table is **verifiable-reward GRPO/PPO**, not neural-reward-model RLHF. Yotta Labs reports overlapping MI300X / veRL measurements.[^1][^8] DeepSeek-R1-Zero's training configuration (512×H800, ~198 hours) was disclosed via Stanford FMTI and Nature supplementary materials.[^6][^7] OpenRLHF vs TRL timing comparisons come from the peer-reviewed EMNLP 2025 paper.[^2]
+**Measured benchmarks (high confidence):** **AMD ROCm** publishes **GRPO/PPO throughputs** for **veRL v0.3** on **GSM8K** with **rule-based rewards** and **short** completions (7B models, 8 GPUs per node)—a solid baseline for **GPU and algorithm** comparisons.[^1] **Yotta Labs** reports complementary **MI300X + veRL** numbers.[^8] DeepSeek-R1-Zero's training configuration (512×H800, ~198 hours) was disclosed via Stanford FMTI and Nature supplementary materials.[^6][^7] OpenRLHF vs TRL timing comparisons come from the peer-reviewed EMNLP 2025 paper.[^2]
 
 **Derived with caveats (medium confidence):** Wall-clock times and GPU-hours for open-source reproductions (DeepScaleR,[^16] SimpleRL-Zoo,[^15] Dr. GRPO [^17]) come from GitHub READMEs, blog posts, and WandB logs — credible but not peer-reviewed. The 70–90% rollout time proportion is consistent across ROLL Flash,[^3] veRL,[^22] OpenRLHF,[^2] and NAT [^33] papers. The RLVR vs SFT slowdown band (5–10×) combines DC-SFT’s **in-paper** ~4.9× VLM comparison[^19] with production-style reports.[^11]
 
 **Estimated with significant uncertainty (lower confidence):** Throughput estimates for 14B, 32B, and 70B models are **extrapolations** from 7B measured data combined with a **heuristic** inference scaling ratio (not a single cited benchmark row).[^40] Real-world throughput depends heavily on batch size, parallelism strategy, sequence length, and framework optimizations. The 14B–70B rows in the throughput and cost tables should be treated as rough order-of-magnitude guides, not precision benchmarks. Cloud GPU pricing fluctuates; spot/marketplace rates (especially Vast.ai [^29]) can vary by **2–3×** within a single week. Un-footnoted list prices should be reverified on provider pages.[^41] The OpenRLHF vs veRL framework comparison was published by the OpenRLHF team [^2] against an older veRL version (v0.4.0); veRL's subsequent optimizations through v0.7.1 may have changed this relationship.[^22]
 
-**Unresolved gaps:** **Few** public **long-rollout RLVR** throughput tables (8K–32K tokens) match the transparency of the short-GSM8K AMD numbers; **few** RLVR-oriented throughput benchmarks in this note’s sense exist for H200 GPUs. No framework has published comparable benchmarks across all GPU types. Qwen/QwQ training compute has never been publicly disclosed. DAPO's total GPU-hours on 128×H20 were not reported.[^14] The interaction between long rollout lengths (8K–32K) and per-token throughput under GPU memory pressure lacks systematic benchmarking — current data either measures short (1K) rollouts or reports only wall-clock totals without per-token rates.
+**Unresolved gaps:** **Few** public tables report **long-rollout** RLVR throughputs (8K–32K tokens) with the same tok/GPU/s detail as **short-completion** 7B baselines; **few** RLVR-oriented throughput benchmarks in this note’s sense exist for H200 GPUs. No framework has published comparable benchmarks across all GPU types. Qwen/QwQ training compute has never been publicly disclosed. DAPO's total GPU-hours on 128×H20 were not reported.[^14] The interaction between long rollout lengths (8K–32K) and per-token throughput under GPU memory pressure lacks systematic benchmarking — current data either measures short (1K) rollouts or reports only wall-clock totals without per-token rates.
 
 ---
 
@@ -250,83 +268,83 @@ RLVR training costs are dominated by a single bottleneck: **autoregressive rollo
 
 ## References
 
-[^1]: AMD ROCm Blog. "Reinforcement Learning from Human Feedback on AMD GPUs with verl and ROCm Integration." April 2025. (RLHF in the title; body includes GRPO/PPO throughput on GSM8K, short response lengths.) https://rocm.blogs.amd.com/artificial-intelligence/verl-large-scale/README.html
+[^1]: AMD ROCm Blog. "Reinforcement Learning from Human Feedback on AMD GPUs with verl and ROCm Integration." April 2025. GRPO/PPO throughput on **GSM8K** with **veRL v0.3**, **rule-based rewards**, **7B** models, **512–1024**-token responses, **8 GPUs** per node. [https://rocm.blogs.amd.com/artificial-intelligence/verl-large-scale/README.html](https://rocm.blogs.amd.com/artificial-intelligence/verl-large-scale/README.html)
 
-[^2]: Hu, J. et al. "OpenRLHF: An Easy-to-use, Scalable and High-performance RLHF Framework." EMNLP 2025. https://arxiv.org/html/2501.03262v4 | https://arxiv.org/pdf/2405.11143 | https://aclanthology.org/2025.emnlp-demos.48/
+[^2]: Hu, J. et al. "OpenRLHF: An Easy-to-use, Scalable and High-performance RLHF Framework." EMNLP 2025. [https://arxiv.org/html/2501.03262v4](https://arxiv.org/html/2501.03262v4) | [https://arxiv.org/pdf/2405.11143](https://arxiv.org/pdf/2405.11143) | [https://aclanthology.org/2025.emnlp-demos.48/](https://aclanthology.org/2025.emnlp-demos.48/)
 
-[^3]: ROLL Flash Team. "Part II: ROLL Flash — Accelerating RLVR and Agentic Training with Asynchrony." arXiv:2510.11345, October 2025. https://arxiv.org/abs/2510.11345 | https://arxiv.org/html/2510.11345
+[^3]: ROLL Flash Team. "Part II: ROLL Flash — Accelerating RLVR and Agentic Training with Asynchrony." arXiv:2510.11345, October 2025. [https://arxiv.org/abs/2510.11345](https://arxiv.org/abs/2510.11345) | [https://arxiv.org/html/2510.11345](https://arxiv.org/html/2510.11345)
 
-[^4]: "RL in the Wild: Characterizing RLVR Training in LLM Deployment." arXiv:2509.25279. https://arxiv.org/html/2509.25279
+[^4]: "RL in the Wild: Characterizing RLVR Training in LLM Deployment." arXiv:2509.25279. [https://arxiv.org/html/2509.25279](https://arxiv.org/html/2509.25279)
 
-[^5]: **$2.62 / “R1-V” row:** The table summarizes **community README / blog** claims (GPU-hours × quoted $/hr), not a paper. For the **R1-VL** line of work see e.g. Chen et al. "R1-VL: Advancing Multimodal Reasoning from Optimized Cold Start to Staged Reinforcement Learning." arXiv:2503.12937. https://arxiv.org/abs/2503.12937 | GitHub: https://github.com/jingyi0000/R1-VL — Related small-VLM GRPO artifacts include lmms-lab’s Qwen2-VL-2B-GRPO-8k card: https://huggingface.co/lmms-lab/Qwen2-VL-2B-GRPO-8k — Third-party cost writeup (example): PhotoAtomic. "R1-V: Witness the aha moment of VLM with less than $3." https://github.com/PhotoAtomic/deep-agent-R1-V
+[^5]: **$2.62 / “R1-V” row:** The table summarizes **community README / blog** claims (GPU-hours × quoted $/hr), not a paper. For the **R1-VL** line of work see e.g. Chen et al. "R1-VL: Advancing Multimodal Reasoning from Optimized Cold Start to Staged Reinforcement Learning." arXiv:2503.12937. [https://arxiv.org/abs/2503.12937](https://arxiv.org/abs/2503.12937) | GitHub: [https://github.com/jingyi0000/R1-VL](https://github.com/jingyi0000/R1-VL) — Related small-VLM GRPO artifacts include lmms-lab’s Qwen2-VL-2B-GRPO-8k card: [https://huggingface.co/lmms-lab/Qwen2-VL-2B-GRPO-8k](https://huggingface.co/lmms-lab/Qwen2-VL-2B-GRPO-8k) — Third-party cost writeup (example): PhotoAtomic. "R1-V: Witness the aha moment of VLM with less than $3." [https://github.com/PhotoAtomic/deep-agent-R1-V](https://github.com/PhotoAtomic/deep-agent-R1-V)
 
-[^6]: Stanford CRFM. "DeepSeek Transparency Report." FMTI December 2025. https://crfm.stanford.edu/fmti/December-2025/company-reports/DeepSeek_FinalReport_FMTI2025.html
+[^6]: Stanford CRFM. "DeepSeek Transparency Report." FMTI December 2025. [https://crfm.stanford.edu/fmti/December-2025/company-reports/DeepSeek_FinalReport_FMTI2025.html](https://crfm.stanford.edu/fmti/December-2025/company-reports/DeepSeek_FinalReport_FMTI2025.html)
 
-[^7]: DeepSeek-AI. "DeepSeek-V3 Technical Report." arXiv:2412.19437. https://arxiv.org/pdf/2412.19437
+[^7]: DeepSeek-AI. "DeepSeek-V3 Technical Report." arXiv:2412.19437. [https://arxiv.org/pdf/2412.19437](https://arxiv.org/pdf/2412.19437)
 
-[^8]: Yotta Labs. "Performance Optimization for Reinforcement Learning on AMD GPUs." 2025. https://www.yottalabs.ai/post/performance-optimization-for-reinforcement-learning-on-amd-gpus
+[^8]: Yotta Labs. "Performance Optimization for Reinforcement Learning on AMD GPUs." 2025. [https://www.yottalabs.ai/post/performance-optimization-for-reinforcement-learning-on-amd-gpus](https://www.yottalabs.ai/post/performance-optimization-for-reinforcement-learning-on-amd-gpus)
 
-[^9]: Wolfe, C. "Group Relative Policy Optimization (GRPO)." Cameron Wolfe's Substack. https://cameronrwolfe.substack.com/p/grpo
+[^9]: Wolfe, C. "Group Relative Policy Optimization (GRPO)." Cameron Wolfe's Substack. [https://cameronrwolfe.substack.com/p/grpo](https://cameronrwolfe.substack.com/p/grpo)
 
-[^10]: "Enabling Large Scale RLHF of GPTOSS with Megatron backend in VeRL." Hugging Face Blog. https://huggingface.co/blog/yiakwy-xpu-team/enabling-large-scale-rlhf-of-gptoss-with-megatron
+[^10]: "Enabling Large Scale RLHF of GPTOSS with Megatron backend in VeRL." Hugging Face Blog. [https://huggingface.co/blog/yiakwy-xpu-team/enabling-large-scale-rlhf-of-gptoss-with-megatron](https://huggingface.co/blog/yiakwy-xpu-team/enabling-large-scale-rlhf-of-gptoss-with-megatron)
 
-[^11]: Wolfe, C. "OLMo 3 and the Open LLM Renaissance." Cameron Wolfe's Substack. https://cameronrwolfe.substack.com/p/olmo-3 | See also: Kim, T. "OLMo 3: The Architecture of 'Fully' Open Sourced Reasoning Models." https://www.terrencekim.net/2026/01/olmo-3-architecture-of-fully-open.html
+[^11]: Wolfe, C. "OLMo 3 and the Open LLM Renaissance." Cameron Wolfe's Substack. [https://cameronrwolfe.substack.com/p/olmo-3](https://cameronrwolfe.substack.com/p/olmo-3) | See also: Kim, T. "OLMo 3: The Architecture of 'Fully' Open Sourced Reasoning Models." [https://www.terrencekim.net/2026/01/olmo-3-architecture-of-fully-open.html](https://www.terrencekim.net/2026/01/olmo-3-architecture-of-fully-open.html)
 
-[^12]: Neurohive. "QeRL: Training 32B Models on Single H100 vs Three GPUs, Beating LoRA in Accuracy." https://neurohive.io/en/state-of-the-art/qerl-2/
+[^12]: Neurohive. "QeRL: Training 32B Models on Single H100 vs Three GPUs, Beating LoRA in Accuracy." [https://neurohive.io/en/state-of-the-art/qerl-2/](https://neurohive.io/en/state-of-the-art/qerl-2/)
 
-[^13]: OpenRLHF GitHub. ProRL-1.5B-v2. https://github.com/OpenRLHF/OpenRLHF
+[^13]: OpenRLHF GitHub. ProRL-1.5B-v2. [https://github.com/OpenRLHF/OpenRLHF](https://github.com/OpenRLHF/OpenRLHF)
 
-[^14]: DAPO Team (ByteDance Seed). "DAPO: An Open-Source LLM Reinforcement Learning System at Scale." arXiv:2503.14476. https://arxiv.org/abs/2503.14476 | https://arxiv.org/pdf/2503.14476 | https://dapo-sia.github.io/
+[^14]: DAPO Team (ByteDance Seed). "DAPO: An Open-Source LLM Reinforcement Learning System at Scale." arXiv:2503.14476. [https://arxiv.org/abs/2503.14476](https://arxiv.org/abs/2503.14476) | [https://arxiv.org/pdf/2503.14476](https://arxiv.org/pdf/2503.14476) | [https://dapo-sia.github.io/](https://dapo-sia.github.io/)
 
-[^15]: SimpleRL-Zoo (THU-ML / community recipes on veRL). "SimpleRL-Zoo: Investigating and Taming Zero-shot Reinforcement Learning for Open Base Models in the Wild." arXiv:2503.18892. https://arxiv.org/abs/2503.18892 | Hugging Face Papers: https://huggingface.co/papers/2503.18892 | veRL GitHub (framework used in many recipes): https://github.com/volcengine/verl
+[^15]: SimpleRL-Zoo (THU-ML / community recipes on veRL). "SimpleRL-Zoo: Investigating and Taming Zero-shot Reinforcement Learning for Open Base Models in the Wild." arXiv:2503.18892. [https://arxiv.org/abs/2503.18892](https://arxiv.org/abs/2503.18892) | Hugging Face Papers: [https://huggingface.co/papers/2503.18892](https://huggingface.co/papers/2503.18892) | veRL GitHub (framework used in many recipes): [https://github.com/volcengine/verl](https://github.com/volcengine/verl)
 
-[^16]: "DeepScaleR: Achieving Superior Performance with a Small Model Through Reinforcement Learning." Medium / arXiv. https://medium.com/@jenray1986/deepscaler-achieving-superior-performance-with-a-small-model-through-reinforcement-learning-562a4381c11f
+[^16]: "DeepScaleR: Achieving Superior Performance with a Small Model Through Reinforcement Learning." Medium / arXiv. [https://medium.com/@jenray1986/deepscaler-achieving-superior-performance-with-a-small-model-through-reinforcement-learning-562a4381c11f](https://medium.com/@jenray1986/deepscaler-achieving-superior-performance-with-a-small-model-through-reinforcement-learning-562a4381c11f)
 
-[^17]: **Dr. GRPO** (debiased GRPO / “Understanding R1-Zero-like training”): Liu et al. "Understanding R1-Zero-Like Training: A Perspective of Model Specialization." arXiv:2503.20783. https://arxiv.org/abs/2503.20783 | Code: https://github.com/sail-sg/understand-r1-zero | Oat implementation (as in the cost table): https://github.com/sail-sg/oat — *Note:* Other papers reuse “Dr. GRPO” wording for different fixes (e.g. noise-corrected variants on arXiv); this note means Liu et al. unless stated otherwise.
+[^17]: **Dr. GRPO** (debiased GRPO / “Understanding R1-Zero-like training”): Liu et al. "Understanding R1-Zero-Like Training: A Perspective of Model Specialization." arXiv:2503.20783. [https://arxiv.org/abs/2503.20783](https://arxiv.org/abs/2503.20783) | Code: [https://github.com/sail-sg/understand-r1-zero](https://github.com/sail-sg/understand-r1-zero) | Oat implementation (as in the cost table): [https://github.com/sail-sg/oat](https://github.com/sail-sg/oat) — *Note:* Other papers reuse “Dr. GRPO” wording for different fixes (e.g. noise-corrected variants on arXiv); this note means Liu et al. unless stated otherwise.
 
-[^18]: **Open-R1** (Hugging Face). GitHub: https://github.com/huggingface/open-r1 (includes `grpo.py` and training scripts). **Mini-R1** tutorial (Countdown / “aha moment”): https://huggingface.co/blog/open-r1/mini-r1-contdown-game — microR1 and similar rows in the table are other small-model GRPO reproductions tracked from READMEs; treat timings/costs as **illustrative**.
+[^18]: **Open-R1** (Hugging Face). GitHub: [https://github.com/huggingface/open-r1](https://github.com/huggingface/open-r1) (includes `grpo.py` and training scripts). **Mini-R1** tutorial (Countdown / “aha moment”): [https://huggingface.co/blog/open-r1/mini-r1-contdown-game](https://huggingface.co/blog/open-r1/mini-r1-contdown-game) — microR1 and similar rows in the table are other small-model GRPO reproductions tracked from READMEs; treat timings/costs as **illustrative**.
 
-[^19]: "Why Does RL Generalize Better Than SFT? A Data-Centric Perspective on VLM Post-Training." arXiv:2602.10815. https://arxiv.org/html/2602.10815v1
+[^19]: "Why Does RL Generalize Better Than SFT? A Data-Centric Perspective on VLM Post-Training." arXiv:2602.10815. [https://arxiv.org/html/2602.10815v1](https://arxiv.org/html/2602.10815v1)
 
-[^20]: Hugging Face. "Keep the Tokens Flowing: Lessons from 16 Open-Source RL Libraries." https://huggingface.co/blog/async-rl-training-landscape
+[^20]: Hugging Face. "Keep the Tokens Flowing: Lessons from 16 Open-Source RL Libraries." [https://huggingface.co/blog/async-rl-training-landscape](https://huggingface.co/blog/async-rl-training-landscape)
 
-[^21]: vLLM Blog. "Accelerating RLHF with vLLM, Best Practice from OpenRLHF." April 2025. https://blog.vllm.ai/2025/04/23/openrlhf-vllm.html | OpenRLHF GitHub: https://github.com/OpenRLHF/OpenRLHF
+[^21]: vLLM Blog. "Accelerating RLHF with vLLM, Best Practice from OpenRLHF." April 2025. [https://blog.vllm.ai/2025/04/23/openrlhf-vllm.html](https://blog.vllm.ai/2025/04/23/openrlhf-vllm.html) | OpenRLHF GitHub: [https://github.com/OpenRLHF/OpenRLHF](https://github.com/OpenRLHF/OpenRLHF)
 
-[^22]: veRL (Volcano Engine Reinforcement Learning). GitHub: https://github.com/volcengine/verl | Documentation: https://verl.readthedocs.io/en/latest/perf/best_practices.html | DeepWiki: https://deepwiki.com/volcengine/verl
+[^22]: veRL (Volcano Engine Reinforcement Learning). GitHub: [https://github.com/volcengine/verl](https://github.com/volcengine/verl) | Documentation: [https://verl.readthedocs.io/en/latest/perf/best_practices.html](https://verl.readthedocs.io/en/latest/perf/best_practices.html) | DeepWiki: [https://deepwiki.com/volcengine/verl](https://deepwiki.com/volcengine/verl)
 
-[^23]: Hugging Face TRL. GRPOTrainer docs. https://huggingface.co/docs/trl/main/en/grpo_trainer | GitHub: https://github.com/huggingface/trl
+[^23]: Hugging Face TRL. GRPOTrainer docs. [https://huggingface.co/docs/trl/main/en/grpo_trainer](https://huggingface.co/docs/trl/main/en/grpo_trainer) | GitHub: [https://github.com/huggingface/trl](https://github.com/huggingface/trl)
 
-[^24]: NVIDIA NeMo RL Documentation. https://docs.nvidia.com/nemo/rl/latest/ | DAPO walkthrough: https://docs.nvidia.com/nemo/rl/latest/guides/dapo.html | GitHub: https://github.com/NVIDIA-NeMo/RL
+[^24]: NVIDIA NeMo RL Documentation. [https://docs.nvidia.com/nemo/rl/latest/](https://docs.nvidia.com/nemo/rl/latest/) | DAPO walkthrough: [https://docs.nvidia.com/nemo/rl/latest/guides/dapo.html](https://docs.nvidia.com/nemo/rl/latest/guides/dapo.html) | GitHub: [https://github.com/NVIDIA-NeMo/RL](https://github.com/NVIDIA-NeMo/RL)
 
-[^25]: NVIDIA Developer Blog. "Reinforcement Learning with NVIDIA NeMo-RL: Reproducing a DeepScaleR Recipe Using GRPO." https://developer.nvidia.com/blog/reinforcement-learning-with-nvidia-nemo-rl-reproducing-a-deepscaler-recipe-using-grpo/ | See also: arXiv:2512.20848 (Nemotron 3 Nano). https://arxiv.org/html/2512.20848v1
+[^25]: NVIDIA Developer Blog. "Reinforcement Learning with NVIDIA NeMo-RL: Reproducing a DeepScaleR Recipe Using GRPO." [https://developer.nvidia.com/blog/reinforcement-learning-with-nvidia-nemo-rl-reproducing-a-deepscaler-recipe-using-grpo/](https://developer.nvidia.com/blog/reinforcement-learning-with-nvidia-nemo-rl-reproducing-a-deepscaler-recipe-using-grpo/) | See also: arXiv:2512.20848 (Nemotron 3 Nano). [https://arxiv.org/html/2512.20848v1](https://arxiv.org/html/2512.20848v1)
 
-[^26]: RunPod GPU Pricing. https://www.runpod.io/gpu-pricing | Review: https://dupple.com/tools/runpod | Guide: https://compute.hivenet.com/post/runpod-pricing-complete-guide-to-gpu-cloud-costs
+[^26]: RunPod GPU Pricing. [https://www.runpod.io/gpu-pricing](https://www.runpod.io/gpu-pricing) | Review: [https://dupple.com/tools/runpod](https://dupple.com/tools/runpod) | Guide: [https://compute.hivenet.com/post/runpod-pricing-complete-guide-to-gpu-cloud-costs](https://compute.hivenet.com/post/runpod-pricing-complete-guide-to-gpu-cloud-costs)
 
-[^27]: CoreWeave Cloud Pricing. https://www.coreweave.com/pricing | Review: https://www.thundercompute.com/blog/coreweave-gpu-pricing-review
+[^27]: CoreWeave Cloud Pricing. [https://www.coreweave.com/pricing](https://www.coreweave.com/pricing) | Review: [https://www.thundercompute.com/blog/coreweave-gpu-pricing-review](https://www.thundercompute.com/blog/coreweave-gpu-pricing-review)
 
-[^28]: DigitalOcean GPU Droplets Pricing. https://docs.digitalocean.com/products/droplets/details/pricing/
+[^28]: DigitalOcean GPU Droplets Pricing. [https://docs.digitalocean.com/products/droplets/details/pricing/](https://docs.digitalocean.com/products/droplets/details/pricing/)
 
-[^29]: Vast.ai Pricing Documentation. https://docs.vast.ai/documentation/instances/pricing
+[^29]: Vast.ai Pricing Documentation. [https://docs.vast.ai/documentation/instances/pricing](https://docs.vast.ai/documentation/instances/pricing)
 
-[^30]: ByteIota. "GPU Cloud Pricing: H100 Costs $2.49 or $12.30 in 2026." https://byteiota.com/gpu-cloud-pricing-h100-costs-2-49-or-12-30-in-2026/
+[^30]: ByteIota. "GPU Cloud Pricing: H100 Costs $2.49 or $12.30 in 2026." [https://byteiota.com/gpu-cloud-pricing-h100-costs-2-49-or-12-30-in-2026/](https://byteiota.com/gpu-cloud-pricing-h100-costs-2-49-or-12-30-in-2026/)
 
-[^31]: Lambda Labs GPU Cloud. https://lambdalabs.com/service/gpu-cloud (1-Click Clusters and on-demand instances)
+[^31]: Lambda Labs GPU Cloud. [https://lambdalabs.com/service/gpu-cloud](https://lambdalabs.com/service/gpu-cloud) (1-Click Clusters and on-demand instances)
 
-[^33]: "Not All Tokens are Needed: Token-Efficient Reinforcement Learning." arXiv:2603.06619. https://arxiv.org/html/2603.06619
+[^33]: "Not All Tokens are Needed: Token-Efficient Reinforcement Learning." arXiv:2603.06619. [https://arxiv.org/html/2603.06619](https://arxiv.org/html/2603.06619)
 
-[^34]: "Jet-RL: Enabling On-Policy FP8 Reinforcement Learning with Unified Training and Rollout Precision Flow." arXiv:2601.14243. https://arxiv.org/html/2601.14243
+[^34]: "Jet-RL: Enabling On-Policy FP8 Reinforcement Learning with Unified Training and Rollout Precision Flow." arXiv:2601.14243. [https://arxiv.org/html/2601.14243](https://arxiv.org/html/2601.14243)
 
-[^35]: veRL Performance Tuning Guide. https://verl.readthedocs.io/en/latest/perf/perf_tuning.html
+[^35]: veRL Performance Tuning Guide. [https://verl.readthedocs.io/en/latest/perf/perf_tuning.html](https://verl.readthedocs.io/en/latest/perf/perf_tuning.html)
 
-[^36]: SGLang GitHub. https://github.com/sgl-project/sglang
+[^36]: SGLang GitHub. [https://github.com/sgl-project/sglang](https://github.com/sgl-project/sglang)
 
-[^37]: "VAPO: Efficient and Reliable Reinforcement Learning for Advanced Reasoning Tasks." arXiv:2504.05118. https://arxiv.org/html/2504.05118v1
+[^37]: "VAPO: Efficient and Reliable Reinforcement Learning for Advanced Reasoning Tasks." arXiv:2504.05118. [https://arxiv.org/html/2504.05118v1](https://arxiv.org/html/2504.05118v1)
 
-[^38]: veRL Documentation. "GSM8K Example." Notes the Cobbe et al. paper focuses on a verifier for Best-of-N, while the veRL walkthrough uses a rule-based reward on GSM8K and refers to the setup as an RLHF agent. https://verl.readthedocs.io/en/latest/examples/gsm8k_example.html | Cobbe et al. "Training Verifiers to Solve Math Word Problems." arXiv:2110.14168. https://arxiv.org/pdf/2110.14168
+[^38]: veRL Documentation. "GSM8K Example." Notes the Cobbe et al. paper focuses on a verifier for Best-of-N, while the veRL walkthrough uses a rule-based reward on GSM8K and refers to the setup as an RLHF agent. [https://verl.readthedocs.io/en/latest/examples/gsm8k_example.html](https://verl.readthedocs.io/en/latest/examples/gsm8k_example.html) | Cobbe et al. "Training Verifiers to Solve Math Word Problems." arXiv:2110.14168. [https://arxiv.org/pdf/2110.14168](https://arxiv.org/pdf/2110.14168)
 
-[^39]: Su, Y. et al. "Crossing the Reward Bridge: Expanding RL with Verifiable Rewards Across Diverse Domains." arXiv:2503.23829 (RL with verifiable rewards across domains). https://arxiv.org/abs/2503.23829
+[^39]: Su, Y. et al. "Crossing the Reward Bridge: Expanding RL with Verifiable Rewards Across Diverse Domains." arXiv:2503.23829 (RL with verifiable rewards across domains). [https://arxiv.org/abs/2503.23829](https://arxiv.org/abs/2503.23829)
 
-[^40]: **Inference throughput ratio (7B vs 32B):** vLLM documents throughput *measurement* APIs and practices (e.g. benchmark utilities in the project docs). https://docs.vllm.ai/en/latest/api/vllm/benchmarks/throughput.html — This note does **not** cite a single row that yields “6.3k → 1.2k tok/s”; the **~5×** class ratio used in extrapolations is an **uncalibrated heuristic** from informal community reports—re-benchmark for your model, batch, and backend.
+[^40]: **Inference throughput ratio (7B vs 32B):** vLLM documents throughput *measurement* APIs and practices (e.g. benchmark utilities in the project docs). [https://docs.vllm.ai/en/latest/api/vllm/benchmarks/throughput.html](https://docs.vllm.ai/en/latest/api/vllm/benchmarks/throughput.html) — This note does **not** cite a single row that yields “6.3k → 1.2k tok/s”; the **~5×** class ratio used in extrapolations is an **uncalibrated heuristic** from informal community reports—re-benchmark for your model, batch, and backend.
 
 [^41]: **Pricing rows without inline citations:** Figures for some prepaid, bare-metal, or list SKUs (e.g. FluidStack, Vultr long-commit, TensorWave, Crusoe) were transcribed from public pages in **March–April 2026** and **will drift**; confirm list/contract rates before budgeting.
 
