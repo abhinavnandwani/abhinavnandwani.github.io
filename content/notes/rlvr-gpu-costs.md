@@ -6,7 +6,15 @@
 
 ## Measured GRPO throughput (short-rollout GSM8K; AMD blog is RLHF-framed)
 
-The AMD ROCm blog (April 2025) is titled and introduced as **RLHF**, but its throughput table is **GRPO and PPO on GSM8K** with veRL v0.3.0 — i.e. **rule-based / verifiable** rewards and **short** max response lengths (512–1024 tokens in that table), not long-CoT RLVR.[^1] Treat these as **public GRPO vs PPO system benchmarks** that **inform** RLVR cost thinking (same core algorithms and stack), not as measurements of **8K–32K-token** reasoning rollouts. Additional related data come from Yotta Labs[^8] and the OpenRLHF framework paper.[^2] All of this measured data is concentrated on **7B-parameter models** — no comparable benchmarks exist for 14B, 32B, or 70B models in standardized tokens/GPU/sec format.
+The AMD ROCm blog (April 2025) is titled and introduced as **RLHF**, but its throughput table is **GRPO and PPO on GSM8K** with veRL v0.3.0 — i.e. **rule-based / verifiable** rewards and **short** max response lengths (512–1024 tokens in that table), not long-CoT RLVR.[^1]
+
+**What “GSM8K” means in this stack (and a common confusion):** GSM8K is the **grade-school math word-problem dataset** (Cobbe et al., arXiv:2110.14168); the **original paper** mainly studies training a **verifier (reward model)** for **Best-of-N** sampling. veRL’s official **GSM8K example** is different: it walks through **PPO (and related RL) on GSM8K with a rule-based reward** — extract the final answer after `####`, compare to the reference, assign a scalar reward — and veRL’s docs still call that an **“RLHF agent”** even though the reward is **not** a neural human-preference model.[^38] The AMD throughput table is the same **task family** (GSM8K in veRL) and the same **verifiable-reward** spirit as typical RLVR math setups, but it is **not** “the GSM8K paper’s verifier training recipe,” and it is **not** long chain-of-thought rollouts.
+
+Treat these numbers as **public GRPO vs PPO system benchmarks** on that recipe, useful for **relative** GPU/framework comparisons, not as measurements of **8K–32K-token** reasoning rollouts.
+
+**Credibility (plain language):** The AMD post is **credible for throughput** in its stated setup: vendor-published table, tied to a real framework (veRL) and dataset (GSM8K), and the token/s figures match what they print. The confusion is only **naming and scope** — “RLHF” in the title is **broader branding**; the run is **rule-based reward on math**, not “human preference model RLHF” in the narrow sense, and **not** the original GSM8K paper’s verifier/Best-of-N recipe. That limits **how far you can generalize** the numbers (short outputs, one task), not whether the table is **trustworthy as documentation of that run**.
+
+Additional related data come from Yotta Labs[^8] and the OpenRLHF framework paper.[^2] All of this measured data is concentrated on **7B-parameter models** — no comparable benchmarks exist for 14B, 32B, or 70B models in standardized tokens/GPU/sec format.
 
 | GPU | Model | Algorithm | TP | Tokens/GPU/sec | Response Length | Framework | Source |
 |-----|-------|-----------|----|---------------|-----------------|-----------|--------|
