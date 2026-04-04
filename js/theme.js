@@ -23,6 +23,9 @@
 
     function applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
+        try {
+            window.dispatchEvent(new CustomEvent('site-theme-change', { detail: { theme: theme } }));
+        } catch (e) {}
     }
 
     function persistTheme(theme) {

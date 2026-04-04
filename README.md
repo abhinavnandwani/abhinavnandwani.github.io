@@ -14,7 +14,9 @@ abhinavnandwani.github.io/
 ├── css/style.css
 ├── js/theme.js             # Light/dark preference (localStorage + system)
 ├── posts/
-│   └── template.html       # Starting point for new posts
+│   ├── template.html       # Starting point for new posts
+│   └── rlvr-training-costs.html  # Generated; see scripts/build_rlvr_post.py
+├── content/notes/          # Source markdown + dashboard HTML for the RLVR post
 ├── images/                 # profile.png, favicon.ico, favicon.svg, PNG sizes
 └── files/                  # resume.pdf, posters, legacy PDFs
 ```
@@ -37,6 +39,14 @@ Then open `http://localhost:8000`.
 
 ```bash
 python -m http.server 8000
+```
+
+## RLVR blog post (regenerate)
+
+After editing `content/notes/rlvr-gpu-costs.md` or `content/notes/rlvr-dashboard-source.html`:
+
+```bash
+python3 scripts/build_rlvr_post.py
 ```
 
 ## Adding blog posts
