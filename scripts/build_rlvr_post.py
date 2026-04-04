@@ -244,11 +244,25 @@ def main() -> None:
         title = "RLVR GPU training costs"
         rest_md = md_text
 
-    sections = re.split(r"\n(?=## )", rest_md)
+    # Split the lede (text before first ## heading) from the rest
+    first_h2 = re.search(r"\n(?=## )", rest_md)
+    if first_h2:
+        lede_md = rest_md[: first_h2.start()].strip()
+        sections_md = rest_md[first_h2.start() :]
+    else:
+        lede_md = rest_md.strip()
+        sections_md = ""
+
+    lede_html = body_to_html(lede_md) if lede_md else ""
+
+    sections = re.split(r"\n(?=## )", sections_md) if sections_md else []
     article_parts: list[str] = []
-    for sec in sections:
+    for i, sec in enumerate(sections):
         h = md_section_to_html(sec)
         if h:
+            is_ref = h.lstrip().startswith('<section class="post-section post-references"')
+            if article_parts and not is_ref:
+                article_parts.append("<hr>")
             article_parts.append(h)
 
     desc = (
@@ -258,6 +272,7 @@ def main() -> None:
     slug_url = "rlvr-training-costs.html"
     canonical = f"https://abhinavnandwani.com/posts/{slug_url}"
 
+    lede_indented = "\n".join("                " + l for l in lede_html.splitlines()) if lede_html else ""
     joined = "\n".join("                " + p.replace("\n", "\n                ") for p in article_parts)
 
     shell = f"""<!DOCTYPE html>
@@ -303,6 +318,12 @@ def main() -> None:
                     <span class="post-tag">ML systems · RLVR · GPUs</span>
                 </div>
             </header>
+
+            <aside class="post-disclaimer" role="note">All opinions are my own. Generated with Claude Code — watch out for mistakes.</aside>
+
+            <div class="post-lede">
+{lede_indented}
+            </div>
 
             <section class="post-section" aria-labelledby="interactive-estimator">
                 <h2 id="interactive-estimator">Interactive cost &amp; time estimator</h2>

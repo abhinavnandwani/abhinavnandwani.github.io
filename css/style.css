@@ -709,64 +709,132 @@ footer p {
     font-weight: 400;
 }
 
+.post-disclaimer {
+    margin: 0 0 1.75rem;
+    padding: 0.65rem 0.9rem;
+    border-left: 3px solid var(--border-secondary);
+    background: var(--bg-tertiary);
+    border-radius: 0 4px 4px 0;
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
+    line-height: 1.5;
+    font-style: italic;
+}
+
+.post-lede {
+    margin-bottom: 2rem;
+}
+
+.post-lede p {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--text-primary);
+    max-width: 80ch;
+}
+
 .post-content .post-section {
     margin-bottom: 2.5rem;
 }
 
-.post-content h2 {
-    margin-top: 2.25rem;
+.post-content hr {
+    border: none;
+    border-top: 1px solid var(--border-primary);
+    margin: 2.5rem 0;
 }
 
-.post-content > .post-section:first-of-type h2:first-of-type {
-    margin-top: 0;
+.post-content h2 {
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
 }
 
 .post-content h3 {
     margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+    font-size: 1.05rem;
     font-weight: 600;
     color: var(--text-primary);
 }
 
+.post-content p {
+    max-width: 80ch;
+}
+
+.post-content ul {
+    max-width: 80ch;
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+}
+
+.post-content ul li {
+    margin-bottom: 0.65rem;
+    line-height: 1.55;
+}
+
 .table-wrap {
     overflow-x: auto;
-    margin: 1.25rem 0;
+    margin: 1.25rem 0 1.5rem;
     -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--border-primary);
+    border-radius: 6px;
 }
 
 .post-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.82rem;
-    line-height: 1.45;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    white-space: nowrap;
 }
 
 .post-table th,
 .post-table td {
-    border: 1px solid var(--border-primary);
-    padding: 0.5rem 0.65rem;
+    border-bottom: 1px solid var(--border-primary);
+    border-right: 1px solid var(--border-primary);
+    padding: 0.45rem 0.6rem;
     text-align: left;
     vertical-align: top;
+}
+
+.post-table th:last-child,
+.post-table td:last-child {
+    border-right: none;
+}
+
+.post-table tbody tr:last-child td {
+    border-bottom: none;
 }
 
 .post-table th {
     background: var(--bg-tertiary);
     font-weight: 600;
+    font-size: 0.75rem;
     color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    position: sticky;
+    top: 0;
 }
 
 .post-table td {
     color: var(--text-secondary);
+    white-space: normal;
+}
+
+.post-table td strong {
+    color: var(--text-primary);
 }
 
 .post-table tbody tr:nth-child(even) {
+    background: var(--bg-tertiary);
+}
+
+.post-table tbody tr:hover {
     background: var(--bg-secondary);
 }
 
-/* Footnotes & reference list (RLVR post) */
+/* Footnotes */
 .footnote-ref {
-    font-size: 0.72em;
+    font-size: 0.68em;
     font-weight: 600;
     line-height: 0;
     vertical-align: super;
@@ -775,7 +843,7 @@ footer p {
 .footnote-ref a {
     color: var(--accent-primary);
     text-decoration: none;
-    padding: 0 0.12em;
+    padding: 0 0.08em;
 }
 
 .footnote-ref a:hover {
@@ -783,6 +851,7 @@ footer p {
     color: var(--accent-hover);
 }
 
+/* References section */
 .post-references {
     margin-top: 2.5rem;
     padding-top: 1.5rem;
@@ -791,22 +860,46 @@ footer p {
 
 .post-references h2 {
     margin-top: 0;
+    font-size: 1.25rem;
 }
 
 .reference-list {
-    font-size: 0.86rem;
-    line-height: 1.55;
-    padding-left: 1.35rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    padding-left: 2.5rem;
     margin: 1rem 0 0;
-    color: var(--text-secondary);
+    color: var(--text-tertiary);
 }
 
 .reference-list li {
-    margin-bottom: 0.9rem;
+    margin-bottom: 0.75rem;
+    padding-left: 0.25rem;
+}
+
+.reference-list li::marker {
+    color: var(--text-tertiary);
+    font-weight: 600;
+    font-size: 0.78rem;
 }
 
 .reference-list a {
     word-break: break-all;
+    color: var(--accent-primary);
+}
+
+@media (max-width: 900px) {
+    .post-table {
+        font-size: 0.72rem;
+    }
+
+    .post-table th,
+    .post-table td {
+        padding: 0.35rem 0.45rem;
+    }
+
+    .reference-list {
+        padding-left: 1.75rem;
+    }
 }
 
 /* RLVR cost dashboard (embedded in blog post) */
