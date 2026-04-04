@@ -323,3 +323,5 @@ RLVR training costs are dominated by a single bottleneck: **autoregressive rollo
 [^36]: SGLang GitHub. https://github.com/sgl-project/sglang
 
 [^37]: "VAPO: Efficient and Reliable Reinforcement Learning for Advanced Reasoning Tasks." arXiv:2504.05118. https://arxiv.org/html/2504.05118v1
+
+[^38]: veRL Documentation. "GSM8K Example." Notes the Cobbe et al. paper focuses on a verifier for Best-of-N, while the veRL walkthrough uses a rule-based reward on GSM8K and refers to the setup as an RLHF agent. https://verl.readthedocs.io/en/latest/examples/gsm8k_example.html | Cobbe et al. "Training Verifiers to Solve Math Word Problems." arXiv:2110.14168. https://arxiv.org/pdf/2110.14168
