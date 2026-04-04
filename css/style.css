@@ -764,6 +764,51 @@ footer p {
     background: var(--bg-secondary);
 }
 
+/* Footnotes & reference list (RLVR post) */
+.footnote-ref {
+    font-size: 0.72em;
+    font-weight: 600;
+    line-height: 0;
+    vertical-align: super;
+}
+
+.footnote-ref a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    padding: 0 0.12em;
+}
+
+.footnote-ref a:hover {
+    text-decoration: underline;
+    color: var(--accent-hover);
+}
+
+.post-references {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-primary);
+}
+
+.post-references h2 {
+    margin-top: 0;
+}
+
+.reference-list {
+    font-size: 0.86rem;
+    line-height: 1.55;
+    padding-left: 1.35rem;
+    margin: 1rem 0 0;
+    color: var(--text-secondary);
+}
+
+.reference-list li {
+    margin-bottom: 0.9rem;
+}
+
+.reference-list a {
+    word-break: break-all;
+}
+
 /* RLVR cost dashboard (embedded in blog post) */
 .rlvr-dashboard {
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;

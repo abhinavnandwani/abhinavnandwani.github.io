@@ -11,6 +11,34 @@ MD = ROOT / "content" / "notes" / "rlvr-gpu-costs.md"
 DASH_SRC = ROOT / "content" / "notes" / "rlvr-dashboard-source.html"
 OUT = ROOT / "posts" / "rlvr-training-costs.html"
 
+FN_RE = re.compile(r"\[\^(\d+)\]")
+
+
+def footnote_refs(s: str) -> str:
+    """Turn [^12] into superscript links to #ref-12."""
+
+    def repl(m: re.Match[str]) -> str:
+        n = m.group(1)
+        return (
+            f'<sup class="footnote-ref"><a href="#ref-{n}" aria-describedby="ref-{n}">{n}</a></sup>'
+        )
+
+    return FN_RE.sub(repl, s)
+
+
+def format_inline_cell(s: str) -> str:
+    return footnote_refs(inline_md(html.escape(s)))
+
+
+def linkify_urls_in_text(s: str) -> str:
+    """Linkify https URLs in already-escaped HTML text."""
+
+    def repl(m: re.Match[str]) -> str:
+        url = m.group(0)
+        return f'<a href="{url}" rel="noopener noreferrer" target="_blank">{url}</a>'
+
+    return re.sub(r'https?://[^\s|<>"]+', repl, s)
+
 
 def is_sep_row(cells: list[str]) -> bool:
     if not cells:
@@ -40,12 +68,12 @@ def md_table_to_html(block: str) -> str:
     out = ['<div class="table-wrap"><table class="post-table">']
     out.append("<thead><tr>")
     for c in rows[0]:
-        out.append(f"<th>{inline_md(html.escape(c))}</th>")
+        out.append(f"<th>{format_inline_cell(c)}</th>")
     out.append("</tr></thead><tbody>")
     for r in rows[body_start:]:
         out.append("<tr>")
         for c in r:
-            out.append(f"<td>{inline_md(html.escape(c))}</td>")
+            out.append(f"<td>{format_inline_cell(c)}</td>")
         out.append("</tr>")
     out.append("</tbody></table></div>")
     return "".join(out)
@@ -70,21 +98,21 @@ def body_to_html(body: str) -> str:
             if not para or para == "---":
                 continue
             if para.startswith("### "):
-                parts.append(f"<h3>{html.escape(para[4:].strip())}</h3>")
+                inner = footnote_refs(html.escape(para[4:].strip()))
+                parts.append(f"<h3>{inner}</h3>")
             elif para.startswith("|"):
                 parts.append(md_table_to_html(para))
             elif para.startswith("- "):
                 items = re.findall(r"^-\s+(.+)$", para, re.MULTILINE)
                 if items:
-                    parts.append(
-                        "<ul>"
-                        + "".join(f"<li>{inline_md(html.escape(i))}</li>" for i in items)
-                        + "</ul>"
+                    lis = "".join(
+                        f"<li>{footnote_refs(inline_md(html.escape(i)))}</li>" for i in items
                     )
+                    parts.append(f"<ul>{lis}</ul>")
                 else:
-                    parts.append(f"<p>{inline_md(html.escape(para))}</p>")
+                    parts.append(f"<p>{footnote_refs(inline_md(html.escape(para)))}</p>")
             else:
-                parts.append(f"<p>{inline_md(html.escape(para))}</p>")
+                parts.append(f"<p>{footnote_refs(inline_md(html.escape(para)))}</p>")
 
     for line in body.splitlines():
         if line.strip().startswith("|"):
@@ -112,6 +140,36 @@ def body_to_html(body: str) -> str:
     return "\n".join(parts)
 
 
+def references_section_to_html(body: str) -> str:
+    body = body.strip()
+    pat = re.compile(r"^\[\^(\d+)\]:\s*", re.MULTILINE)
+    matches = list(pat.finditer(body))
+    if not matches:
+        return (
+            '<section class="post-section post-references" aria-labelledby="references-heading">'
+            '<h2 id="references-heading">References</h2>'
+            "<p>(References block was empty.)</p></section>"
+        )
+
+    items: list[tuple[int, str]] = []
+    for i, m in enumerate(matches):
+        n = int(m.group(1))
+        start = m.end()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(body)
+        raw = body[start:end].strip()
+        safe = linkify_urls_in_text(html.escape(raw))
+        items.append((n, safe))
+
+    items.sort(key=lambda x: x[0])
+    lis = "".join(f'<li id="ref-{n}" value="{n}">{content}</li>' for n, content in items)
+    ol = f'<ol class="reference-list">{lis}</ol>'
+    return (
+        '<section class="post-section post-references" aria-labelledby="references-heading">'
+        '<h2 id="references-heading">References</h2>'
+        f"{ol}</section>"
+    )
+
+
 def md_section_to_html(sec: str) -> str:
     sec = sec.strip()
     if not sec:
@@ -127,6 +185,8 @@ def md_section_to_html(sec: str) -> str:
             return s[:80] or "section"
 
         body = "\n".join(lines[1:]).strip()
+        if title.lower() == "references":
+            return references_section_to_html(body)
         inner = body_to_html(body)
         return f'<h2 id="{slug(title)}">{html.escape(title)}</h2>\n{inner}'
     return body_to_html(sec)
@@ -193,7 +253,7 @@ def main() -> None:
 
     desc = (
         "Measured GRPO throughput, cloud GPU pricing (April 2026), published RLVR runs, "
-        "and an interactive cost estimator for RLVR training."
+        "cited sources, and an interactive cost estimator for RLVR training."
     )
     slug_url = "rlvr-training-costs.html"
     canonical = f"https://abhinavnandwani.com/posts/{slug_url}"

@@ -16,7 +16,7 @@ abhinavnandwani.github.io/
 ├── posts/
 │   ├── template.html       # Starting point for new posts
 │   └── rlvr-training-costs.html  # Generated; see scripts/build_rlvr_post.py
-├── content/notes/          # Source markdown + dashboard HTML for the RLVR post
+├── content/notes/          # RLVR post: cited markdown (footnotes) + dashboard HTML source
 ├── images/                 # profile.png, favicon.ico, favicon.svg, PNG sizes
 └── files/                  # resume.pdf, posters, legacy PDFs
 ```
