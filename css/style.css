@@ -229,7 +229,7 @@ section {
     display: flex;
     gap: 1.5rem;
     flex-wrap: wrap;
-    margin-top: 1rem;
+    margin-top: 0.35rem;
 }
 
 .contact-links li {
@@ -295,6 +295,14 @@ img {
 
 .home-poster h2 {
     margin-top: 0;
+}
+
+.home-poster p {
+    margin: 0 0 1rem;
+    max-width: 75ch;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    font-size: 1rem;
 }
 
 .home-poster img {
