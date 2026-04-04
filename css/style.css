@@ -729,7 +729,6 @@ footer p {
     font-size: 1.05rem;
     line-height: 1.65;
     color: var(--text-primary);
-    max-width: 80ch;
 }
 
 .post-content .post-section {
@@ -755,12 +754,7 @@ footer p {
     color: var(--text-primary);
 }
 
-.post-content p {
-    max-width: 80ch;
-}
-
 .post-content ul {
-    max-width: 80ch;
     margin-bottom: 1.25rem;
     padding-left: 1.5rem;
 }
