@@ -356,8 +356,8 @@ def main() -> None:
         <div class="container">
             <a href="/" class="nav-home">Abhinav Nandwani</a>
             <ul class="nav-links">
-                <li><a href="/resume.html">Resume</a></li>
                 <li><a href="/blog.html">Blog</a></li>
+                <li><a href="/resume.html">Resume</a></li>
             </ul>
         </div>
     </nav>
