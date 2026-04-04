@@ -6,6 +6,7 @@ A minimal personal website for Abhinav Nandwani, hosted on GitHub Pages with cus
 
 ```
 abhinavnandwani.github.io/
+├── favicon.ico             # Root copy (browsers request /favicon.ico); keep in sync with images/favicon.ico
 ├── index.html              # Home
 ├── resume.html             # Resume (embeds /files/resume.pdf)
 ├── blog.html               # Blog index
