@@ -709,8 +709,31 @@ footer p {
     font-weight: 400;
 }
 
+/*
+ * One shared column for title, disclaimer, lede, headings, paragraphs, lists, tables,
+ * dashboard, dividers, and references. Global `p { max-width: 75ch }` would otherwise
+ * squeeze only paragraphs while tables/divs stay full width — ragged, misaligned edges.
+ */
+.post-content {
+    --post-measure: min(70rem, 100%);
+}
+
+.post-content p {
+    max-width: none;
+}
+
+.post-content > .page-header,
+.post-content > .post-disclaimer,
+.post-content > .post-lede,
+.post-content > .post-section > *,
+.post-content > .back-link {
+    max-width: var(--post-measure);
+    margin-inline: auto;
+    box-sizing: border-box;
+}
+
 .post-disclaimer {
-    margin: 0 0 1.75rem;
+    margin-bottom: 1.75rem;
     padding: 0.65rem 0.9rem;
     border-left: 3px solid var(--border-secondary);
     background: var(--bg-tertiary);
