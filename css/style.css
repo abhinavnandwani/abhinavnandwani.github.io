@@ -758,6 +758,11 @@ footer p {
     margin-bottom: 2.5rem;
 }
 
+/* Long-form article after the interactive dashboard */
+.post-content > .post-section.post-article > h2:first-of-type {
+    margin-top: 2rem;
+}
+
 .post-content hr {
     border: none;
     border-top: 1px solid var(--border-primary);
@@ -850,6 +855,10 @@ footer p {
 }
 
 /* Footnotes */
+.footnote-ref + .footnote-ref {
+    margin-left: 0.12em;
+}
+
 .footnote-ref {
     font-size: 0.68em;
     font-weight: 600;
@@ -868,11 +877,11 @@ footer p {
     color: var(--accent-hover);
 }
 
-/* References section */
+/* References section (preceded by <hr> from build) */
 .post-references {
-    margin-top: 2.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-primary);
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
 }
 
 .post-references h2 {
@@ -931,7 +940,10 @@ footer p {
     --border-radius-md: 6px;
     --border-radius-lg: 10px;
     margin-top: 1rem;
-    padding: 0 0 0.5rem;
+    padding: 1rem 1.1rem 1.25rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-primary);
+    border-radius: 10px;
 }
 
 .rlvr-dashboard,
@@ -940,7 +952,7 @@ footer p {
 }
 
 .rlvr-dashboard .w {
-    padding: 1.5rem 0;
+    padding: 0.35rem 0 0;
     font-family: var(--font-sans);
     color: var(--color-text-primary);
 }

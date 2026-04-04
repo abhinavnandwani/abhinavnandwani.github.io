@@ -40,6 +40,48 @@ def linkify_urls_in_text(s: str) -> str:
     return re.sub(r'https?://[^\s|<>"]+', repl, s)
 
 
+MD_LINK_RE = re.compile(r"\[([^\]]+)\]\((https?://[^)\s]+)\)")
+
+
+def _linkify_bare_urls_after_escape(s: str) -> str:
+    """Linkify raw https URLs in escaped HTML, but not inside existing <a>...</a>."""
+
+    def repl(m: re.Match[str]) -> str:
+        url = m.group(0)
+        return (
+            f'<a href="{html.escape(url, quote=True)}" rel="noopener noreferrer" '
+            f'target="_blank">{url}</a>'
+        )
+
+    parts = re.split(r"(<a\b[^>]*>.*?</a>)", s, flags=re.IGNORECASE | re.DOTALL)
+    for i in range(0, len(parts), 2):
+        parts[i] = re.sub(r"https?://[^\s<\"'\]]+", repl, parts[i])
+    return "".join(parts)
+
+
+def reference_item_to_html(raw: str) -> str:
+    """Turn one reference line into HTML: markdown [label](url), **bold**, bare URLs."""
+    out: list[str] = []
+    pos = 0
+    for m in MD_LINK_RE.finditer(raw):
+        chunk = raw[pos : m.start()]
+        esc = html.escape(chunk)
+        esc = inline_md(esc)
+        out.append(_linkify_bare_urls_after_escape(esc))
+        label, url = m.group(1), m.group(2)
+        label_html = inline_md(html.escape(label))
+        out.append(
+            f'<a href="{html.escape(url, quote=True)}" rel="noopener noreferrer" '
+            f'target="_blank">{label_html}</a>'
+        )
+        pos = m.end()
+    tail = raw[pos:]
+    esc = html.escape(tail)
+    esc = inline_md(esc)
+    out.append(_linkify_bare_urls_after_escape(esc))
+    return "".join(out)
+
+
 def is_sep_row(cells: list[str]) -> bool:
     if not cells:
         return False
@@ -98,7 +140,7 @@ def body_to_html(body: str) -> str:
             if not para or para == "---":
                 continue
             if para.startswith("### "):
-                inner = footnote_refs(html.escape(para[4:].strip()))
+                inner = footnote_refs(inline_md(html.escape(para[4:].strip())))
                 parts.append(f"<h3>{inner}</h3>")
             elif para.startswith("|"):
                 parts.append(md_table_to_html(para))
@@ -157,7 +199,7 @@ def references_section_to_html(body: str) -> str:
         start = m.end()
         end = matches[i + 1].start() if i + 1 < len(matches) else len(body)
         raw = body[start:end].strip()
-        safe = linkify_urls_in_text(html.escape(raw))
+        safe = reference_item_to_html(raw)
         items.append((n, safe))
 
     items.sort(key=lambda x: x[0])
@@ -257,13 +299,18 @@ def main() -> None:
 
     sections = re.split(r"\n(?=## )", sections_md) if sections_md else []
     article_parts: list[str] = []
-    for i, sec in enumerate(sections):
+    ref_html: str | None = None
+    for sec in sections:
         h = md_section_to_html(sec)
-        if h:
-            is_ref = h.lstrip().startswith('<section class="post-section post-references"')
-            if article_parts and not is_ref:
-                article_parts.append("<hr>")
-            article_parts.append(h)
+        if not h:
+            continue
+        is_ref = h.lstrip().startswith('<section class="post-section post-references"')
+        if is_ref:
+            ref_html = h
+            continue
+        if article_parts:
+            article_parts.append("<hr>")
+        article_parts.append(h)
 
     desc = (
         "Measured GRPO throughput, cloud GPU pricing (April 2026), published RLVR runs, "
@@ -274,6 +321,12 @@ def main() -> None:
 
     lede_indented = "\n".join("                " + l for l in lede_html.splitlines()) if lede_html else ""
     joined = "\n".join("                " + p.replace("\n", "\n                ") for p in article_parts)
+    ref_sep = ""
+    if ref_html and article_parts:
+        ref_sep = "            <hr>\n"
+    ref_indented = (
+        "\n".join("            " + l for l in ref_html.splitlines()) if ref_html else ""
+    )
 
     shell = f"""<!DOCTYPE html>
 <html lang="en" data-theme="light">
@@ -333,9 +386,10 @@ def main() -> None:
                 </div>
             </section>
 
-            <section class="post-section" aria-label="Article body">
+            <section class="post-section post-article">
 {joined}
             </section>
+{ref_sep}{ref_indented}
 
             <div class="back-link">
                 <a href="/blog.html">← Back to Blog</a>

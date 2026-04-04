@@ -120,7 +120,7 @@ Notable emerging frameworks include **AReaL** (Ant Group/Tsinghua), achieving **
 
 ## Cloud GPU pricing for RLVR workloads in April 2026
 
-RLVR training demands multi-GPU clusters with high-bandwidth interconnect (NVLink intra-node, InfiniBand inter-node). Prices below are per GPU per hour, transcribed from provider websites and aggregators in March–April 2026 where footnoted.[^26][^27][^28][^29][^30] Rows without an inline [^n] (e.g. some prepaid or bare-metal SKUs) should be **spot-checked on the vendor site**—live quotes move weekly.[^41]
+RLVR training demands multi-GPU clusters with high-bandwidth interconnect (NVLink intra-node, InfiniBand inter-node). Prices below are per GPU per hour, transcribed from provider websites and aggregators in March–April 2026 where footnoted.[^26][^27][^28][^29][^30] Rows without an inline footnote marker (e.g. some prepaid or bare-metal SKUs) should be **spot-checked on the vendor site**—live quotes move weekly.[^41]
 
 ### H100 SXM 80GB
 
@@ -348,4 +348,4 @@ RLVR training costs are dominated by a single bottleneck: **autoregressive rollo
 
 [^41]: **Pricing rows without inline citations:** Figures for some prepaid, bare-metal, or list SKUs (e.g. FluidStack, Vultr long-commit, TensorWave, Crusoe) were transcribed from public pages in **March–April 2026** and **will drift**; confirm list/contract rates before budgeting.
 
-[^42]: **Dollar cost column (DeepSeek and similar):** Where a source publishes GPU-hours but not total spend, this note uses an **illustrative ~USD 2 per H800 GPU-hour** (order-of-magnitude cloud list pricing) to turn hours into **~$200K / ~$82K** style totals—**not** DeepSeek’s invoice. Stanford FMTI and DeepSeek-V3 report give the underlying hour disclosures.[^6][^7]
+[^42]: **Dollar cost column (DeepSeek and similar):** Where a source publishes GPU-hours but not total spend, this note uses an **illustrative ~USD 2 per H800 GPU-hour** (order-of-magnitude cloud list pricing) to turn hours into **~$200K / ~$82K** style totals—**not** DeepSeek’s invoice. Stanford FMTI and DeepSeek-V3 report give the underlying hour disclosures (references 6 and 7 above).
