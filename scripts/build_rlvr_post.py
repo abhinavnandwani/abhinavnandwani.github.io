@@ -244,16 +244,16 @@ def main() -> None:
                 </div>
             </header>
 
-            <section class="post-section" aria-label="Article body">
-{joined}
-            </section>
-
             <section class="post-section" aria-labelledby="interactive-estimator">
                 <h2 id="interactive-estimator">Interactive cost &amp; time estimator</h2>
-                <p>Adjust model, algorithm, rollout length, and token target to compare H100, H200, and MI300X. Figures use measured 7B GRPO/PPO baselines where available, rollout-length penalties from the note above, and April 2026 list pricing. <strong>Estimates are illustrative</strong>—see confidence notes under the charts.</p>
+                <p>Adjust model, algorithm, rollout length, and token target to compare H100, H200, and MI300X. Figures use measured 7B GRPO/PPO baselines where available, rollout-length penalties from the long-form note below, and April 2026 list pricing. <strong>Estimates are illustrative</strong>—see confidence notes under the charts.</p>
                 <div class="rlvr-dashboard" role="region" aria-label="RLVR training cost dashboard">
 {dash_body}
                 </div>
+            </section>
+
+            <section class="post-section" aria-label="Article body">
+{joined}
             </section>
 
             <div class="back-link">
