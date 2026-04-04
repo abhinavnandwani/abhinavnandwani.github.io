@@ -271,13 +271,21 @@ img {
     margin: 1.5rem 0;
 }
 
-.recent-work img {
-    border-radius: 4px;
-    transition: opacity 0.2s ease;
+.recent-work-list {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin: 0.5rem 0 0;
+    max-width: 75ch;
 }
 
-.recent-work img:hover {
-    opacity: 0.95;
+.recent-work-list li {
+    margin-bottom: 0.75rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+}
+
+.recent-work-list a {
+    font-weight: 500;
 }
 
 /* Button */
