@@ -341,6 +341,7 @@ img {
     border-radius: 4px;
     transition: opacity 0.2s ease;
     margin-top: 0.75rem;
+    margin-bottom: 1rem;
 }
 
 .home-poster img:hover {
