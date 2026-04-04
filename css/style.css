@@ -288,6 +288,26 @@ img {
     font-weight: 500;
 }
 
+.home-poster {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.home-poster h2 {
+    margin-top: 0;
+}
+
+.home-poster img {
+    max-width: min(100%, 52rem);
+    border-radius: 4px;
+    transition: opacity 0.2s ease;
+    margin-top: 0.75rem;
+}
+
+.home-poster img:hover {
+    opacity: 0.95;
+}
+
 /* Button */
 .button {
     display: inline-flex;
