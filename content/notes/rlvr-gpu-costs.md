@@ -1,6 +1,6 @@
 # RLVR GPU training costs, benchmarks, and pricing
 
-**Reinforcement Learning from Verifiable Rewards (RLVR) has emerged as the dominant paradigm for training reasoning models, yet published throughput data remains sparse and concentrated on 7B-scale models.** The strongest public **GRPO** throughput numbers cited here (**1,544 tokens/GPU/second** on an H100 SXM for a 7B model at 1K response length) come from an AMD ROCm blog post that is **branded as RLHF** but reports **GRPO/PPO on GSM8K** (verifiable rewards) with veRL — the same algorithm family used in much RLVR work, though at **short** response lengths, not long chain-of-thought RLVR.[^1] Those GRPO runs are roughly **1.7–2.5× faster than PPO** in that table — consistent with eliminating the critic versus classic PPO-based RLHF stacks.[^1][^2] However, RLVR's characteristic long chain-of-thought rollouts (8K–32K tokens) create a massive generation bottleneck that consumes **70–90% of total wall-clock time**, making it approximately **5–10× slower than supervised fine-tuning**.[^3][^4] Cloud GPU costs for RLVR training range from **$0.29 to $1.11 per million tokens** at 7B scale depending on GPU type and provider, with MI300X offering the best price-performance at current market rates. Published training runs span five orders of magnitude in cost — from $2.62 for a 2B visual reasoning model[^5] to ~$200K for DeepSeek-R1-Zero's 671B MoE GRPO training.[^6][^7]
+**Reinforcement Learning from Verifiable Rewards (RLVR)—rewards from checks, not learned human-preference models—has, in the author’s view, become a central paradigm for training many reasoning-oriented LLM stacks, yet public throughput tables remain sparse and concentrated on 7B-scale models.** Surveys of RL with verifiable rewards formalize this shift from narrow “preference-model RLHF” toward rule- and environment-based signals.[^39] The strongest public **GRPO** throughput numbers cited here (**1,544 tokens/GPU/second** on an H100 SXM for a 7B model at 1K response length) come from an AMD ROCm blog post that is **branded as RLHF** but reports **GRPO/PPO on GSM8K** (verifiable rewards) with veRL — the same **RLVR-style** algorithm family as many math RL setups, though at **short** response lengths, not long chain-of-thought RLVR.[^1] Those GRPO runs are roughly **1.7–2.5× faster than PPO** in that table — consistent with eliminating the critic versus classic PPO-based RLHF stacks.[^1][^2] However, RLVR’s characteristic long chain-of-thought rollouts (8K–32K tokens) create a massive generation bottleneck that consumes **70–90% of total wall-clock time**, making it approximately **5–10× slower than supervised fine-tuning**.[^3][^4] Cloud GPU costs for RLVR training range from **$0.29 to $1.11 per million tokens** at 7B scale depending on GPU type and provider, with MI300X offering the best price-performance at current market rates. Published training runs span a wide cost range — from a **README-style** ~**$2.62** for a 2B visual GRPO run[^5] to order-of-magnitude **~$200K** for DeepSeek-R1-Zero’s 671B MoE GRPO training at an **illustrative ~$2/H800 GPU-hour** assumption.[^6][^7][^42]
 
 ---
 
@@ -14,7 +14,7 @@ Treat these numbers as **public GRPO vs PPO system benchmarks** on that recipe, 
 
 **Credibility (plain language):** The AMD post is **credible for throughput** in its stated setup: vendor-published table, tied to a real framework (veRL) and dataset (GSM8K), and the token/s figures match what they print. The confusion is only **naming and scope** — “RLHF” in the title is **broader branding**; the run is **rule-based reward on math**, not “human preference model RLHF” in the narrow sense, and **not** the original GSM8K paper’s verifier/Best-of-N recipe. That limits **how far you can generalize** the numbers (short outputs, one task), not whether the table is **trustworthy as documentation of that run**.
 
-Additional related data come from Yotta Labs[^8] and the OpenRLHF framework paper.[^2] All of this measured data is concentrated on **7B-parameter models** — no comparable benchmarks exist for 14B, 32B, or 70B models in standardized tokens/GPU/sec format.
+Additional related data come from Yotta Labs[^8] and the OpenRLHF framework paper.[^2] All of this measured data is concentrated on **7B-parameter models** — **few comparable public** benchmarks exist for 14B, 32B, or 70B models in standardized tokens/GPU/sec format.
 
 | GPU | Model | Algorithm | TP | Tokens/GPU/sec | Response Length | Framework | Source |
 |-----|-------|-----------|----|---------------|-----------------|-----------|--------|
@@ -35,13 +35,13 @@ The OpenRLHF paper provides a framework-level comparison: OpenRLHF completes one
 
 ## Estimated throughput across model sizes requires significant extrapolation
 
-Published RLVR throughput data is almost exclusively at 7B scale. The estimates below combine the measured 7B baselines with vLLM inference throughput scaling data (7B: ~6,300 tok/s → 32B: ~1,200 tok/s on a single H100, a **~5.25× drop**), the GPTOSS-20B MoE training benchmark (~500–598 tok/s on 512 H800 GPUs with veRL+Megatron),[^10] and the OLMo 3 32B RL training disclosure showing inference-to-training compute ratios of 5–14×.[^11]
+Published RLVR throughput data is almost exclusively at 7B scale. The estimates below combine the measured 7B baselines with a **rough, non-cited** vLLM-style inference scaling heuristic (7B-class vs 32B-class decode often differs by roughly **~5×** on a single GPU in community reports; re-measure for your stack),[^40] the GPTOSS-20B MoE training benchmark (~500–598 tok/s on 512 H800 GPUs with veRL+Megatron),[^10] and the OLMo 3 32B RL training disclosure showing inference-to-training compute ratios of 5–14×.[^11]
 
 | Model Size | H100 SXM (tok/GPU/s) | MI300X (tok/GPU/s) | A100 80GB (tok/GPU/s) | Confidence | Basis |
 |-----------|----------------------|--------------------|-----------------------|------------|-------|
 | 7B | **1,544–1,624** | **1,748–1,899** | ~900–1,100 | **Measured** | AMD ROCm Blog [^1] (veRL v0.3, GRPO, 1K resp.) |
-| 14B | ~700–950 | ~800–1,100 | ~400–600 | Estimated | ~0.5–0.6× of 7B based on vLLM scaling |
-| 32B | ~300–450 | ~350–520 | ~150–250 | Estimated | ~5.25× drop from 7B; GPTOSS-20B MoE ~500–598 tok/s on 512 GPUs [^10] |
+| 14B | ~700–950 | ~800–1,100 | ~400–600 | Estimated | ~0.5–0.6× of 7B; heuristic scaling [^40] |
+| 32B | ~300–450 | ~350–520 | ~150–250 | Estimated | ~5× drop from 7B (heuristic [^40]); GPTOSS-20B MoE ~500–598 tok/s on 512 GPUs [^10] |
 | 70B | ~120–200 | ~140–240 | ~60–100 | Estimated | Requires multi-GPU TP; extrapolated from 32B |
 | 235B-A22B (MoE) | ~200–350 | ~230–400 | N/A | Estimated | MoE with ~22B active params ≈ 32B-scale compute |
 | 671B-A37B (MoE) | ~100–200 | ~120–250 | N/A | Estimated | Requires 96+ GPUs; EP+TP+PP parallelism [^7] |
@@ -52,7 +52,7 @@ Published RLVR throughput data is almost exclusively at 7B scale. The estimates 
 
 ## Wall-clock training times from published RLVR runs
 
-The table below compiles every published RLVR training run with disclosed compute details. Costs span from **$2.62 to ~$200,000**, driven primarily by model scale and rollout length.
+The table below compiles **selected** RLVR-style training runs with disclosed compute details. Dollar costs use **illustrative** $/GPU-hour assumptions where sources do not publish invoices (see [^42]). Costs span from a **third-party README** ~**$2.62** to order-of-magnitude **~$200,000**, driven primarily by model scale and rollout length.
 
 | Run | Model | Size | Algorithm | GPUs | Wall-Clock | GPU-Hours | Est. Cost | Framework |
 |-----|-------|------|-----------|------|-----------|-----------|-----------|-----------|
@@ -70,17 +70,17 @@ The table below compiles every published RLVR training run with disclosed comput
 | TinyZero [^9] | Qwen2.5-3B | 3B | PPO | 2×H200 | <5 hrs | <10 | <$30 | veRL |
 | R1-V [^5] | Qwen2-VL-2B | 2B VLM | GRPO | 8×A100 | 30 min | 4 | **$2.62** | TRL |
 
-DeepSeek-R1-Zero represents the largest published RLVR run: **512 H800 GPUs for 198 hours** training the 671B MoE model with GRPO.[^6][^7] The full DeepSeek-R1 pipeline (including V3 pre-training) consumed **2.788 million H800 GPU-hours** at an estimated **$5.58M**.[^7] At the other extreme, R1-V demonstrated that RLVR can deliver meaningful gains (2B model outperforming 72B on out-of-distribution visual reasoning) in just **30 minutes on 8 A100s for $2.62**.[^5] DeepScaleR's iterative context-length scaling approach (8K→16K→24K) reduced estimated compute from ~70K to just 3,800 A100-hours — demonstrating that **curriculum-based context scaling is a critical cost optimization** for RLVR.[^16]
+DeepSeek-R1-Zero represents the largest published RLVR run: **512 H800 GPUs for 198 hours** training the 671B MoE model with GRPO.[^6][^7] The full DeepSeek-R1 pipeline (including V3 pre-training) consumed **2.788 million H800 GPU-hours** at an estimated **$5.58M** (same order-of-magnitude $/GPU-hr caveat as [^42]).[^7] At the other extreme, community GRPO-on-VLM writeups report **~30 minutes on 8 A100s** with a **README-derived** total of **~$2.62** (GPU-hours × quoted rates)—use as an **illustration**, not a peer-reviewed benchmark.[^5] DeepScaleR's iterative context-length scaling approach (8K→16K→24K) reduced estimated compute from ~70K to just 3,800 A100-hours — demonstrating that **curriculum-based context scaling is a critical cost optimization** for RLVR.[^16]
 
 ---
 
 ## RLVR is faster than RLHF but far slower than SFT
 
-**GRPO eliminates the critic model that PPO requires**,[^9] reducing memory overhead by roughly 40–50% and boosting throughput by 1.7–2.5×.[^1] Traditional PPO-based RLHF requires four large models in GPU memory simultaneously (policy, reference, reward model, critic), while GRPO needs only two (policy and reference).[^9] DAPO goes further by removing the KL penalty entirely, eliminating even the reference model.[^14]
+**GRPO eliminates the critic model that PPO requires**,[^9] and practitioners often cite an **order-of-magnitude ~40–50% memory** savings versus four-model PPO+RM stacks—treat that band as a **heuristic**, not a controlled measurement in this note. Throughput gains in the AMD table are **measured**: GRPO is **1.7–2.5×** faster than PPO there.[^1] Traditional PPO-based RLHF requires four large models in GPU memory simultaneously (policy, reference, reward model, critic), while GRPO needs only two (policy and reference).[^9] DAPO goes further by removing the KL penalty entirely, eliminating even the reference model.[^14]
 
-The throughput hierarchy is clear from measured data. GRPO on a 7B model achieves **1,544 tok/GPU/s** versus PPO's **907 tok/GPU/s** on an H100 — a **1.70× improvement**.[^1] On MI300X, GRPO reaches **1,748 tok/GPU/s** versus PPO's **921 tok/GPU/s** (1.90×).[^1] Community estimates suggest GRPO reduces overall training costs to roughly **1/18th of traditional PPO-based RL methods** when accounting for memory savings that enable larger batch sizes.[^9]
+The throughput hierarchy is clear from measured data. GRPO on a 7B model achieves **1,544 tok/GPU/s** versus PPO's **907 tok/GPU/s** on an H100 — a **1.70× improvement**.[^1] On MI300X, GRPO reaches **1,748 tok/GPU/s** versus PPO's **921 tok/GPU/s** (1.90×).[^1] One **non-peer-reviewed** Substack overview claims GRPO can reduce overall training cost to roughly **1/18** of some traditional PPO-style RL setups when memory savings enable larger batches—use as anecdotal context, not a universal ratio.[^9]
 
-However, RLVR's rule-based verification advantage (no neural reward model forward pass) is substantially offset by its long rollouts. The DC-SFT paper measured directly: SFT achieves **4.9× higher training efficiency** than GRPO on equivalent VLM tasks.[^19] Multiple sources confirm the **5–10× slowdown** of online RL versus offline SFT, driven by autoregressive rollout generation consuming 70–90% of RL training time.[^3][^4][^20] A single RLVR training step can take **minutes to over an hour** depending on model size and rollout length, compared to seconds for SFT. The OLMo 3 32B reasoner allocated **20 H100 nodes for inference alongside 8 for training** — inference consumed 5–14× more compute than policy updates, with learner GPUs idle 75% of the time waiting for rollout data.[^11]
+However, RLVR's rule-based verification advantage (no neural reward model forward pass) is substantially offset by its long rollouts. The DC-SFT paper reports that in **their** VLM setting, SFT achieved about **4.9× higher training efficiency** than GRPO (see their tables for exact comparisons—do not read this as a universal constant across tasks).[^19] Multiple sources confirm the **5–10× slowdown** of online RL versus offline SFT, driven by autoregressive rollout generation consuming 70–90% of RL training time.[^3][^4][^20] A single RLVR training step can take **minutes to over an hour** depending on model size and rollout length, compared to seconds for SFT. The OLMo 3 32B reasoner allocated **20 H100 nodes for inference alongside 8 for training** — inference consumed 5–14× more compute than policy updates, with learner GPUs idle 75% of the time waiting for rollout data.[^11]
 
 ---
 
@@ -102,11 +102,11 @@ Four major frameworks dominate RLVR training, each with distinct strengths. The 
 | **FP8 end-to-end** | ❌ | ❌ | ❌ | **✅** |
 | **Ease of use** | Medium | Medium-High | **Highest** | Low |
 
-**OpenRLHF** (9K GitHub stars, EMNLP 2025) is the throughput leader for dense models up to 70B, achieving **1.22–1.68× speedup over veRL** in long-CoT RLVR settings across 1.5B–14B models with 1K–8K generation lengths.[^2] Its Ray+vLLM+DeepSpeed architecture is battle-tested by Google, ByteDance, NVIDIA, and Tencent.[^21] The team explicitly recommends REINFORCE++-baseline for RLVR tasks due to its robustness across reward patterns.[^2]
+**OpenRLHF** (widely used open-source RLHF/RLVR stack; EMNLP 2025) is the throughput leader for dense models up to 70B in the OpenRLHF team’s own comparisons, achieving **1.22–1.68× speedup over veRL** in long-CoT RLVR settings across 1.5B–14B models with 1K–8K generation lengths.[^2] Its Ray+vLLM+DeepSpeed architecture is battle-tested by Google, ByteDance, NVIDIA, and Tencent.[^21] The team explicitly recommends REINFORCE++-baseline for RLVR tasks due to its robustness across reward patterns.[^2]
 
-**veRL** (15K GitHub stars, EuroSys 2025) has the **broadest algorithm support** and the largest proven scale — the DAPO paper's results were produced using veRL,[^14] and it has been validated on DeepSeek-V3 671B and Qwen3-235B MoE models.[^22] Its Megatron backend enables expert parallelism essential for MoE training. Note that OpenRLHF's published speed advantage was measured against veRL v0.4.0; veRL has since released significant optimizations through v0.7.1 that may have closed this gap.[^2][^22]
+**veRL** (EuroSys 2025; large public footprint on GitHub) has **broad algorithm support** and large proven scale — the DAPO paper's results were produced using veRL,[^14] and it has been validated on DeepSeek-V3 671B and Qwen3-235B MoE models.[^22] Its Megatron backend enables expert parallelism essential for MoE training. Note that OpenRLHF's published speed advantage was measured against veRL v0.4.0; veRL has since released significant optimizations through v0.7.1 that may have closed this gap.[^2][^22]
 
-**TRL** (3M monthly downloads, v1.0.0 March 2026) prioritizes accessibility over raw throughput.[^23] Its GRPOTrainer requires minimal code and integrates natively with Hugging Face's ecosystem. It is **~3.1× slower than OpenRLHF** on GRPO benchmarks,[^2] making it best suited for prototyping and smaller-scale training. The Open-R1 and Mini-R1 reproduction projects both use TRL.[^18]
+**TRL** (Hugging Face; frequent releases) prioritizes accessibility over raw throughput.[^23] Its GRPOTrainer requires minimal code and integrates natively with Hugging Face's ecosystem. It is **~3.1× slower than OpenRLHF** on GRPO benchmarks,[^2] making it best suited for prototyping and smaller-scale training. The Open-R1 and Mini-R1 reproduction projects both use TRL.[^18]
 
 **NeMo RL** (successor to deprecated NeMo-Aligner) is NVIDIA's enterprise offering, uniquely supporting **end-to-end FP8 training** and Megatron Core's full 3D parallelism suite.[^24] It trained Nemotron 3 Nano with GRPO across multiple environments simultaneously, using up to 49K-token generation lengths.[^25]
 
@@ -116,7 +116,7 @@ Notable emerging frameworks include **AReaL** (Ant Group/Tsinghua), achieving **
 
 ## Cloud GPU pricing for RLVR workloads in April 2026
 
-RLVR training demands multi-GPU clusters with high-bandwidth interconnect (NVLink intra-node, InfiniBand inter-node). Prices below are per GPU per hour, verified from provider websites and aggregators in March–April 2026.[^26][^27][^28][^29][^30]
+RLVR training demands multi-GPU clusters with high-bandwidth interconnect (NVLink intra-node, InfiniBand inter-node). Prices below are per GPU per hour, transcribed from provider websites and aggregators in March–April 2026 where footnoted.[^26][^27][^28][^29][^30] Rows without an inline [^n] (e.g. some prepaid or bare-metal SKUs) should be **spot-checked on the vendor site**—live quotes move weekly.[^41]
 
 ### H100 SXM 80GB
 
@@ -208,7 +208,7 @@ MI300X provides a **30–45% cost advantage** over H100 for RLVR training at cur
 
 ## Long rollouts dominate RLVR cost structure
 
-The defining characteristic of RLVR versus traditional RLHF is the length of generated rollouts. While RLHF typically generates 512–2048 token responses, RLVR reasoning chains routinely reach **8K–32K tokens**, with production systems like DAPO using max_response_length of **20,480 tokens**[^14] and NeMo RL's Nemotron training reaching **49K tokens**.[^25] Production RLVR workload characterization (PolyTrace) shows math reasoning tasks averaging **~9,839 output tokens** per sample.[^32]
+The defining characteristic of RLVR versus traditional RLHF is the length of generated rollouts. While RLHF typically generates 512–2048 token responses, RLVR reasoning chains routinely reach **8K–32K tokens**, with production systems like DAPO using max_response_length of **20,480 tokens**[^14] and NeMo RL's Nemotron training reaching **49K tokens**.[^25] Production RLVR workload characterization (PolyTrace) shows math reasoning tasks averaging **~9,839 output tokens** per sample.[^4]
 
 **Rollout generation consumes 70–90% of total RLVR training time.**[^3][^4] This means the bottleneck is autoregressive decoding — a memory-bandwidth-bound operation that cannot be trivially accelerated by adding more compute. Each GRPO step generates **G completions per prompt** (typically G=8–64; DeepSeek-R1 used G=64 [^6]), multiplying the generation burden. For a concrete example from the HuggingFace "Keep the Tokens Flowing" analysis:[^20] generating 512 rollouts at 8K tokens for a 32B model on 8 H100 inference GPUs takes approximately **7 minutes for generation alone**, before any gradient computation.
 
@@ -219,7 +219,7 @@ The long-tail distribution of rollout lengths creates severe GPU idling. ROLL Fl
 - **Overlong reward shaping** (DAPO [^14]) applies soft penalties for responses exceeding a threshold rather than hard truncation, preventing training instability
 - **Token-level policy gradient loss** (DAPO,[^14] veRL [^22]) averages loss across total tokens rather than per-sample-then-per-batch, preventing gradient dilution for long sequences
 - **Dr. GRPO's debiased advantage** [^17] removes variance normalization and length divisors from GRPO, eliminating bias toward shorter responses and providing unbiased policy gradients
-- **Clip-Higher** (DAPO [^14]) uses asymmetric clipping (ε_low=0.2, ε_high=0.28) to preserve exploration by allowing more room for increasing low-probability tokens, combating entropy collapse
+- **Clip-Higher** (DAPO [^14]) uses asymmetric clipping (ε_low=0.2, ε_high=0.28) to preserve exploration by allowing more room for increasing low-probability tokens, combating entropy collapse; related asymmetric clipping ideas appear in **VAPO**.[^37]
 - **NAT (Not All Tokens are Needed)** [^33] performs policy optimization on only **~50% of tokens** from each rollout while computing rewards on full responses, reducing activation memory
 - **FP8 precision** (JetRL [^34]) achieves 1.07–1.33× rollout speedup, but naive mixed-precision (BF16 training + FP8 rollout) fails catastrophically at context lengths beyond 8K due to numerical precision mismatches
 - **Iterative context scaling** (DeepScaleR [^16]) trains at 8K→16K→24K progressively, reducing total compute by **~18×** versus training at maximum length from the start
@@ -234,17 +234,17 @@ Every number in this report carries a confidence level that readers should under
 
 **Measured benchmarks (high confidence):** The AMD ROCm Blog GRPO/PPO throughput numbers (veRL v0.3, 7B models, 8 GPUs, GSM8K) are reproducible and well-documented; the post is **RLHF-branded** but the table is **verifiable-reward GRPO/PPO**, not neural-reward-model RLHF. Yotta Labs reports overlapping MI300X / veRL measurements.[^1][^8] DeepSeek-R1-Zero's training configuration (512×H800, ~198 hours) was disclosed via Stanford FMTI and Nature supplementary materials.[^6][^7] OpenRLHF vs TRL timing comparisons come from the peer-reviewed EMNLP 2025 paper.[^2]
 
-**Derived with caveats (medium confidence):** Wall-clock times and GPU-hours for open-source reproductions (DeepScaleR,[^16] SimpleRL-Zoo,[^15] Dr. GRPO [^17]) come from GitHub READMEs, blog posts, and WandB logs — credible but not peer-reviewed. The 70–90% rollout time proportion is consistent across ROLL Flash,[^3] veRL,[^22] OpenRLHF,[^2] and NAT [^33] papers. The RLVR vs SFT slowdown factor (5–10×) comes from the DC-SFT paper's direct measurement (4.9×)[^19] and production reports.[^11]
+**Derived with caveats (medium confidence):** Wall-clock times and GPU-hours for open-source reproductions (DeepScaleR,[^16] SimpleRL-Zoo,[^15] Dr. GRPO [^17]) come from GitHub READMEs, blog posts, and WandB logs — credible but not peer-reviewed. The 70–90% rollout time proportion is consistent across ROLL Flash,[^3] veRL,[^22] OpenRLHF,[^2] and NAT [^33] papers. The RLVR vs SFT slowdown band (5–10×) combines DC-SFT’s **in-paper** ~4.9× VLM comparison[^19] with production-style reports.[^11]
 
-**Estimated with significant uncertainty (lower confidence):** Throughput estimates for 14B, 32B, and 70B models are **extrapolations** from 7B measured data combined with vLLM inference scaling ratios. Real-world throughput depends heavily on batch size, parallelism strategy, sequence length, and framework optimizations. The 14B–70B rows in the throughput and cost tables should be treated as rough order-of-magnitude guides, not precision benchmarks. Cloud GPU pricing fluctuates; spot/marketplace rates (especially Vast.ai [^29]) can vary by **2–3×** within a single week. The OpenRLHF vs veRL framework comparison was published by the OpenRLHF team [^2] against an older veRL version (v0.4.0); veRL's subsequent optimizations through v0.7.1 may have changed this relationship.[^22]
+**Estimated with significant uncertainty (lower confidence):** Throughput estimates for 14B, 32B, and 70B models are **extrapolations** from 7B measured data combined with a **heuristic** inference scaling ratio (not a single cited benchmark row).[^40] Real-world throughput depends heavily on batch size, parallelism strategy, sequence length, and framework optimizations. The 14B–70B rows in the throughput and cost tables should be treated as rough order-of-magnitude guides, not precision benchmarks. Cloud GPU pricing fluctuates; spot/marketplace rates (especially Vast.ai [^29]) can vary by **2–3×** within a single week. Un-footnoted list prices should be reverified on provider pages.[^41] The OpenRLHF vs veRL framework comparison was published by the OpenRLHF team [^2] against an older veRL version (v0.4.0); veRL's subsequent optimizations through v0.7.1 may have changed this relationship.[^22]
 
-**Unresolved gaps:** No published **long-rollout RLVR** throughput tables (8K–32K tokens) match the transparency of the short-GSM8K AMD numbers; no published RLVR-oriented throughput benchmarks exist for H200 GPUs in this note’s sense. No framework has published comparable benchmarks across all GPU types. Qwen/QwQ training compute has never been publicly disclosed. DAPO's total GPU-hours on 128×H20 were not reported.[^14] The interaction between long rollout lengths (8K–32K) and per-token throughput under GPU memory pressure lacks systematic benchmarking — current data either measures short (1K) rollouts or reports only wall-clock totals without per-token rates.
+**Unresolved gaps:** **Few** public **long-rollout RLVR** throughput tables (8K–32K tokens) match the transparency of the short-GSM8K AMD numbers; **few** RLVR-oriented throughput benchmarks in this note’s sense exist for H200 GPUs. No framework has published comparable benchmarks across all GPU types. Qwen/QwQ training compute has never been publicly disclosed. DAPO's total GPU-hours on 128×H20 were not reported.[^14] The interaction between long rollout lengths (8K–32K) and per-token throughput under GPU memory pressure lacks systematic benchmarking — current data either measures short (1K) rollouts or reports only wall-clock totals without per-token rates.
 
 ---
 
 ## Conclusion
 
-RLVR training costs are dominated by a single bottleneck: **autoregressive rollout generation of long reasoning chains**.[^3][^4] The algorithmic efficiency of GRPO over PPO (1.7–2.5× throughput advantage,[^1] ~40% memory reduction [^9]) is real but secondary to the 70–90% of wall-clock time spent generating 8K–32K token completions.[^3][^11] The most impactful cost optimizations are therefore architectural — asynchronous training (2–2.8× speedup [^3][^20]), dynamic sampling (3× step reduction [^14]), and iterative context scaling (18× compute reduction [^16]) — rather than hardware-level. At current market rates, MI300X at $1.99/GPU/hr with 13% higher GRPO throughput than H100 offers the best raw price-performance,[^1][^28] though H100's broader framework support and InfiniBand availability make it the safer choice for production runs. The framework choice matters enormously: OpenRLHF's 3.1× advantage over TRL and 1.2–1.7× over veRL v0.4 on identical hardware [^2] represents a larger throughput delta than any GPU generational improvement. For organizations planning RLVR training, the decision tree is: **veRL or NeMo RL for MoE models above 200B**,[^22][^24] **OpenRLHF for dense models up to 70B where throughput is critical**,[^2] and **TRL for rapid prototyping** [^23] — then invest heavily in the async and dynamic sampling optimizations that cut wall-clock time by 2–3× regardless of hardware choice.
+RLVR training costs are dominated by a single bottleneck: **autoregressive rollout generation of long reasoning chains**.[^3][^4] The algorithmic efficiency of GRPO over PPO (1.7–2.5× measured throughput advantage,[^1] plus the **heuristic** “fewer resident models” memory story [^9]) is real but secondary to the 70–90% of wall-clock time spent generating 8K–32K token completions.[^3][^11] The most impactful cost optimizations are therefore architectural — asynchronous training (2–2.8× speedup [^3][^20]), dynamic sampling (3× step reduction [^14]), and iterative context scaling (18× compute reduction [^16]) — rather than hardware-level. At current market rates, MI300X at $1.99/GPU/hr with 13% higher GRPO throughput than H100 offers the best raw price-performance,[^1][^28] though H100's broader framework support and InfiniBand availability make it the safer choice for production runs. The framework choice matters enormously: OpenRLHF's 3.1× advantage over TRL and 1.2–1.7× over veRL v0.4 on identical hardware [^2] represents a larger throughput delta than any GPU generational improvement. For organizations planning RLVR training, the decision tree is: **veRL or NeMo RL for MoE models above 200B**,[^22][^24] **OpenRLHF for dense models up to 70B where throughput is critical**,[^2] and **TRL for rapid prototyping** [^23] — then invest heavily in the async and dynamic sampling optimizations that cut wall-clock time by 2–3× regardless of hardware choice.
 
 ---
 
@@ -258,7 +258,7 @@ RLVR training costs are dominated by a single bottleneck: **autoregressive rollo
 
 [^4]: "RL in the Wild: Characterizing RLVR Training in LLM Deployment." arXiv:2509.25279. https://arxiv.org/html/2509.25279
 
-[^5]: PhotoAtomic. "R1-V: Witness the aha moment of VLM with less than $3." GitHub, 2025. https://github.com/PhotoAtomic/deep-agent-R1-V
+[^5]: **$2.62 / “R1-V” row:** The table summarizes **community README / blog** claims (GPU-hours × quoted $/hr), not a paper. For the **R1-VL** line of work see e.g. Chen et al. "R1-VL: Advancing Multimodal Reasoning from Optimized Cold Start to Staged Reinforcement Learning." arXiv:2503.12937. https://arxiv.org/abs/2503.12937 | GitHub: https://github.com/jingyi0000/R1-VL — Related small-VLM GRPO artifacts include lmms-lab’s Qwen2-VL-2B-GRPO-8k card: https://huggingface.co/lmms-lab/Qwen2-VL-2B-GRPO-8k — Third-party cost writeup (example): PhotoAtomic. "R1-V: Witness the aha moment of VLM with less than $3." https://github.com/PhotoAtomic/deep-agent-R1-V
 
 [^6]: Stanford CRFM. "DeepSeek Transparency Report." FMTI December 2025. https://crfm.stanford.edu/fmti/December-2025/company-reports/DeepSeek_FinalReport_FMTI2025.html
 
@@ -278,13 +278,13 @@ RLVR training costs are dominated by a single bottleneck: **autoregressive rollo
 
 [^14]: DAPO Team (ByteDance Seed). "DAPO: An Open-Source LLM Reinforcement Learning System at Scale." arXiv:2503.14476. https://arxiv.org/abs/2503.14476 | https://arxiv.org/pdf/2503.14476 | https://dapo-sia.github.io/
 
-[^15]: SimpleRL-Zoo. veRL-based reproduction. https://github.com/volcengine/verl (community recipe)
+[^15]: SimpleRL-Zoo (THU-ML / community recipes on veRL). "SimpleRL-Zoo: Investigating and Taming Zero-shot Reinforcement Learning for Open Base Models in the Wild." arXiv:2503.18892. https://arxiv.org/abs/2503.18892 | Hugging Face Papers: https://huggingface.co/papers/2503.18892 | veRL GitHub (framework used in many recipes): https://github.com/volcengine/verl
 
 [^16]: "DeepScaleR: Achieving Superior Performance with a Small Model Through Reinforcement Learning." Medium / arXiv. https://medium.com/@jenray1986/deepscaler-achieving-superior-performance-with-a-small-model-through-reinforcement-learning-562a4381c11f
 
-[^17]: Dr. GRPO paper. arXiv. Referenced via OpenRLHF/veRL ecosystem.
+[^17]: **Dr. GRPO** (debiased GRPO / “Understanding R1-Zero-like training”): Liu et al. "Understanding R1-Zero-Like Training: A Perspective of Model Specialization." arXiv:2503.20783. https://arxiv.org/abs/2503.20783 | Code: https://github.com/sail-sg/understand-r1-zero | Oat implementation (as in the cost table): https://github.com/sail-sg/oat — *Note:* Other papers reuse “Dr. GRPO” wording for different fixes (e.g. noise-corrected variants on arXiv); this note means Liu et al. unless stated otherwise.
 
-[^18]: Open-R1 / Mini-R1 community reproductions (TRL-based). Referenced via OpenRLHF comparisons in [^2].
+[^18]: **Open-R1** (Hugging Face). GitHub: https://github.com/huggingface/open-r1 (includes `grpo.py` and training scripts). **Mini-R1** tutorial (Countdown / “aha moment”): https://huggingface.co/blog/open-r1/mini-r1-contdown-game — microR1 and similar rows in the table are other small-model GRPO reproductions tracked from READMEs; treat timings/costs as **illustrative**.
 
 [^19]: "Why Does RL Generalize Better Than SFT? A Data-Centric Perspective on VLM Post-Training." arXiv:2602.10815. https://arxiv.org/html/2602.10815v1
 
@@ -312,8 +312,6 @@ RLVR training costs are dominated by a single bottleneck: **autoregressive rollo
 
 [^31]: Lambda Labs GPU Cloud. https://lambdalabs.com/service/gpu-cloud (1-Click Clusters and on-demand instances)
 
-[^32]: "RL in the Wild: Characterizing RLVR Training in LLM deployment." arXiv:2509.25279v1. https://arxiv.org/html/2509.25279v1
-
 [^33]: "Not All Tokens are Needed: Token-Efficient Reinforcement Learning." arXiv:2603.06619. https://arxiv.org/html/2603.06619
 
 [^34]: "Jet-RL: Enabling On-Policy FP8 Reinforcement Learning with Unified Training and Rollout Precision Flow." arXiv:2601.14243. https://arxiv.org/html/2601.14243
@@ -325,3 +323,11 @@ RLVR training costs are dominated by a single bottleneck: **autoregressive rollo
 [^37]: "VAPO: Efficient and Reliable Reinforcement Learning for Advanced Reasoning Tasks." arXiv:2504.05118. https://arxiv.org/html/2504.05118v1
 
 [^38]: veRL Documentation. "GSM8K Example." Notes the Cobbe et al. paper focuses on a verifier for Best-of-N, while the veRL walkthrough uses a rule-based reward on GSM8K and refers to the setup as an RLHF agent. https://verl.readthedocs.io/en/latest/examples/gsm8k_example.html | Cobbe et al. "Training Verifiers to Solve Math Word Problems." arXiv:2110.14168. https://arxiv.org/pdf/2110.14168
+
+[^39]: Su, Y. et al. "Crossing the Reward Bridge: Expanding RL with Verifiable Rewards Across Diverse Domains." arXiv:2503.23829 (RL with verifiable rewards across domains). https://arxiv.org/abs/2503.23829
+
+[^40]: **Inference throughput ratio (7B vs 32B):** vLLM documents throughput *measurement* APIs and practices (e.g. benchmark utilities in the project docs). https://docs.vllm.ai/en/latest/api/vllm/benchmarks/throughput.html — This note does **not** cite a single row that yields “6.3k → 1.2k tok/s”; the **~5×** class ratio used in extrapolations is an **uncalibrated heuristic** from informal community reports—re-benchmark for your model, batch, and backend.
+
+[^41]: **Pricing rows without inline citations:** Figures for some prepaid, bare-metal, or list SKUs (e.g. FluidStack, Vultr long-commit, TensorWave, Crusoe) were transcribed from public pages in **March–April 2026** and **will drift**; confirm list/contract rates before budgeting.
+
+[^42]: **Dollar cost column (DeepSeek and similar):** Where a source publishes GPU-hours but not total spend, this note uses an **illustrative ~USD 2 per H800 GPU-hour** (order-of-magnitude cloud list pricing) to turn hours into **~$200K / ~$82K** style totals—**not** DeepSeek’s invoice. Stanford FMTI and DeepSeek-V3 report give the underlying hour disclosures.[^6][^7]
