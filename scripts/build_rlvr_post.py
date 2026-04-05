@@ -345,9 +345,9 @@ def main() -> None:
     <meta property="og:url" content="{canonical}">
     <meta property="og:image" content="https://abhinavnandwani.com/images/profile.png">
     <link rel="canonical" href="{canonical}">
-    <link rel="icon" href="/favicon.ico?v=4" sizes="any">
-    <link rel="icon" href="/images/favicon.svg?v=4" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/images/favicon-192x192.png?v=4">
+    <link rel="icon" href="/favicon.ico?v=5" sizes="any">
+    <link rel="icon" href="/images/favicon.svg?v=5" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/images/favicon-192x192.png?v=5">
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" crossorigin="anonymous"></script>
 </head>
