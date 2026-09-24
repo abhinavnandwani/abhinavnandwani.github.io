@@ -76,6 +76,47 @@ uv run python scripts/serve_livereload.py
 
 ## Deployment
 
+### Learning Resources
+
+The canonical CAE guide manuscripts, PDFs, and lab live in
+[cae-synopsys-guides](https://github.com/abhinavnandwani/cae-synopsys-guides).
+Clone it alongside this repository, then regenerate the web editions with:
+
+```bash
+python3 scripts/build_learning.py --source ../cae-synopsys-guides
+```
+
+The renderer uses Python's standard library. It reads the same manuscripts and
+image crop definitions as the document builders, copies the existing PDFs and
+original screenshots, and writes five static pages under `learning/`.
+`learning/cae-synopsys/source-manifest.json` records content hashes. Update the
+canonical manuscripts and rebuild their PDFs first; never edit the generated
+guide HTML independently. Check desktop and narrow layouts, copy buttons,
+section links, screenshots, and downloads after rebuilding.
+
+### Analytics
+
+Umami tracks production pageviews across the site. The tracker is restricted to
+`abhinavnandwani.com` and `www.abhinavnandwani.com`, so localhost previews do not
+record traffic. Hash changes from guide section links are excluded.
+
+Dashboard:
+https://cloud.umami.is/analytics/us/websites/296d775c-3d14-4127-9e02-99e92e9e109f
+
+- Use Pages to compare the three guide paths and Sources for referrers.
+- Events records `PDF download`, `GitHub click`, and successful `Copy command`.
+- Filter the event's `guide` property by `verification`, `rtl`, or `pd`.
+  Overview links use `all`. Copy events also include the section and block number.
+- A PDF event counts a download click, not completion or an offline read.
+  A GitHub click does not establish a clone. Visitors are estimates, not a list
+  of students or proof that someone completed a guide.
+- Add UTM parameters to shared page links when useful, for example
+  `?utm_source=discord&utm_medium=community&utm_campaign=cae-guides`.
+
+No API key or login credential is embedded in the site. The website ID in the
+public tracking snippet identifies the analytics destination. Guide controls
+remain usable if analytics is blocked. The reading pages also work without JS.
+
 ```bash
 # Commit changes
 git add .

@@ -31,6 +31,8 @@ build/
 develop-eggs/
 dist/
 downloads/
+!learning/cae-synopsys/downloads/
+!learning/cae-synopsys/downloads/*.pdf
 eggs/
 .eggs/
 lib/

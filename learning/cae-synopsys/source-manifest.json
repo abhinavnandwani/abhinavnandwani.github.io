@@ -1,0 +1,36 @@
+{
+  "source_repository": "https://github.com/abhinavnandwani/cae-synopsys-guides",
+  "guides": {
+    "verification": {
+      "sections": 16,
+      "code_blocks": 8,
+      "expanded_manuscript_sha256": "9f6cec56fc63f3bf9c9ec3255d4fc0bb88ab9b84791582748583775cddd538f4",
+      "pdf_sha256": "0c76c0d09796e52487c7504ce7b13147477dc66d66d208bf09f749425049a460"
+    },
+    "rtl": {
+      "sections": 15,
+      "code_blocks": 11,
+      "expanded_manuscript_sha256": "d98e1c78f572e4dc790166ee3dc617590b441f9eef3159b94ad2a52024a8f3b3",
+      "pdf_sha256": "932e989eb415253dc0bdaf7679a1edd65c6c28f72c84de14aabcf27715d606d5"
+    },
+    "pd": {
+      "sections": 19,
+      "code_blocks": 15,
+      "expanded_manuscript_sha256": "5ca9cb9e54a5d41ea3411803cdebffdc39439ee90c8fb3de141d0de77a2aa927",
+      "pdf_sha256": "52170a55d4726228baad28c4f1711a4c9350ee693956951ed201dc5914af785e"
+    }
+  },
+  "images": [
+    "02-apps-terminal.png",
+    "v2-coverage.png",
+    "v2-dv-schematic.png",
+    "v2-dv-timing-dialog.png",
+    "v2-environment.png",
+    "v2-failure.png",
+    "v2-icc2-floorplan.png",
+    "v2-rtl.png",
+    "v2-simulation-pass.png",
+    "v2-verdi-overview.png",
+    "v2-verdi-waveform.png"
+  ]
+}

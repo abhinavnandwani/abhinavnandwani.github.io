@@ -1,0 +1,78 @@
+html { scroll-behavior: auto; }
+.learning-main { padding-top: 2.5rem; padding-bottom: 3rem; }
+.learning-header { max-width: 850px; margin-bottom: 2.5rem; }
+.learning-header h1 { margin: .75rem 0 1rem; line-height: 1.15; }
+.learning-header .lede { font-size: 1.12rem; color: var(--text-secondary); }
+.eyebrow, .guide-meta { font-size: .82rem; color: var(--text-tertiary); }
+.eyebrow { text-transform: uppercase; letter-spacing: .12em; font-weight: 600; }
+.breadcrumbs { font-size: .84rem; margin-bottom: 1.6rem; color: var(--text-tertiary); }
+.breadcrumbs a { text-decoration: none; }
+.guide-meta { margin-top: 1rem; }
+.guide-actions { display: flex; flex-wrap: wrap; gap: .7rem; margin: 1.5rem 0; }
+.guide-actions a { border: 1px solid var(--border-secondary); padding: .5rem .85rem; border-radius: 6px; text-decoration: none; font-size: .88rem; background: var(--bg-secondary); }
+.guide-actions a:hover { border-color: var(--accent-primary); }
+.resource-list { border-top: 1px solid var(--border-primary); margin: 2rem 0; }
+.resource-row { display: grid; grid-template-columns: 2.2rem 1fr auto; gap: 1.4rem; padding: 1.8rem 0; border-bottom: 1px solid var(--border-primary); align-items: start; }
+.resource-row .number { font-size: .85rem; color: var(--text-tertiary); padding-top: .25rem; }
+.resource-row h2 { margin: 0 0 .5rem; font-size: 1.35rem; }
+.resource-row h2 a { text-decoration: none; color: var(--text-primary); }
+.resource-row h2 a:hover { color: var(--accent-primary); }
+.resource-row p { margin: 0; max-width: 680px; color: var(--text-secondary); }
+.resource-row .tools { margin-top: .6rem; font-size: .83rem; color: var(--text-tertiary); }
+.resource-row .pdf-link { white-space: nowrap; font-size: .85rem; }
+.overview-body { max-width: 850px; }
+.overview-body p { margin: 1rem 0; }
+.guide-layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 3.5rem; align-items: start; }
+.guide-toc { position: sticky; top: 120px; max-height: calc(100vh - 145px); overflow: auto; font-size: .8rem; padding-right: 1rem; }
+.guide-toc summary { font-weight: 600; margin-bottom: .75rem; cursor: pointer; }
+.guide-toc ol { list-style: none; margin: 0; padding: 0; }
+.guide-toc li { margin-bottom: .65rem; line-height: 1.45; }
+.guide-toc a { display: block; color: var(--text-secondary); text-decoration: none; }
+.guide-toc a:hover { color: var(--accent-primary); text-decoration: underline; }
+.guide-content { min-width: 0; max-width: 870px; }
+.guide-content h2 { margin: 3rem 0 1rem; padding-top: 1.5rem; border-top: 1px solid var(--border-primary); scroll-margin-top: 150px; line-height: 1.35; font-size: 1.55rem; }
+.guide-content h2:first-child { margin-top: 0; padding-top: 0; border: 0; }
+.guide-content p { margin: 1rem 0; }
+.guide-content li { margin: .7rem 0; padding-left: .25rem; }
+.guide-content ol, .guide-content ul { padding-left: 1.5rem; }
+.guide-content a, .overview-body a { overflow-wrap: anywhere; text-underline-offset: 3px; }
+.guide-content a:not(.copy-code), .overview-body a { text-decoration: underline; }
+.guide-content code, .overview-body code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .87em; overflow-wrap: anywhere; background: var(--bg-tertiary); }
+.code-block { position: relative; margin: 1.4rem 0; border: 1px solid var(--border-secondary); border-radius: 7px; background: var(--bg-tertiary); }
+.code-block pre { overflow-x: auto; padding: 3rem 1.1rem 1.1rem; margin: 0; line-height: 1.65; }
+.code-block code { font-size: .81rem; white-space: pre; overflow-wrap: normal; color: var(--text-primary); }
+.copy-code { position: absolute; right: .65rem; top: .55rem; padding: .25rem .55rem; font: inherit; font-size: .74rem; cursor: pointer; color: var(--text-secondary); background: var(--bg-secondary); border: 1px solid var(--border-secondary); border-radius: 4px; }
+.copy-code:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+.guide-content figure { margin: 1.8rem 0; }
+.screenshot-crop { position: relative; overflow: hidden; width: 100%; background: #fff; border-radius: 4px; outline: 1px solid var(--border-primary); }
+.screenshot-crop img { position: absolute; max-width: none; height: auto; }
+.guide-content figcaption { color: var(--text-tertiary); font-size: .81rem; line-height: 1.6; margin-top: .6rem; }
+.screenshot-link { display: inline-block; margin-left: .3rem; }
+.table-scroll { overflow-x: auto; margin: 1.4rem 0; border: 1px solid var(--border-primary); border-radius: 5px; }
+.guide-content table { width: 100%; border-collapse: collapse; font-size: .87rem; }
+.guide-content th, .guide-content td { padding: .7rem .8rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border-primary); }
+.guide-content th { background: var(--bg-tertiary); font-weight: 600; }
+.guide-content tr:last-child td { border-bottom: 0; }
+.guide-note { border-left: 3px solid var(--accent-primary); padding: .1rem 1.2rem; margin: 1.5rem 0; color: var(--text-secondary); }
+.guide-note p { margin: .5rem 0; }
+.guide-end { border-top: 1px solid var(--border-primary); margin-top: 3rem; padding-top: 1rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.skip-link { position: absolute; top: -100px; left: 1rem; padding: .5rem 1rem; background: var(--bg-secondary); z-index: 200; }
+.skip-link:focus { top: .5rem; }
+@media (max-width: 1000px) {
+  .guide-layout { grid-template-columns: 1fr; gap: 2rem; }
+  .guide-toc { position: static; max-height: none; padding: 1rem 1.2rem; border: 1px solid var(--border-primary); border-radius: 6px; }
+  .guide-toc ol { columns: 2; column-gap: 2rem; }
+  .guide-toc li { break-inside: avoid; }
+  .guide-content { max-width: none; }
+}
+@media (max-width: 600px) {
+  .learning-main { padding-top: 1.5rem; }
+  .learning-header h1 { font-size: 2rem; }
+  .learning-header .lede { font-size: 1rem; }
+  .resource-row { grid-template-columns: 1.5rem 1fr; gap: .75rem; }
+  .resource-row .pdf-link { grid-column: 2; }
+  .guide-toc ol { columns: 1; }
+  .guide-content h2 { font-size: 1.3rem; scroll-margin-top: 200px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
