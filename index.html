@@ -3,100 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/js/theme.js"></script>
+    <script src="/js/theme.js?v=20260923"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <title>Abhinav Nandwani</title>
-    <meta name="description" content="Applied AI Labs @ AMD — agentic AI for silicon design, benchmarks, waveform tooling. B.S. CE &amp; CS, UW–Madison.">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;600;650;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+    <title>Abhinav Nandwani | Silicon, software &amp; everything between</title>
+    <meta name="description" content="Applied AI Labs @ AMD: agentic AI for silicon design, benchmarks, waveform tooling. B.S. CE &amp; CS, UW–Madison.">
     <meta property="og:title" content="Abhinav Nandwani">
-    <meta property="og:description" content="Applied AI Labs @ AMD — chip-design agents, benchmarks, waveforms; Wang Lab genomics ML.">
+    <meta property="og:description" content="Applied AI Labs @ AMD: chip-design agents, benchmarks, waveforms; Wang Lab genomics ML.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://abhinavnandwani.com/">
-    <meta property="og:image" content="https://abhinavnandwani.com/images/profile.png">
+    <meta property="og:image" content="https://abhinavnandwani.com/images/abhinav-lakeside.jpg">
     <link rel="canonical" href="https://abhinavnandwani.com/">
     <link rel="icon" href="/favicon.ico?v=5" sizes="any">
     <link rel="icon" href="/images/favicon.svg?v=5" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/images/favicon-192x192.png?v=5">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=20260923">
     <script defer src="https://cloud.umami.is/script.js" data-website-id="296d775c-3d14-4127-9e02-99e92e9e109f" data-domains="abhinavnandwani.com,www.abhinavnandwani.com" data-exclude-hash="true"></script>
+    <script defer src="/js/home.js"></script>
 </head>
-<body>
-    <nav>
-        <div class="container">
-            <div class="nav-brand">
-                <a href="/" class="nav-home">Abhinav Nandwani</a>
-                <ul class="nav-inline">
-                    <li><a href="/learning/">Learning Resources</a></li>
-                    <li><a href="/blog.html">Blog</a></li>
-                </ul>
-            </div>
-            <ul class="nav-links nav-external" aria-label="Site and profiles">
-                <li><a href="/resume.html">Resume</a></li>
-                <li><a href="mailto:nandwani2@wisc.edu">Email</a></li>
-                <li><a href="https://github.com/abhinavnandwani" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                <li><a href="https://www.linkedin.com/in/abhinavnandwani" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                <li><a href="https://scholar.google.com/citations?user=KEqTDt4AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
-            </ul>
-        </div>
-    </nav>
+<body id="top" class="home-page">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav>
+  <div class="container nav-inner">
+    <a href="/" class="nav-home" aria-label="Abhinav Nandwani home"><span class="monogram" aria-hidden="true">an.</span><span>abhinav nandwani</span></a>
+    <div class="nav-right">
+      <ul class="nav-links" aria-label="Main navigation">
+        <li><a href="/#work">Work</a></li>
+        <li><a href="/blog.html">Writing</a></li>
+        <li><a href="/learning/">Learning Resources</a></li>
+        <li><a href="/resume.html">Résumé</a></li>
+      </ul>
+      <button type="button" class="theme-toggle" aria-label="Switch to dark theme" title="Change color theme"><span class="theme-symbol" aria-hidden="true">◐</span></button>
+    </div>
+  </div>
+</nav>
+<main id="main">
+  <section class="home-intro container" aria-labelledby="intro-title">
+    <div class="intro-topline"><span class="eyebrow">Engineer. Researcher. Perpetually curious.</span><a href="#about" class="current-label"><span class="status-dot" aria-hidden="true"></span>Applied AI Labs @ AMD <span aria-hidden="true">↘</span></a></div>
+    <div class="intro-grid">
+      <div class="intro-copy">
+        <p class="hello-note">Hey, I’m Abhinav.</p>
+        <h1 id="intro-title">Somewhere<br>between <em>silicon</em><br>&amp; software.</h1>
+        <p class="intro-description">I work on AI for chip design. I’m interested in what happens when models meet real engineering: the tools, the tests, and the hardware underneath it all.</p>
+        <a class="text-link" href="#work">A few things I’ve worked on <span aria-hidden="true">↘</span></a>
+      </div>
+      <figure class="portrait-composition">
+        <div class="portrait-grid" aria-hidden="true"></div>
+        <svg class="portrait-wiring" viewBox="0 0 420 500" fill="none" aria-hidden="true"><path d="M12 56H80L110 86V149M374 145H407V359H337M83 396V457H213L246 424"/><circle cx="12" cy="56" r="4"/><circle cx="337" cy="359" r="4"/><circle cx="246" cy="424" r="4"/><path class="wire-accent" d="M16 355H61L84 332H153"/><circle class="wire-accent" cx="16" cy="355" r="4"/></svg>
+        <div class="portrait-frame"><span class="portrait-crop"><img src="/images/abhinav-lakeside.jpg" width="768" height="1024" alt="Portrait of Abhinav Nandwani beside a lake" fetchpriority="high"></span><span class="photo-corner" aria-hidden="true">+</span></div>
+        <div class="portrait-sticker" aria-hidden="true"><span>AI ↔ HW</span><small>both sides of the stack</small></div>
+        <figcaption>Abhinav Nandwani<span>CE + CS · UW–Madison</span></figcaption>
+      </figure>
+    </div>
+    <div class="intro-bottom"><span>Models → systems → silicon</span><a href="https://github.com/abhinavnandwani" target="_blank" rel="noopener noreferrer">Find me on GitHub ↗</a></div>
+  </section>
 
-    <main class="container">
-        <div class="hero">
-            <div class="hero-content">
-                <header class="page-header">
-                    <h1>Abhinav Nandwani</h1>
-                    <p class="subtitle">Applied AI Labs @ AMD · B.S. Computer Engineering &amp; Computer Science, UW–Madison</p>
-                </header>
+  <section id="work" class="work-section container" aria-labelledby="work-title">
+    <div class="section-heading"><p class="eyebrow">01 / Selected work</p><h2 id="work-title">Ideas, with <em>evidence.</em></h2><span class="margin-note">Build it. Test it. Look closer.</span></div>
+    <article class="work-feature">
+      <div class="work-feature-copy"><span class="project-index">01.A / Applied AI</span><h3>AI that can do<br>the engineering.</h3><p>At AMD’s Applied AI Labs, I work on coding-assistant evaluation, simulation-based feedback, and tools that help designers make sense of waveforms. The interesting question is how well an agent holds up on actual chip-design work.</p><div class="project-tags"><span>Agent evaluation</span><span>Simulation</span><span>Debugging tools</span></div></div>
+      <div class="signal-diagram" role="img" aria-label="An engineering feedback loop: an agent proposes a design, simulation checks it, and the results inform the next iteration."><div class="diagram-label">THE FEEDBACK LOOP</div><div class="diagram-flow"><div class="diagram-node">Agent<span>propose</span></div><span class="diagram-arrow" aria-hidden="true">→</span><div class="diagram-node">Design<span>implement</span></div><span class="diagram-arrow" aria-hidden="true">→</span><div class="diagram-node accented">Simulation<span>check</span></div></div><div class="return-path"><span>← learn from the result</span></div><svg class="waveform" viewBox="0 0 440 76" aria-hidden="true"><path class="wave-grid" d="M0 20H440M0 56H440M50 0V76M150 0V76M250 0V76M350 0V76"/><path class="wave-line" d="M0 55H34V20H83V55H132V20H181V55H230V20H279V55H328V20H377V55H440"/></svg><span class="diagram-footnote">A plausible answer is only the beginning.</span></div>
+    </article>
+    <div class="research-grid">
+      <article class="research-item"><div class="research-topline"><span class="project-index">01.B / Fault-aware AI</span><span class="tiny-tag">Research</span></div><a class="poster-preview" href="/files/fault-model-poster-ece.png" target="_blank" rel="noopener"><img src="/files/fault-model-poster-ece.png" alt="Research poster showing fault injection experiments in a SegFormer vision model" loading="lazy"><span>View full poster ↗</span></a><h3>What happens when<br>the hardware gets it wrong?</h3><p>With Professor Parmesh Ramanathan, I studied how GPU-style soft errors affect semantic segmentation, including safety-relevant classes like cars and people.</p><a class="text-link" href="https://engineering.wisc.edu/news/with-new-opportunities-ece-is-building-a-community-of-undergraduate-researchers/" target="_blank" rel="noopener noreferrer">The UW research symposium ↗</a></article>
+      <article class="research-item"><div class="research-topline"><span class="project-index">01.C / Accessible computing</span><span class="tiny-tag">Paper + CHI demo</span></div><div class="vr-visual" aria-hidden="true"><span class="vr-caption">A scene. Another way to see it.</span><svg viewBox="0 0 440 195" fill="none"><path class="vr-world" d="M35 152L93 93L141 141L205 58L277 133L324 86L402 153M35 153H402"/><circle class="vr-world" cx="327" cy="51" r="17"/><path class="vr-bracket" d="M45 66V35H81M357 35H394V66M45 134V166H81M357 166H394V134"/><path class="vr-signal" d="M173 157V180M188 141V190M203 150V183M218 132V195M233 145V186M248 153V180M263 159V174"/></svg><span class="vr-description">visual context → spoken description</span></div><h3>Making virtual worlds<br>more accessible.</h3><p>VRSight explores AI-driven scene descriptions for VR accessibility. The work includes a full paper and a CHI demonstration.</p><a class="text-link" href="https://scholar.google.com/citations?user=KEqTDt4AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Find the research on Scholar ↗</a></article>
+    </div>
+  </section>
 
-                <section class="about">
-                    <p>I work in <strong>Applied AI Labs at AMD</strong>, where we bring AI into how chips get designed. A lot of my time goes into seeing how well coding assistants hold up on real engineering work—and making sure we can <strong>check their work</strong> with simulations and tests so the feedback actually means something. I’ve also shipped <strong>debugging tools</strong> that help designers read simulation waveforms faster, and I contribute to <strong>evaluating external AI vendors and startups</strong> building tools for chip design.</p>
+  <section class="club-section container" aria-labelledby="club-title">
+    <div class="club-heading"><p class="eyebrow">02 / Building a community</p><a class="club-wordmark" href="https://siliconbadgers.com" target="_blank" rel="noopener noreferrer">SiliconBadgers <span aria-hidden="true">↗</span></a><p class="club-subtitle">UW–Madison’s first chip design club</p></div>
+    <div class="club-grid"><div><h2 id="club-title">Chip design is<br>a <em>team sport.</em></h2><p>I help run SiliconBadgers, where students get hands-on with digital design, verification, and the chip-development process. We’re working on an open-source LLM inference accelerator, with teams tackling software, architecture, RTL, verification, and physical design.</p><p>I help shape the technical direction and turn it into concrete work for each team, from profiling llama.cpp to defining interfaces and building verification infrastructure.</p><div class="club-links"><a class="text-link" href="https://siliconbadgers.com" target="_blank" rel="noopener noreferrer">Meet the club ↗</a><a class="text-link" href="https://github.com/SiliconBadgers" target="_blank" rel="noopener noreferrer">Explore our work ↗</a></div></div><div class="club-board"><span class="project-index">One project. Many disciplines.</span><div class="club-chip" aria-hidden="true"><span>SB</span><small>SILICONBADGERS</small></div><div class="club-disciplines"><span>Software</span><span>Architecture</span><span>RTL</span><span>Verification</span><span>Physical design</span></div><p>Learning the whole path<br>from models to hardware.</p></div></div>
+  </section>
 
-                    <p>Before AMD I researched in <strong>Professor Daifeng Wang’s lab</strong> at UW–Madison, working on <strong>machine learning for genomics</strong> at large scale: running models on big GPU clusters and adapting them efficiently to new datasets.</p>
+  <section class="writing-section container" aria-labelledby="writing-title"><div class="section-heading"><p class="eyebrow">03 / From the notebook</p><h2 id="writing-title">Working it <em>out loud.</em></h2><a class="text-link" href="/blog.html">All writing ↗</a></div><a class="writing-feature" href="/posts/rlvr-training-costs.html"><div class="writing-date"><span>APR</span><strong>04</strong><span>2026</span></div><div><p class="eyebrow">ML systems / Interactive explainer</p><h3>What does RLVR<br>actually cost?</h3><p>GPU throughput, training time, cloud pricing, and a calculator to see how the assumptions change the answer.</p><span class="text-link">Read the note &amp; try the estimator <span aria-hidden="true">↗</span></span></div><div class="cost-sketch" aria-hidden="true"><span>FOLLOW THE COMPUTE</span><div class="cost-equation"><span>Tokens</span><i>↓</i><span>GPU time</span><i>↓</i><strong>Cost</strong></div></div></a></section>
 
-                    <p>These days I’m drawn to <strong>ML systems</strong>: training and serving models reliably at scale, the tooling that makes agents usable in real workflows, and the boundary where <strong>hardware, compilers, and model stacks</strong> have to line up for performance to land.</p>
-                </section>
-            </div>
+  <section class="learning-section" aria-labelledby="learning-title"><div class="container learning-home-grid"><div><p class="eyebrow">04 / Learning resources</p><h2 id="learning-title">Open a terminal.<br><em>Follow the signal.</em></h2><p>My practical guides to Synopsys on UW–Madison CAE. Real screenshots, terminal commands, GUI walkthroughs, and the code behind them.</p><a class="text-link" href="/learning/">Explore the resources ↗</a></div><div class="guide-index"><a href="/learning/cae-synopsys/verification/"><span>01</span><div><h3>Verification</h3><p>VCS · Verdi · URG</p></div><span aria-hidden="true">↗</span></a><a href="/learning/cae-synopsys/rtl/"><span>02</span><div><h3>RTL development</h3><p>SystemVerilog · Design Vision</p></div><span aria-hidden="true">↗</span></a><a href="/learning/cae-synopsys/pd/"><span>03</span><div><h3>Synthesis &amp; physical design</h3><p>Design Compiler · ICC2</p></div><span aria-hidden="true">↗</span></a></div></div></section>
 
-            <div class="profile-image-container">
-                <img src="/images/profile.png" alt="Abhinav Nandwani" class="profile-image">
-            </div>
-        </div>
-
-        <section class="recent-work" aria-label="Learning resources">
-            <h2><a href="/learning/">Learning Resources</a></h2>
-            <p>Hands-on guides for chip design tools, with terminal commands, GUI walkthroughs, and runnable examples. Start with <a href="/learning/cae-synopsys/">Synopsys on UW–Madison CAE</a>.</p>
-        </section>
-
-        <section class="home-poster" aria-label="Posters">
-            <h2>Posters</h2>
-            <img src="/files/fault-model-poster-ece.png" alt="Poster: fault-aware vision transformers for mission-critical applications, with Professor Parmesh Ramanathan">
-            <p><a href="https://engineering.wisc.edu/news/with-new-opportunities-ece-is-building-a-community-of-undergraduate-researchers/" target="_blank" rel="noopener noreferrer">UW–Madison ECE is building a community of undergraduate researchers</a>—symposia, fellowships, and community among labs. I presented at the first symposium in spring 2025.</p>
-            <p>With <strong>Professor Parmesh Ramanathan</strong>: <em>Towards Fault-Aware AI Vision Transformers for Mission-Critical Applications</em>—injecting GPU-style <strong>soft-error</strong> faults into a <strong>SegFormer</strong> semantic segmentation model on <strong>Cityscapes</strong> and measuring <strong>mIoU</strong>. Safety-relevant classes like <strong>car</strong> and <strong>person</strong> take some of the biggest hits when faults corrupt intermediate activations.</p>
-        </section>
-
-        <section class="recent-work">
-            <h2>Recent work</h2>
-            <ul class="recent-work-list">
-                <li><strong>VRSight</strong> — AI-driven scene descriptions for VR accessibility; full paper and CHI demo (<a href="https://scholar.google.com/citations?user=KEqTDt4AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>).</li>
-            </ul>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Abhinav Nandwani</p>
-        </div>
-    </footer>
-
-    <!-- Dark Mode Toggle -->
-    <button type="button" class="theme-toggle" aria-label="Toggle light or dark theme">
-        <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-        <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-        </svg>
-    </button>
+  <section id="about" class="about-section container" aria-labelledby="about-title"><div><p class="eyebrow">05 / A little context</p><h2 id="about-title">I like connecting<br><em>the layers.</em></h2><p>My background is in computer engineering and computer science at UW–Madison. Before AMD, I worked in Professor Daifeng Wang’s lab on machine learning for genomics: large GPU clusters, large datasets, and efficient model adaptation.</p><p>That brought me to the questions I keep coming back to: how we train and serve models, how we know an agent is doing useful work, and what the hardware is doing underneath.</p><a class="text-link" href="/resume.html">The résumé version ↗</a></div><div class="interest-notebook"><p class="eyebrow">Things I keep coming back to</p><div class="interest-controls" aria-label="Explore my interests"><button type="button" data-interest="agents" aria-pressed="true">AI agents</button><button type="button" data-interest="systems" aria-pressed="false">ML systems</button><button type="button" data-interest="hardware" aria-pressed="false">Hardware</button></div><div class="interest-panels" aria-live="polite"><div data-interest-panel="agents"><span class="notebook-symbol" aria-hidden="true">↻</span><h3>Can we check its work?</h3><p>Agents become interesting when they can act, get useful feedback, and try again. I care about the evaluations and engineering tools that make that loop meaningful.</p></div><div data-interest-panel="systems"><span class="notebook-symbol" aria-hidden="true">∥</span><h3>Where does the time go?</h3><p>Training, inference, data movement. I’m drawn to the practical work of making model stacks run reliably and efficiently at scale.</p></div><div data-interest-panel="hardware"><span class="notebook-symbol" aria-hidden="true">⌁</span><h3>What’s happening underneath?</h3><p>The model is one layer. The compilers, memory, and compute units underneath it decide how performance lands in the real world.</p></div></div><span class="notebook-bottom">Always more to understand. ↗</span></div></section>
+</main>
+<footer>
+  <div class="container">
+    <div class="footer-top"><p class="eyebrow">Keep in touch</p><a class="footer-hello" href="mailto:nandwani2@wisc.edu">Say hello. <span aria-hidden="true">↗</span></a></div>
+    <div class="footer-bottom"><p>© 2026 Abhinav Nandwani</p><div class="footer-links"><a href="https://github.com/abhinavnandwani" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/abhinavnandwani" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://scholar.google.com/citations?user=KEqTDt4AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Scholar ↗</a><a href="mailto:nandwani2@wisc.edu">Email ↗</a></div><a class="back-top" href="#top">Back to top ↑</a></div>
+  </div>
+</footer>
 </body>
 </html>

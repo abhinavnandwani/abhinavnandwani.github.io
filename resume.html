@@ -3,48 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/js/theme.js"></script>
+    <script src="/js/theme.js?v=20260923"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;600;650;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
     <title>Resume - Abhinav Nandwani</title>
     <meta name="description" content="Resume of Abhinav Nandwani — Applied AI Labs @ AMD; B.S. CE &amp; CS, UW–Madison.">
     <meta property="og:title" content="Resume - Abhinav Nandwani">
     <meta property="og:description" content="Resume — Applied AI Labs @ AMD; Wang Lab genomics ML; FPGA &amp; CPU projects.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://abhinavnandwani.com/resume.html">
-    <meta property="og:image" content="https://abhinavnandwani.com/images/profile.png">
+    <meta property="og:image" content="https://abhinavnandwani.com/images/abhinav-lakeside.jpg">
     <link rel="canonical" href="https://abhinavnandwani.com/resume.html">
     <link rel="icon" href="/favicon.ico?v=5" sizes="any">
     <link rel="icon" href="/images/favicon.svg?v=5" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/images/favicon-192x192.png?v=5">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=20260923">
     <script defer src="https://cloud.umami.is/script.js" data-website-id="296d775c-3d14-4127-9e02-99e92e9e109f" data-domains="abhinavnandwani.com,www.abhinavnandwani.com" data-exclude-hash="true"></script>
 </head>
-<body>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
     <nav>
-        <div class="container">
-            <div class="nav-brand">
-                <a href="/" class="nav-home">Abhinav Nandwani</a>
-                <ul class="nav-inline">
-                    <li><a href="/learning/">Learning Resources</a></li>
-                    <li><a href="/blog.html">Blog</a></li>
-                </ul>
-            </div>
-            <ul class="nav-links nav-external" aria-label="Site and profiles">
-                <li><a href="/resume.html" class="active">Resume</a></li>
-                <li><a href="mailto:nandwani2@wisc.edu">Email</a></li>
-                <li><a href="https://github.com/abhinavnandwani" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                <li><a href="https://www.linkedin.com/in/abhinavnandwani" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                <li><a href="https://scholar.google.com/citations?user=KEqTDt4AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
-            </ul>
-        </div>
-    </nav>
+  <div class="container nav-inner">
+    <a href="/" class="nav-home" aria-label="Abhinav Nandwani home"><span class="monogram" aria-hidden="true">an.</span><span>abhinav nandwani</span></a>
+    <div class="nav-right">
+      <ul class="nav-links" aria-label="Main navigation">
+        <li><a href="/#work">Work</a></li>
+        <li><a href="/blog.html">Writing</a></li>
+        <li><a href="/learning/">Learning Resources</a></li>
+        <li><a href="/resume.html" class="active" aria-current="page">Résumé</a></li>
+      </ul>
+      <button type="button" class="theme-toggle" aria-label="Switch to dark theme" title="Change color theme"><span class="theme-symbol" aria-hidden="true">◐</span></button>
+    </div>
+  </div>
+</nav>
 
-    <main class="container">
+    <main id="main" class="container interior-main">
         <div class="resume-header">
             <div class="resume-header-content">
-                <h1>Resume</h1>
+                <p class="eyebrow">The résumé version</p><h1>Experience<br>&amp; <em>exploration.</em></h1>
                 <p class="resume-subtitle">Applied AI Labs @ AMD · B.S. CE &amp; CS, UW–Madison</p>
             </div>
             <div class="resume-actions">
@@ -63,43 +60,18 @@
             </div>
         </div>
 
-        <section class="resume-viewer">
-            <div class="pdf-embed-container">
-                <iframe src="/files/resume.pdf#view=FitH" class="pdf-iframe"></iframe>
-            </div>
-
-            <div class="resume-fallback">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="16" y1="13" x2="8" y2="13"/>
-                    <line x1="16" y1="17" x2="8" y2="17"/>
-                    <polyline points="10 9 9 9 8 9"/>
-                </svg>
-                <h3>Unable to display PDF</h3>
-                <p>The PDF viewer is not available in your browser.</p>
-                <div class="fallback-actions">
-                    <a href="/files/resume.pdf" target="_blank" class="button">Open PDF</a>
-                    <a href="/files/resume.pdf" download class="button-secondary">Download</a>
-                </div>
-            </div>
+        <section class="resume-viewer" aria-label="Résumé preview">
+            <a class="resume-preview" href="/files/resume.pdf" target="_blank" rel="noopener" aria-label="Open Abhinav Nandwani’s résumé PDF">
+                <img src="/images/resume-preview.png" alt="Preview of Abhinav Nandwani’s résumé, including education, experience, research, and technical skills" loading="lazy">
+            </a>
         </section>
     </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2026 Abhinav Nandwani</p>
-        </div>
-    </footer>
-
-    <!-- Dark Mode Toggle -->
-    <button type="button" class="theme-toggle" aria-label="Toggle light or dark theme">
-        <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-        <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-        </svg>
-    </button>
+  <div class="container">
+    <div class="footer-top"><p class="eyebrow">Keep in touch</p><a class="footer-hello" href="mailto:nandwani2@wisc.edu">Say hello. <span aria-hidden="true">↗</span></a></div>
+    <div class="footer-bottom"><p>© 2026 Abhinav Nandwani</p><div class="footer-links"><a href="https://github.com/abhinavnandwani" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/abhinavnandwani" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://scholar.google.com/citations?user=KEqTDt4AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Scholar ↗</a><a href="mailto:nandwani2@wisc.edu">Email ↗</a></div><a class="back-top" href="#top">Back to top ↑</a></div>
+  </div>
+</footer>
 </body>
 </html>

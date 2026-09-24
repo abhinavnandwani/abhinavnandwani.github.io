@@ -94,6 +94,27 @@ canonical manuscripts and rebuild their PDFs first; never edit the generated
 guide HTML independently. Check desktop and narrow layouts, copy buttons,
 section links, screenshots, and downloads after rebuilding.
 
+### Shared design and résumé preview
+
+`css/style.css` defines the shared palette, typography, and homepage layouts.
+`css/article.css` keeps the article and estimator rules separate. The two page
+builders use `scripts/site_shell.py` to read navigation and footer markup from
+`index.html`. Update the hand-authored blog, résumé, and post template shells
+alongside it, then run both builders.
+
+The homepage portrait uses a square CSS crop of `images/abhinav-lakeside.jpg`.
+
+The résumé page shows a rendered preview with a direct link to the PDF, so it
+does not depend on an embedded browser PDF viewer. After replacing
+`files/resume.pdf`, regenerate its preview with Poppler:
+
+```sh
+pdftoppm -f 1 -singlefile -scale-to 1800 -png files/resume.pdf images/resume-preview
+```
+
+Check the preview against the current PDF. If the résumé gains additional
+pages, include those pages in the preview as well.
+
 ### Analytics
 
 Umami tracks production pageviews across the site. The tracker is restricted to

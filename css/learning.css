@@ -76,3 +76,43 @@ html { scroll-behavior: auto; }
   .guide-content h2 { font-size: 1.3rem; scroll-margin-top: 200px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* Reading surfaces share the notebook palette, with a quieter type scale. */
+.learning-main { padding-top: 55px; padding-bottom: 80px; }
+.learning-header { max-width: 1000px; margin-bottom: 45px; }
+.learning-header h1 { font-size: clamp(3.5rem, 6.3vw, 5.5rem); line-height: 1.04; letter-spacing: -.03em; }
+.learning-header .lede { max-width: 750px; font-size: 1rem; line-height: 1.8; }
+.eyebrow { font: .68rem/1.6 var(--font-mono); font-weight: 400; }
+.guide-meta { font: .68rem/1.6 var(--font-mono); }
+.breadcrumbs { font: .68rem/1.6 var(--font-mono); margin-bottom: 28px; }
+.guide-actions a { border-radius: 0; padding: 10px 15px; font-size: .8rem; }
+.source-links { font-size: .8rem; line-height: 1.9; }
+.source-links a { text-underline-offset: 4px; }
+.resource-list { margin-top: 40px; }
+.resource-row { padding: 30px 0; grid-template-columns: 45px 1fr auto; gap: 22px; }
+.resource-row .number { font: .75rem var(--font-mono); color: var(--accent-primary); }
+.resource-row h2 { font: 500 1.6rem/1.2 var(--font-sans); }
+.resource-row p { font-size: .93rem; }
+.resource-row .tools { font: .68rem var(--font-mono); margin-top: 12px; }
+.resource-row .pdf-link { font: .75rem var(--font-mono); }
+.overview-body h2 { font-size: 2.25rem; margin-top: 38px; }
+.overview-body p { font-size: .94rem; line-height: 1.8; }
+.guide-toc { font-size: .73rem; top: 113px; max-height: calc(100vh - 140px); }
+.guide-toc summary { font: .7rem var(--font-mono); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 20px; }
+.guide-toc a { padding: 3px 0; }
+.guide-layout { gap: 48px; grid-template-columns: 235px minmax(0,1fr); }
+.guide-content h2 { font-size: 2.1rem; line-height: 1.2; font-family: var(--font-serif); font-weight: 400; letter-spacing: -.02em; }
+.guide-content p, .guide-content li { font-size: .95rem; line-height: 1.85; }
+.guide-content th, .guide-content td { font-size: .83rem; }
+.guide-content code, .overview-body code { font-family: var(--font-mono); }
+.code-block, .table-scroll, .guide-toc { border-radius: 0; }
+.copy-code { border-radius: 0; font-family: var(--font-mono); font-size: .64rem; }
+.screenshot-crop img { margin: 0; }
+@media (max-width: 1000px) {
+ .guide-layout { grid-template-columns: 1fr; gap: 36px; }.guide-toc { position: static; max-height: none; }
+}
+@media (max-width: 760px) {
+ .learning-main { padding-top: 32px; padding-bottom: 50px; }.learning-header h1 { font-size: 3.05rem; }.learning-header .lede { font-size: .94rem; }.learning-header { margin-bottom: 30px; }
+ .resource-row { grid-template-columns: 22px 1fr; gap: 13px; }.resource-row .pdf-link { grid-column: 2; }.resource-row h2 { font-size: 1.3rem; }
+ .guide-content h2 { font-size: 1.85rem; scroll-margin-top: 160px; }.guide-actions { gap: 9px; }.guide-actions a { padding: 8px 11px; font-size: .74rem; }.breadcrumbs { font-size: .61rem; }
+}

@@ -1,70 +1,51 @@
-# Personal Website
+# Abhinav Nandwani
 
-A minimal personal website for Abhinav Nandwani, hosted on GitHub Pages with custom domain `abhinavnandwani.com` (see `CNAME`).
+Personal website at [abhinavnandwani.com](https://abhinavnandwani.com): engineering work, research, writing, and practical learning resources.
 
-## Site structure
+The site uses static HTML, CSS, and vanilla JavaScript. GitHub Pages serves the `master` branch.
 
-```
-abhinavnandwani.github.io/
-├── favicon.ico             # Root copy (browsers request /favicon.ico); keep in sync with images/favicon.ico
-├── index.html              # Home
-├── resume.html             # Resume (embeds /files/resume.pdf)
-├── blog.html               # Blog index
-├── CNAME                   # Custom domain
-├── css/style.css
-├── js/theme.js             # Light/dark preference (localStorage + system)
-├── posts/
-│   ├── template.html       # Starting point for new posts
-│   └── rlvr-training-costs.html  # Generated; see scripts/build_rlvr_post.py
-├── content/notes/          # RLVR post: cited markdown (footnotes) + dashboard HTML source
-├── images/                 # profile.png, favicon.ico, favicon.svg, PNG sizes
-└── files/                  # resume.pdf, posters, legacy PDFs
+## Development
+
+```sh
+python3 -m http.server 8000
 ```
 
-## Local development
+Open `http://localhost:8000`. For live reload, use `uv run serve-reload`.
 
-### Option 1: uv (recommended)
+## Structure
 
-This project uses [uv](https://github.com/astral-sh/uv) for Python dependency management (dev server only; the live site has no runtime dependencies).
+- `index.html`: homepage and the canonical navigation and footer used by the page builders.
+- `blog.html`, `resume.html`: writing index and résumé viewer.
+- `css/style.css`: shared design and homepage styles.
+- `css/article.css`, `css/learning.css`: article, estimator, and guide layouts.
+- `js/theme.js`: saved light/dark preference, defaulting to light.
+- `js/home.js`: homepage interest controls.
+- `posts/`: articles and a template for new posts.
+- `content/notes/`: the RLVR article and interactive estimator sources.
+- `learning/`: generated reading pages, guide PDFs, and original screenshots.
+- `scripts/`: static page builders and development servers.
+- `images/`, `files/`: photography, icons, research poster, and résumé PDFs.
 
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh   # install uv once
-uv sync
-uv run serve-reload    # or: uv run serve
-```
+## Generated pages
 
-Then open `http://localhost:8000`.
+Rebuild the RLVR article after editing its Markdown or estimator source:
 
-### Option 2: no Python
-
-```bash
-python -m http.server 8000
-```
-
-## RLVR blog post (regenerate)
-
-After editing `content/notes/rlvr-gpu-costs.md` or `content/notes/rlvr-dashboard-source.html`:
-
-```bash
+```sh
 python3 scripts/build_rlvr_post.py
 ```
 
-## Adding blog posts
+The CAE guide manuscripts and PDFs live in [cae-synopsys-guides](https://github.com/abhinavnandwani/cae-synopsys-guides). Rebuild their web editions with:
 
-1. Copy `posts/template.html` to `posts/your-slug.html`.
-2. Update the copy in the new file: `<title>`, `meta description`, Open Graph tags, `link rel="canonical"`, `<h1>`, `<time>`, and body content. Replace every `my-post` / placeholder string that matches the template.
-3. Add a preview block to `blog.html` (see existing `blog-post-preview` styles in `css/style.css`).
+```sh
+python3 scripts/build_learning.py --source ../cae-synopsys-guides
+```
 
-## Deployment
+Both builders use `scripts/site_shell.py` for shared navigation, footer, and fonts. Update the matching navigation and footer in the hand-authored pages when changing them. See [DEVELOPMENT.md](DEVELOPMENT.md) for the guide publishing workflow and analytics configuration.
 
-Push to `master`; GitHub Pages deploys automatically. The site is served at `https://abhinavnandwani.com` (allow a minute or two).
+## Validation and deployment
 
-## Technologies
+Check desktop and mobile layouts in both themes. Exercise the interest controls, guide section links and copy buttons, PDF links, and RLVR estimator. Guide text and commands should match the canonical manuscripts; screenshots should remain unchanged.
 
-- HTML, CSS, and a small amount of vanilla JavaScript
-- No build step for production assets
-- GitHub Pages + `CNAME` for the custom domain
-
-## License
+Push to `master` to deploy through GitHub Pages. Verify the deployment and live pages after publishing.
 
 © 2026 Abhinav Nandwani

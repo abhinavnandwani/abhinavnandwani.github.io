@@ -3,9 +3,9 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="/js/theme.js"></script>
+<script src="/js/theme.js?v=20260923"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;600;650;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
 <title>RTL Development on CAE | Abhinav Nandwani</title>
 <meta name="description" content="Read the hardware contract, simulate changes, and inspect the mapped logic and timing.">
 <meta name="author" content="Abhinav Nandwani">
@@ -14,30 +14,26 @@
 <meta property="og:description" content="Read the hardware contract, simulate changes, and inspect the mapped logic and timing.">
 <meta property="og:type" content="article"><meta property="og:url" content="https://abhinavnandwani.com/learning/cae-synopsys/rtl/">
 <link rel="icon" href="/favicon.ico?v=5" sizes="any"><link rel="icon" href="/images/favicon.svg?v=5" type="image/svg+xml">
-<link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/learning.css">
+<link rel="stylesheet" href="/css/style.css?v=20260923"><link rel="stylesheet" href="/css/learning.css?v=20260923">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="296d775c-3d14-4127-9e02-99e92e9e109f" data-domains="abhinavnandwani.com,www.abhinavnandwani.com" data-exclude-hash="true"></script>
 <script defer src="/js/learning.js"></script>
 </head>
-<body data-guide="rtl">
+<body id="top" data-guide="rtl">
 <a href="#main" class="skip-link">Skip to content</a>
 <nav>
-        <div class="container">
-            <div class="nav-brand">
-                <a href="/" class="nav-home">Abhinav Nandwani</a>
-                <ul class="nav-inline">
-                    <li><a href="/learning/" class="active" aria-current="true">Learning Resources</a></li>
-                    <li><a href="/blog.html">Blog</a></li>
-                </ul>
-            </div>
-            <ul class="nav-links nav-external" aria-label="Site and profiles">
-                <li><a href="/resume.html">Resume</a></li>
-                <li><a href="mailto:nandwani2@wisc.edu">Email</a></li>
-                <li><a href="https://github.com/abhinavnandwani" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                <li><a href="https://www.linkedin.com/in/abhinavnandwani" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                <li><a href="https://scholar.google.com/citations?user=KEqTDt4AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
-            </ul>
-        </div>
-    </nav>
+  <div class="container nav-inner">
+    <a href="/" class="nav-home" aria-label="Abhinav Nandwani home"><span class="monogram" aria-hidden="true">an.</span><span>abhinav nandwani</span></a>
+    <div class="nav-right">
+      <ul class="nav-links" aria-label="Main navigation">
+        <li><a href="/#work">Work</a></li>
+        <li><a href="/blog.html">Writing</a></li>
+        <li><a href="/learning/" class="active" aria-current="page">Learning Resources</a></li>
+        <li><a href="/resume.html">Résumé</a></li>
+      </ul>
+      <button type="button" class="theme-toggle" aria-label="Switch to dark theme" title="Change color theme"><span class="theme-symbol" aria-hidden="true">◐</span></button>
+    </div>
+  </div>
+</nav>
 <main id="main" class="container learning-main"><div class="breadcrumbs"><a href="/learning/">Learning Resources</a> / <a href="/learning/cae-synopsys/">CAE Synopsys</a> / RTL Development</div>
 <header class="learning-header"><p class="eyebrow">CAE lab notes · SystemVerilog · Verdi · Design Vision</p><h1>RTL Development on CAE</h1><p class="lede">Use this guide to inspect and simulate RTL, debug its behavior in Verdi, run a synthesis sanity check, and inspect the resulting schematic in Design Vision. The small register makes the entire loop observable before you apply it to a compute, control, or memory block.</p><p class="guide-meta">By Abhinav Nandwani · Tested on CAE, 23 September 2026</p><div class="guide-actions"><a href="/learning/cae-synopsys/downloads/cae-rtl-handout.pdf" download data-umami-event="PDF download" data-umami-event-guide="rtl">Download PDF</a><a href="https://github.com/abhinavnandwani/cae-synopsys-guides" target="_blank" rel="noopener" data-umami-event="GitHub click" data-umami-event-guide="rtl">Lab and sources on GitHub ↗</a></div><p class="source-links">Code: <a href="https://github.com/abhinavnandwani/cae-synopsys-guides/blob/main/lab/rtl/sb_flop.v" target="_blank" rel="noopener" data-umami-event="GitHub click" data-umami-event-guide="rtl">RTL</a> · <a href="https://github.com/abhinavnandwani/cae-synopsys-guides/blob/main/lab/tb/tb.sv" target="_blank" rel="noopener" data-umami-event="GitHub click" data-umami-event-guide="rtl">Testbench</a> · <a href="https://github.com/abhinavnandwani/cae-synopsys-guides/blob/main/lab/run_lab.py" target="_blank" rel="noopener" data-umami-event="GitHub click" data-umami-event-guide="rtl">Runner</a> · <a href="https://github.com/abhinavnandwani/cae-synopsys-guides/blob/main/lab/synth/run.tcl" target="_blank" rel="noopener" data-umami-event="GitHub click" data-umami-event-guide="rtl">Synthesis script</a></p></header>
 <div class="guide-layout"><aside class="guide-toc" aria-label="Guide sections"><details open><summary>On this page</summary><ol><li><a href="#sign-in-to-guacamole">Sign in to Guacamole</a></li><li><a href="#enter-the-synopsys-environment">Enter the Synopsys environment</a></li><li><a href="#companion-code">Companion code</a></li><li><a href="#work-confidently-in-the-terminal">Work confidently in the terminal</a></li><li><a href="#connect-without-the-browser-when-useful">Connect without the browser when useful</a></li><li><a href="#read-the-rtl-as-a-hardware-contract">Read the RTL as a hardware contract</a></li><li><a href="#organize-source-changes-before-building">Organize source changes before building</a></li><li><a href="#compile-and-simulate-from-the-terminal">Compile and simulate from the terminal</a></li><li><a href="#diagnose-the-first-failure">Diagnose the first failure</a></li><li><a href="#trace-source-and-behavior-in-verdi">Trace source and behavior in Verdi</a></li><li><a href="#run-a-synthesis-sanity-check">Run a synthesis sanity check</a></li><li><a href="#open-the-mapped-design-in-design-vision">Open the mapped design in Design Vision</a></li><li><a href="#inspect-the-schematic-in-the-gui">Inspect the schematic in the GUI</a></li><li><a href="#connect-a-timing-report-to-the-source">Connect a timing report to the source</a></li><li><a href="#prepare-a-useful-rtl-handoff">Prepare a useful RTL handoff</a></li></ol></details></aside><article class="guide-content"><h2 id="sign-in-to-guacamole">Sign in to Guacamole</h2>
@@ -149,19 +145,9 @@ report_area</code></pre></div>
 <p>Debug reference: <a href="https://www.synopsys.com/verification/debug/verdi.html">https://www.synopsys.com/verification/debug/verdi.html</a></p><div class="guide-end"><p><a href="/learning/cae-synopsys/">← All CAE guides</a></p><div class="guide-actions"><a href="/learning/cae-synopsys/downloads/cae-rtl-handout.pdf" download data-umami-event="PDF download" data-umami-event-guide="rtl">Download PDF</a><a href="https://github.com/abhinavnandwani/cae-synopsys-guides" target="_blank" rel="noopener" data-umami-event="GitHub click" data-umami-event-guide="rtl">Lab and sources on GitHub ↗</a></div></div></article></div></main>
 <div id="copy-status" role="status" class="sr-only" aria-live="polite"></div>
 <footer>
-        <div class="container">
-            <p>&copy; 2026 Abhinav Nandwani</p>
-        </div>
-    </footer>
-
-    <!-- Dark Mode Toggle -->
-    <button type="button" class="theme-toggle" aria-label="Toggle light or dark theme">
-        <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-        <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-        </svg>
-    </button>
-
+  <div class="container">
+    <div class="footer-top"><p class="eyebrow">Keep in touch</p><a class="footer-hello" href="mailto:nandwani2@wisc.edu">Say hello. <span aria-hidden="true">↗</span></a></div>
+    <div class="footer-bottom"><p>© 2026 Abhinav Nandwani</p><div class="footer-links"><a href="https://github.com/abhinavnandwani" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/abhinavnandwani" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://scholar.google.com/citations?user=KEqTDt4AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Scholar ↗</a><a href="mailto:nandwani2@wisc.edu">Email ↗</a></div><a class="back-top" href="#top">Back to top ↑</a></div>
+  </div>
+</footer>
 </body></html>

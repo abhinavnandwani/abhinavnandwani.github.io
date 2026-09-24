@@ -35,7 +35,7 @@ select{padding:6px 10px;border:.5px solid var(--color-border-secondary);border-r
 
 <div class="w">
 <div class="row">
-  <div class="cg"><label>Model</label>
+  <div class="cg"><label for="mSel">Model</label>
     <select id="mSel">
       <optgroup label="Qwen3.5 (2026)">
         <option value="q35_27b" selected>Qwen3.5 27B</option>
@@ -56,13 +56,13 @@ select{padding:6px 10px;border:.5px solid var(--color-border-secondary);border-r
       </optgroup>
     </select>
   </div>
-  <div class="cg"><label>Algorithm</label>
+  <div class="cg"><label for="algoSel">Algorithm</label>
     <select id="algoSel">
       <option value="grpo" selected>GRPO / DAPO</option>
       <option value="ppo">PPO</option>
     </select>
   </div>
-  <div class="cg"><label>Rollout length</label>
+  <div class="cg"><label for="rollSel">Rollout length</label>
     <select id="rollSel">
       <option value="1024">1K tokens (benchmark)</option>
       <option value="4096">4K tokens</option>
@@ -70,7 +70,7 @@ select{padding:6px 10px;border:.5px solid var(--color-border-secondary);border-r
       <option value="20480">20K tokens (DAPO / long CoT)</option>
     </select>
   </div>
-  <div class="cg"><label>Token target</label>
+  <div class="cg"><label for="tokSel">Token target</label>
     <select id="tokSel">
       <option value="0.5">500M tokens</option>
       <option value="2" selected>2B tokens</option>

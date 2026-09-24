@@ -23,6 +23,8 @@
 
     function applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
+        var btn = document.querySelector('.theme-toggle');
+        if (btn) btn.setAttribute('aria-label', theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
         try {
             window.dispatchEvent(new CustomEvent('site-theme-change', { detail: { theme: theme } }));
         } catch (e) {}
@@ -37,7 +39,7 @@
     applyTheme(effectiveTheme());
 
     function toggleTheme() {
-        var next = effectiveTheme() === 'light' ? 'dark' : 'light';
+        var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
         applyTheme(next);
         persistTheme(next);
     }
@@ -45,6 +47,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         var btn = document.querySelector('.theme-toggle');
         if (btn) {
+            applyTheme(document.documentElement.getAttribute('data-theme'));
             btn.addEventListener('click', toggleTheme);
         }
     });

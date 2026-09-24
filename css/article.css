@@ -1,0 +1,494 @@
+/* Blog posts */
+.post-tag {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    font-weight: 400;
+}
+
+/*
+ * One shared column for title, disclaimer, lede, headings, paragraphs, lists, tables,
+ * dashboard, dividers, and references. Global `p { max-width: 75ch }` would otherwise
+ * squeeze only paragraphs while tables/divs stay full width — ragged, misaligned edges.
+ */
+.post-content {
+    --post-measure: min(70rem, 100%);
+}
+
+.post-content p {
+    max-width: none;
+}
+
+.post-content > .page-header,
+.post-content > .post-disclaimer,
+.post-content > .post-lede,
+.post-content > .post-section > *,
+.post-content > .back-link {
+    max-width: var(--post-measure);
+    margin-inline: auto;
+    box-sizing: border-box;
+}
+
+.post-disclaimer {
+    margin-bottom: 1.75rem;
+    padding: 0.65rem 0.9rem;
+    border-left: 3px solid var(--border-secondary);
+    background: var(--bg-tertiary);
+    border-radius: 0 4px 4px 0;
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
+    line-height: 1.5;
+    font-style: italic;
+}
+
+.post-lede {
+    margin-bottom: 2rem;
+}
+
+.post-lede p {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--text-primary);
+}
+
+.post-content .post-section {
+    margin-bottom: 2.5rem;
+}
+
+/* Long-form article after the interactive dashboard */
+.post-content > .post-section.post-article > h2:first-of-type {
+    margin-top: 2rem;
+}
+
+.post-content hr {
+    border: none;
+    border-top: 1px solid var(--border-primary);
+    margin: 2.5rem 0;
+}
+
+.post-content h2 {
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.post-content h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.6rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.post-content ul {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+}
+
+.post-content ul li {
+    margin-bottom: 0.65rem;
+    line-height: 1.55;
+}
+
+.table-wrap {
+    overflow-x: auto;
+    margin: 1.25rem 0 1.5rem;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--border-primary);
+    border-radius: 6px;
+}
+
+.post-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.post-table th,
+.post-table td {
+    border-bottom: 1px solid var(--border-primary);
+    border-right: 1px solid var(--border-primary);
+    padding: 0.45rem 0.6rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.post-table th:last-child,
+.post-table td:last-child {
+    border-right: none;
+}
+
+.post-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.post-table th {
+    background: var(--bg-tertiary);
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    position: sticky;
+    top: 0;
+}
+
+.post-table td {
+    color: var(--text-secondary);
+    white-space: normal;
+}
+
+.post-table td strong {
+    color: var(--text-primary);
+}
+
+.post-table tbody tr:nth-child(even) {
+    background: var(--bg-tertiary);
+}
+
+.post-table tbody tr:hover {
+    background: var(--bg-secondary);
+}
+
+/* Footnotes */
+.footnote-ref + .footnote-ref {
+    margin-left: 0.12em;
+}
+
+.footnote-ref {
+    font-size: 0.68em;
+    font-weight: 600;
+    line-height: 0;
+    vertical-align: super;
+}
+
+.footnote-ref a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    padding: 0 0.08em;
+}
+
+.footnote-ref a:hover {
+    text-decoration: underline;
+    color: var(--accent-hover);
+}
+
+/* References section (preceded by <hr> from build) */
+.post-references {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+.post-references h2 {
+    margin-top: 0;
+    font-size: 1.25rem;
+}
+
+.reference-list {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    padding-left: 2.5rem;
+    margin: 1rem 0 0;
+    color: var(--text-tertiary);
+}
+
+.reference-list li {
+    margin-bottom: 0.75rem;
+    padding-left: 0.25rem;
+}
+
+.reference-list li::marker {
+    color: var(--text-tertiary);
+    font-weight: 600;
+    font-size: 0.78rem;
+}
+
+.reference-list a {
+    word-break: break-all;
+    color: var(--accent-primary);
+}
+
+@media (max-width: 900px) {
+    .post-table {
+        font-size: 0.72rem;
+    }
+
+    .post-table th,
+    .post-table td {
+        padding: 0.35rem 0.45rem;
+    }
+
+    .reference-list {
+        padding-left: 1.75rem;
+    }
+}
+
+/* RLVR cost dashboard (embedded in blog post) */
+.rlvr-dashboard {
+    --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --color-text-primary: var(--text-primary);
+    --color-text-secondary: var(--text-tertiary);
+    --color-border-secondary: var(--border-secondary);
+    --color-border-tertiary: var(--border-primary);
+    --color-background-primary: var(--bg-secondary);
+    --color-background-secondary: var(--bg-tertiary);
+    --border-radius-md: 6px;
+    --border-radius-lg: 10px;
+    margin-top: 1rem;
+    padding: 1rem 1.1rem 1.25rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-primary);
+    border-radius: 10px;
+}
+
+.rlvr-dashboard,
+.rlvr-dashboard * {
+    box-sizing: border-box;
+}
+
+.rlvr-dashboard .w {
+    padding: 0.35rem 0 0;
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+}
+
+.rlvr-dashboard .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+    align-items: flex-end;
+}
+
+.rlvr-dashboard .cg {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.rlvr-dashboard .cg label {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.rlvr-dashboard select {
+    padding: 6px 10px;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    background: var(--color-background-primary);
+    color: var(--color-text-primary);
+    font-size: 13px;
+    cursor: pointer;
+    min-width: 155px;
+}
+
+.rlvr-dashboard .mcg {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.rlvr-dashboard .mc {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-md);
+    padding: 12px 14px;
+}
+
+.rlvr-dashboard .mc .ml {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    margin-bottom: 3px;
+}
+
+.rlvr-dashboard .mc .mv {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.rlvr-dashboard .mc .ms {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    margin-top: 3px;
+}
+
+.rlvr-dashboard .sec {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 8px;
+}
+
+.rlvr-dashboard .gcards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.rlvr-dashboard .gc {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 12px;
+    background: var(--color-background-primary);
+}
+
+.rlvr-dashboard .gc.best {
+    border: 2px solid #1d9e75;
+}
+
+.rlvr-dashboard .gc .gn {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.rlvr-dashboard .gc .gs {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+}
+
+.rlvr-dashboard .gc .gp {
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 6px;
+}
+
+.rlvr-dashboard .pill {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-size: 11px;
+}
+
+.rlvr-dashboard .pg {
+    background: #eaf3de;
+    color: #27500a;
+}
+
+.rlvr-dashboard .pa {
+    background: #faeeda;
+    color: #633806;
+}
+
+.rlvr-dashboard .pr {
+    background: #fcebeb;
+    color: #791f1f;
+}
+
+.rlvr-dashboard .pb {
+    background: #e6f1fb;
+    color: #0c447c;
+}
+
+[data-theme="dark"] .rlvr-dashboard .pg {
+    background: #27500a;
+    color: #c0dd97;
+}
+
+[data-theme="dark"] .rlvr-dashboard .pa {
+    background: #633806;
+    color: #fac775;
+}
+
+[data-theme="dark"] .rlvr-dashboard .pr {
+    background: #791f1f;
+    color: #f7c1c1;
+}
+
+[data-theme="dark"] .rlvr-dashboard .pb {
+    background: #0c447c;
+    color: #b5d4f4;
+}
+
+.rlvr-dashboard .plots {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 1.5rem;
+}
+
+.rlvr-dashboard .leg {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    margin-bottom: 6px;
+}
+
+.rlvr-dashboard .li {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rlvr-dashboard .ls {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.rlvr-dashboard .note {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    border-left: 2px solid var(--color-border-secondary);
+    padding-left: 10px;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+    border-radius: 0;
+}
+
+.rlvr-dashboard .refs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.rlvr-dashboard .rc {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    padding: 10px 12px;
+    background: var(--color-background-primary);
+}
+
+.rlvr-dashboard .rc .rn {
+    font-size: 12px;
+    font-weight: 500;
+    margin: 4px 0 2px;
+}
+
+.rlvr-dashboard .rc .rd {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+    .rlvr-dashboard .mcg {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rlvr-dashboard .gcards {
+        grid-template-columns: 1fr;
+    }
+
+    .rlvr-dashboard .plots {
+        grid-template-columns: 1fr;
+    }
+
+    .rlvr-dashboard .refs {
+        grid-template-columns: 1fr;
+    }
+}

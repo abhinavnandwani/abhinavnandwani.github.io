@@ -5,6 +5,7 @@ from __future__ import annotations
 import html
 import re
 from pathlib import Path
+from site_shell import FONT_URL, navigation, footer
 
 ROOT = Path(__file__).resolve().parents[1]
 MD = ROOT / "content" / "notes" / "rlvr-gpu-costs.md"
@@ -333,46 +334,30 @@ def main() -> None:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/js/theme.js"></script>
+    <script src="/js/theme.js?v=20260923"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{FONT_URL}" rel="stylesheet">
     <title>{html.escape(title)} - Abhinav Nandwani</title>
     <meta name="description" content="{html.escape(desc)}">
     <meta property="og:title" content="{html.escape(title)} - Abhinav Nandwani">
     <meta property="og:description" content="{html.escape(desc)}">
     <meta property="og:type" content="article">
     <meta property="og:url" content="{canonical}">
-    <meta property="og:image" content="https://abhinavnandwani.com/images/profile.png">
+    <meta property="og:image" content="https://abhinavnandwani.com/images/abhinav-lakeside.jpg">
     <link rel="canonical" href="{canonical}">
     <link rel="icon" href="/favicon.ico?v=5" sizes="any">
     <link rel="icon" href="/images/favicon.svg?v=5" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/images/favicon-192x192.png?v=5">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=20260923">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" crossorigin="anonymous"></script>
     <script defer src="https://cloud.umami.is/script.js" data-website-id="296d775c-3d14-4127-9e02-99e92e9e109f" data-domains="abhinavnandwani.com,www.abhinavnandwani.com" data-exclude-hash="true"></script>
 </head>
-<body>
-    <nav>
-        <div class="container">
-            <div class="nav-brand">
-                <a href="/" class="nav-home">Abhinav Nandwani</a>
-                <ul class="nav-inline">
-                    <li><a href="/learning/">Learning Resources</a></li>
-                    <li><a href="/blog.html" class="active">Blog</a></li>
-                </ul>
-            </div>
-            <ul class="nav-links nav-external" aria-label="Site and profiles">
-                <li><a href="/resume.html">Resume</a></li>
-                <li><a href="mailto:nandwani2@wisc.edu">Email</a></li>
-                <li><a href="https://github.com/abhinavnandwani" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                <li><a href="https://www.linkedin.com/in/abhinavnandwani" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                <li><a href="https://scholar.google.com/citations?user=KEqTDt4AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
-            </ul>
-        </div>
-    </nav>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+    {navigation('/blog.html')}
 
-    <main class="container">
+    <main id="main" class="container interior-main">
         <article class="post-content">
             <header class="page-header">
                 <h1>{html.escape(title)}</h1>
@@ -407,20 +392,7 @@ def main() -> None:
         </article>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Abhinav Nandwani</p>
-        </div>
-    </footer>
-
-    <button type="button" class="theme-toggle" aria-label="Toggle light or dark theme">
-        <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-        <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-        </svg>
-    </button>
+    {footer()}
 </body>
 </html>
 """

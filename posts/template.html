@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/js/theme.js"></script>
+    <script src="/js/theme.js?v=20260923"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;600;650;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
     <!-- Replace title and meta below when copying this file -->
     <title>Post title - Abhinav Nandwani</title>
     <meta name="description" content="One-line summary for search and social previews.">
@@ -14,35 +14,32 @@
     <meta property="og:description" content="One-line summary for search and social previews.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://abhinavnandwani.com/posts/my-post.html">
-    <meta property="og:image" content="https://abhinavnandwani.com/images/profile.png">
+    <meta property="og:image" content="https://abhinavnandwani.com/images/abhinav-lakeside.jpg">
     <link rel="canonical" href="https://abhinavnandwani.com/posts/my-post.html">
     <link rel="icon" href="/favicon.ico?v=5" sizes="any">
     <link rel="icon" href="/images/favicon.svg?v=5" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/images/favicon-192x192.png?v=5">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=20260923">
     <script defer src="https://cloud.umami.is/script.js" data-website-id="296d775c-3d14-4127-9e02-99e92e9e109f" data-domains="abhinavnandwani.com,www.abhinavnandwani.com" data-exclude-hash="true"></script>
 </head>
-<body>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
     <nav>
-        <div class="container">
-            <div class="nav-brand">
-                <a href="/" class="nav-home">Abhinav Nandwani</a>
-                <ul class="nav-inline">
-                    <li><a href="/learning/">Learning Resources</a></li>
-                    <li><a href="/blog.html" class="active">Blog</a></li>
-                </ul>
-            </div>
-            <ul class="nav-links nav-external" aria-label="Site and profiles">
-                <li><a href="/resume.html">Resume</a></li>
-                <li><a href="mailto:nandwani2@wisc.edu">Email</a></li>
-                <li><a href="https://github.com/abhinavnandwani" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                <li><a href="https://www.linkedin.com/in/abhinavnandwani" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                <li><a href="https://scholar.google.com/citations?user=KEqTDt4AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
-            </ul>
-        </div>
-    </nav>
+  <div class="container nav-inner">
+    <a href="/" class="nav-home" aria-label="Abhinav Nandwani home"><span class="monogram" aria-hidden="true">an.</span><span>abhinav nandwani</span></a>
+    <div class="nav-right">
+      <ul class="nav-links" aria-label="Main navigation">
+        <li><a href="/#work">Work</a></li>
+        <li><a href="/blog.html" class="active" aria-current="page">Writing</a></li>
+        <li><a href="/learning/">Learning Resources</a></li>
+        <li><a href="/resume.html">Résumé</a></li>
+      </ul>
+      <button type="button" class="theme-toggle" aria-label="Switch to dark theme" title="Change color theme"><span class="theme-symbol" aria-hidden="true">◐</span></button>
+    </div>
+  </div>
+</nav>
 
-    <main class="container">
+    <main id="main" class="container interior-main">
         <article>
             <header class="page-header">
                 <h1>Post title</h1>
@@ -74,18 +71,10 @@ function example() {
     </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2026 Abhinav Nandwani</p>
-        </div>
-    </footer>
-
-    <button type="button" class="theme-toggle" aria-label="Toggle light or dark theme">
-        <svg class="sun-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-        <svg class="moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-        </svg>
-    </button>
+  <div class="container">
+    <div class="footer-top"><p class="eyebrow">Keep in touch</p><a class="footer-hello" href="mailto:nandwani2@wisc.edu">Say hello. <span aria-hidden="true">↗</span></a></div>
+    <div class="footer-bottom"><p>© 2026 Abhinav Nandwani</p><div class="footer-links"><a href="https://github.com/abhinavnandwani" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/abhinavnandwani" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://scholar.google.com/citations?user=KEqTDt4AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Scholar ↗</a><a href="mailto:nandwani2@wisc.edu">Email ↗</a></div><a class="back-top" href="#top">Back to top ↑</a></div>
+  </div>
+</footer>
 </body>
 </html>
