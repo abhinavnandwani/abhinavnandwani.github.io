@@ -1,0 +1,47 @@
+scripts/build_rlvr_post.py
+  s_a4fdefbacc4ddc::t_ec031ed958bb1a 8,347
+images/social-preview-v1.svg
+  s_a4fdefbacc4ddc::t_ec031ed958bb1a 1-30
+DEVELOPMENT.md
+  s_a4fdefbacc4ddc::t_ec031ed958bb1a 107-111
+scripts/build_learning.py
+  s_a4fdefbacc4ddc::t_ec031ed958bb1a 14,186
+scripts/site_shell.py
+  s_a4fdefbacc4ddc::t_ec031ed958bb1a 1,7-14
+blog.html
+  s_a4fdefbacc4ddc::t_fc425b2cee178c 16-23
+index.html
+  s_a4fdefbacc4ddc::t_04bdcc27ab1fed 16-23
+learning/cae-synopsys/index.html
+  s_a4fdefbacc4ddc::t_274d39a23ab400 16-23
+learning/cae-synopsys/pd/index.html
+  s_a4fdefbacc4ddc::t_69640b65ba128f 16-23
+learning/cae-synopsys/rtl/index.html
+  s_a4fdefbacc4ddc::t_51cb18255cdf47 16-23
+learning/cae-synopsys/verification/index.html
+  s_a4fdefbacc4ddc::t_69e9e99f10edf6 16-23
+learning/index.html
+  s_a4fdefbacc4ddc::t_bdb5529f4ed864 16-23
+posts/rlvr-training-costs.html
+  s_a4fdefbacc4ddc::t_2a6cd0d1b111b7 16-23
+posts/template.html
+  s_a4fdefbacc4ddc::t_857e1fd768683d 17-24
+resume.html
+  s_a4fdefbacc4ddc::t_79cd145023d93f 16-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "717cae4289a9315d75d490b3423dc5a2ee8797b2",
+  "prompts": {},
+  "sessions": {
+    "s_a4fdefbacc4ddc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c6c2-231a-7a30-bbf3-f68a9d08902d",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "abhinavnandwani <abhu.srt@gmail.com>"
+    }
+  }
+}
