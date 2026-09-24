@@ -1,0 +1,63 @@
+DEVELOPMENT.md
+  s_a4fdefbacc4ddc::t_a8a851a5a48d5b 97-117
+scripts/site_shell.py
+  s_a4fdefbacc4ddc::t_df67b5c1193af6 1-17
+scripts/build_learning.py
+  s_a4fdefbacc4ddc::t_df67b5c1193af6 14,168-169,176,178,187,191
+  s_a4fdefbacc4ddc::t_eb78d62762cfc6 246
+css/style.css
+  s_a4fdefbacc4ddc::t_0ce1a5ab3eb80a 79
+  s_a4fdefbacc4ddc::t_36d1fe3d82490d 78
+  s_a4fdefbacc4ddc::t_dea7442765f52e 1,4-11,14-77,80-92,95-102,104-129,146-153,157-222,224-233,235-239
+  s_a4fdefbacc4ddc::t_de92489591ca58 93-94,103,130-145,154-156,223,234,240-248
+README.md
+  s_a4fdefbacc4ddc::t_dd13739d53bf11 1,3,5,7,9-10,13,15,17-27,29,31,33,37,39-41,43,45,47,49
+blog.html
+  s_a4fdefbacc4ddc::t_98e6ab3afbedf8 6,9,16,21,24-25,27-39,41-44,47-51
+content/notes/rlvr-dashboard-source.html
+  s_a4fdefbacc4ddc::t_022a02a27ee3d3 38,59,65,73
+css/article.css
+  s_a4fdefbacc4ddc::t_c1fbb1b067794f 1-494
+css/learning.css
+  s_a4fdefbacc4ddc::t_f70fca02a21ea2 79-118
+index.html
+  s_a4fdefbacc4ddc::t_e4e0c10f108a39 6,9-11,13,16,21,23,25-60,62-72,74-77,79,81,83-90
+js/home.js
+  s_a4fdefbacc4ddc::t_a7321da599d8ba 1-17
+js/theme.js
+  s_a4fdefbacc4ddc::t_1ce911dd238492 26-27,42,50
+learning/cae-synopsys/index.html
+  s_a4fdefbacc4ddc::t_a6d0f3f93c88e8 6,8,17,21,24-36,45-49
+learning/cae-synopsys/pd/index.html
+  s_a4fdefbacc4ddc::t_bb0c0c3c99183e 6,8,17,21,24-36,204-208
+learning/cae-synopsys/rtl/index.html
+  s_a4fdefbacc4ddc::t_0541f3faf9bac8 6,8,17,21,24-36,148-152
+learning/cae-synopsys/verification/index.html
+  s_a4fdefbacc4ddc::t_5646abb9bf037d 6,8,17,21,24-36,142-146
+learning/index.html
+  s_a4fdefbacc4ddc::t_fc73ba3a6127bc 6,8,17,21,24-37,41-45
+posts/rlvr-training-costs.html
+  s_a4fdefbacc4ddc::t_bc761cb368c68a 6,9,16,21,25-26,28-40,42,64,85,91,99,367-371
+posts/template.html
+  s_a4fdefbacc4ddc::t_06edb3491641c0 6,9,17,22,25-26,28-40,42,74-78
+resume.html
+  s_a4fdefbacc4ddc::t_69a0f988d01594 6,9,16,21,24-25,27-39,41,44,63-66,71-75
+scripts/build_rlvr_post.py
+  s_a4fdefbacc4ddc::t_f3719958ff54c7 8,337,340,347,352,356-360,395
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6e2a09fcd123bfea02acbbcd2dca8000d746932a",
+  "prompts": {},
+  "sessions": {
+    "s_a4fdefbacc4ddc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c6c2-231a-7a30-bbf3-f68a9d08902d",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "abhinavnandwani <abhu.srt@gmail.com>"
+    }
+  }
+}
