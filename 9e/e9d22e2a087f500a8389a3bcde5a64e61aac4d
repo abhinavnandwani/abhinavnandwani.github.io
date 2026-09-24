@@ -1,0 +1,29 @@
+scripts/build_learning.py
+  s_a4fdefbacc4ddc::t_8f50b4cdede2e6 244
+learning/cae-synopsys/index.html
+  s_a4fdefbacc4ddc::t_8e495eb52f8a75 49
+learning/cae-synopsys/pd/index.html
+  s_a4fdefbacc4ddc::t_a77b03a3c39a64 46-47,52,100,137,176-177,198
+learning/cae-synopsys/rtl/index.html
+  s_a4fdefbacc4ddc::t_6882dde37d2bc9 46-47,52,138,147-148
+learning/cae-synopsys/source-manifest.json
+  s_a4fdefbacc4ddc::t_2109bd5cf49574 7-8,11,13-14,17,19-20
+learning/cae-synopsys/verification/index.html
+  s_a4fdefbacc4ddc::t_0bf3d1cbc56713 46-47,52,137-139,144-145
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9ee9d22e2a087f500a8389a3bcde5a64e61aac4d",
+  "prompts": {},
+  "sessions": {
+    "s_a4fdefbacc4ddc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c6c2-231a-7a30-bbf3-f68a9d08902d",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "abhinavnandwani <abhu.srt@gmail.com>"
+    }
+  }
+}
