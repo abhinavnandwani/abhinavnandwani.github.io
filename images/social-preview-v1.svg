@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Abhinav Nandwani</title>
+  <desc id="desc">Silicon, software and everything between. A typographic card in cream, olive and terracotta.</desc>
+  <defs>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#d8d3c7"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="#f5f2eb"/>
+  <rect x="24" y="24" width="1152" height="582" rx="3" fill="none" stroke="#d8d3c7"/>
+  <rect x="733" y="95" width="386" height="406" fill="url(#dots)"/>
+  <text x="78" y="105" fill="#ad402b" font-family="Georgia, serif" font-style="italic" font-size="49">an.</text>
+  <text x="80" y="250" fill="#282a24" font-family="Georgia, serif" font-size="91" letter-spacing="-4">Abhinav</text>
+  <text x="76" y="347" fill="#282a24" font-family="Georgia, serif" font-size="91" letter-spacing="-4">Nandwani.</text>
+  <text x="82" y="420" fill="#57594d" font-family="Arial, sans-serif" font-size="27">Silicon, software &amp; everything between.</text>
+  <g transform="translate(830 211) rotate(-7 104 104)">
+    <g fill="none" stroke="#7a8067" stroke-width="2">
+      <path d="M32 0v-35h-52v-35M80 0v-56M128 0v-35h52v-35M176 0v-17h74v-36"/>
+      <path d="M32 208v35h-52v35M80 208v56M128 208v35h52v35M176 208v17h74v36"/>
+      <path d="M0 48h-40v-26h-28M0 104h-61M0 160h-40v26h-28M208 48h40v-26h28M208 104h61M208 160h40v26h28"/>
+    </g>
+    <rect width="208" height="208" rx="12" fill="#f5f2eb" stroke="#7a8067" stroke-width="2"/>
+    <rect x="13" y="13" width="182" height="182" rx="5" fill="#e9e9dc" stroke="#b9bdab"/>
+    <text x="102" y="133" text-anchor="middle" fill="#ad402b" font-family="Georgia, serif" font-style="italic" font-size="90">an.</text>
+    <circle cx="29" cy="179" r="4" fill="#ad402b"/>
+  </g>
+  <path d="M80 504h1040" stroke="#d8d3c7"/>
+  <text x="80" y="552" fill="#57594d" font-family="Arial, sans-serif" font-size="22">abhinavnandwani.com</text>
+  <path d="M1076 548l24-24m-24 0h24v24" fill="none" stroke="#ad402b" stroke-width="2.5"/>
+</svg>

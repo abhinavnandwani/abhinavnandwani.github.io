@@ -11,7 +11,7 @@ import re
 import shutil
 import struct
 from pathlib import Path
-from site_shell import FONT_URL, navigation, footer
+from site_shell import FONT_URL, SOCIAL_IMAGE_META, navigation, footer
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = '/learning/cae-synopsys/'
@@ -183,6 +183,7 @@ def page(title, description, path, body, key='all'):
 <meta property="og:title" content="{esc(title)} | Abhinav Nandwani">
 <meta property="og:description" content="{esc(description)}">
 <meta property="og:type" content="article"><meta property="og:url" content="https://abhinavnandwani.com{path}">
+{SOCIAL_IMAGE_META}
 <link rel="icon" href="/favicon.ico?v=5" sizes="any"><link rel="icon" href="/images/favicon.svg?v=5" type="image/svg+xml">
 <link rel="stylesheet" href="/css/style.css?v=20260923"><link rel="stylesheet" href="/css/learning.css?v=20260923">
 {tracker}

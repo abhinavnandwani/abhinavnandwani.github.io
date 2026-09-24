@@ -5,7 +5,7 @@ from __future__ import annotations
 import html
 import re
 from pathlib import Path
-from site_shell import FONT_URL, navigation, footer
+from site_shell import FONT_URL, SOCIAL_IMAGE_META, navigation, footer
 
 ROOT = Path(__file__).resolve().parents[1]
 MD = ROOT / "content" / "notes" / "rlvr-gpu-costs.md"
@@ -344,7 +344,7 @@ def main() -> None:
     <meta property="og:description" content="{html.escape(desc)}">
     <meta property="og:type" content="article">
     <meta property="og:url" content="{canonical}">
-    <meta property="og:image" content="https://abhinavnandwani.com/images/abhinav-lakeside.jpg">
+    {SOCIAL_IMAGE_META}
     <link rel="canonical" href="{canonical}">
     <link rel="icon" href="/favicon.ico?v=5" sizes="any">
     <link rel="icon" href="/images/favicon.svg?v=5" type="image/svg+xml">

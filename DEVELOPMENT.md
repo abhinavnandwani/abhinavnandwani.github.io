@@ -104,6 +104,11 @@ alongside it, then run both builders.
 
 The homepage portrait uses a square CSS crop of `images/abhinav-lakeside.jpg`.
 
+Shared-link previews use `images/social-preview-v1.png`, exported at 1200 × 630
+from the adjacent SVG. After changing the artwork, export a new PNG and update
+the image URL in the hand-authored page heads and `scripts/site_shell.py`.
+Use a new filename when replacing the image because sharing apps cache previews.
+
 The résumé page shows a rendered preview with a direct link to the PDF, so it
 does not depend on an embedded browser PDF viewer. After replacing
 `files/resume.pdf`, regenerate its preview with Poppler:
