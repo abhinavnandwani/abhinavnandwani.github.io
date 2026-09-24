@@ -1,0 +1,59 @@
+css/learning.css
+  s_a4fdefbacc4ddc::t_307633d3c24172 30
+  s_a4fdefbacc4ddc::t_68a0c3717c663f 2-29,31-78
+  s_a4fdefbacc4ddc::t_f113f5afbf69e1 1
+learning/index.html
+  s_a4fdefbacc4ddc::t_d40f5c750b3a6e 1-60
+scripts/build_learning.py
+  s_a4fdefbacc4ddc::t_8026c036d79aaa 1-51,77-116,118-212,214-249
+  s_a4fdefbacc4ddc::t_379299097cb095 52-76,117
+  s_a4fdefbacc4ddc::t_ed522a941665e4 213
+posts/template.html
+  s_a4fdefbacc4ddc::t_f894f3361e269e 23,31
+js/learning.js
+  s_a4fdefbacc4ddc::t_68a0c3717c663f 1-35
+learning/cae-synopsys/verification/index.html
+  s_a4fdefbacc4ddc::t_f894f3361e269e 1-45,47-54,56-85,87-113,115-118,120-127,129-134,136-166
+  s_a4fdefbacc4ddc::t_d40f5c750b3a6e 46,55,86,114,119,128,135
+DEVELOPMENT.md
+  s_a4fdefbacc4ddc::t_c294adfd7d7edf 79-119
+learning/cae-synopsys/pd/index.html
+  s_a4fdefbacc4ddc::t_d40f5c750b3a6e 1-227
+posts/rlvr-training-costs.html
+  s_a4fdefbacc4ddc::t_f894f3361e269e 23,31
+learning/cae-synopsys/rtl/index.html
+  s_a4fdefbacc4ddc::t_d40f5c750b3a6e 46,55,85,111,136
+  s_a4fdefbacc4ddc::t_f894f3361e269e 1-45,47-54,56-84,86-110,112-135,137-171
+.gitignore
+  s_a4fdefbacc4ddc::t_f707c70a8e4ed6 34-35
+index.html
+  s_a4fdefbacc4ddc::t_f894f3361e269e 22,30,66-69
+  s_a4fdefbacc4ddc::t_472f94736cad89 70
+blog.html
+  s_a4fdefbacc4ddc::t_f894f3361e269e 22,30
+resume.html
+  s_a4fdefbacc4ddc::t_f894f3361e269e 22,30
+learning/cae-synopsys/source-manifest.json
+  s_a4fdefbacc4ddc::t_d40f5c750b3a6e 1-36
+scripts/build_rlvr_post.py
+  s_a4fdefbacc4ddc::t_e659c0ea4f80cc 353
+  s_a4fdefbacc4ddc::t_9c2f608bdee9bf 361
+learning/cae-synopsys/index.html
+  s_a4fdefbacc4ddc::t_d40f5c750b3a6e 1-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "48b1a03ad80368bfe1b58fdbc492003e765c07b1",
+  "prompts": {},
+  "sessions": {
+    "s_a4fdefbacc4ddc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c6c2-231a-7a30-bbf3-f68a9d08902d",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "abhinavnandwani <abhu.srt@gmail.com>"
+    }
+  }
+}
