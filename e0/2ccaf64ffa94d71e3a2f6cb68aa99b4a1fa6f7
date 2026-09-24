@@ -1,0 +1,32 @@
+DEVELOPMENT.md
+  s_a4fdefbacc4ddc::t_e67371694222b3 83
+scripts/build_learning.py
+  s_a4fdefbacc4ddc::t_b0e5d454b07f91 161-164,210,218,225,229
+  s_a4fdefbacc4ddc::t_e67371694222b3 244
+learning/cae-synopsys/index.html
+  s_a4fdefbacc4ddc::t_da2f9eccc8e507 46
+learning/cae-synopsys/pd/index.html
+  s_a4fdefbacc4ddc::t_db146b80a83fae 42-43,56-61,64
+learning/cae-synopsys/rtl/index.html
+  s_a4fdefbacc4ddc::t_dc0b703ee12212 42-43,56-61,64
+learning/cae-synopsys/source-manifest.json
+  s_a4fdefbacc4ddc::t_453853eb8c07bc 6-8,12-14,18-20
+learning/cae-synopsys/verification/index.html
+  s_a4fdefbacc4ddc::t_35607e812f1f0a 42-43,56-60,63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e02ccaf64ffa94d71e3a2f6cb68aa99b4a1fa6f7",
+  "prompts": {},
+  "sessions": {
+    "s_a4fdefbacc4ddc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c6c2-231a-7a30-bbf3-f68a9d08902d",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "abhinavnandwani <abhu.srt@gmail.com>"
+    }
+  }
+}
