@@ -3,21 +3,21 @@
   "guides": {
     "verification": {
       "sections": 16,
-      "code_blocks": 8,
-      "expanded_manuscript_sha256": "9f6cec56fc63f3bf9c9ec3255d4fc0bb88ab9b84791582748583775cddd538f4",
-      "pdf_sha256": "0c76c0d09796e52487c7504ce7b13147477dc66d66d208bf09f749425049a460"
+      "code_blocks": 6,
+      "expanded_manuscript_sha256": "b040d7237b3fefa80cb2527d50e9428daf1865645582b596950ae3fa77af0872",
+      "pdf_sha256": "b52d26dba184e979fdeeb5c5d361fcadae929b11f9c71802cbab558feab26ac6"
     },
     "rtl": {
       "sections": 15,
-      "code_blocks": 11,
-      "expanded_manuscript_sha256": "d98e1c78f572e4dc790166ee3dc617590b441f9eef3159b94ad2a52024a8f3b3",
-      "pdf_sha256": "932e989eb415253dc0bdaf7679a1edd65c6c28f72c84de14aabcf27715d606d5"
+      "code_blocks": 9,
+      "expanded_manuscript_sha256": "016248b3d6aaa37dbf02d3d419829e515c6068cff83c4143111098b1e2802d53",
+      "pdf_sha256": "79609824b4b8b7c1e5a716f02a19d328487bbdfbc72e9e0e94d79774356bca4b"
     },
     "pd": {
       "sections": 19,
-      "code_blocks": 15,
-      "expanded_manuscript_sha256": "5ca9cb9e54a5d41ea3411803cdebffdc39439ee90c8fb3de141d0de77a2aa927",
-      "pdf_sha256": "52170a55d4726228baad28c4f1711a4c9350ee693956951ed201dc5914af785e"
+      "code_blocks": 13,
+      "expanded_manuscript_sha256": "ff6a57da154866dc9ac4cbdff83f858fa8100e1f33b8da83df7ecc6cbbc15922",
+      "pdf_sha256": "d4c37cf9ed220cd9930d2f1e71e13a08044617433db915bf1e97d5328cbb2b3b"
     }
   },
   "images": [

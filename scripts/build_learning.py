@@ -158,6 +158,10 @@ def actions(key='all'):
     pdf = '' if key == 'all' else f'<a href="{BASE}downloads/cae-{key}-handout.pdf" download{event("PDF download", key)}>Download PDF</a>'
     return f'<div class="guide-actions">{pdf}<a href="{REPO}" target="_blank" rel="noopener"{event("GitHub click", key)}>Lab and sources on GitHub ↗</a></div>'
 
+def source_links(items, guide='all'):
+    links = [f'<a href="{REPO}/blob/main/{esc(path)}" target="_blank" rel="noopener"{event("GitHub click", guide)}>{esc(label)}</a>' for label, path in items]
+    return '<p class="source-links">Code: ' + ' · '.join(links) + '</p>'
+
 def page(title, description, path, body, key='all'):
     home = (ROOT / 'index.html').read_text()
     nav = re.search(r'<nav>.*?</nav>', home, re.S).group()
@@ -203,6 +207,7 @@ def build(source):
     source = source.resolve()
     crops = crops_from_source(source)
     common = (source / 'manuscripts/common-access.md').read_text()
+    code_links = json.loads((source / 'manuscripts/code-links.json').read_text())
     out = ROOT / BASE.strip('/')
     (out / 'assets').mkdir(parents=True, exist_ok=True)
     (out / 'downloads').mkdir(exist_ok=True)
@@ -210,16 +215,18 @@ def build(source):
     records = {}
     for key, (title, tools, description) in GUIDES.items():
         manuscript = (source / f'manuscripts/{key}.md').read_text().replace('{{ACCESS}}', common)
+        manuscript = manuscript.replace('{{CODE_LINKS}}', '\n\n'.join(label + ': ' + REPO + '/blob/main/' + path for label, path in code_links[key]))
         if re.search(r'\{\{[A-Z_]+\}\}', manuscript):
             raise ValueError('Unresolved template')
         # Title, author, and introductory paragraph are rendered in the page header.
         intro, body = manuscript.split('## ', 1)
         intro_text = '\n'.join(intro.splitlines()[3:]).strip()
         rendered, toc, images = render('## ' + body, source, crops)
+        rendered = rendered.replace('data-umami-event-guide="all"', f'data-umami-event-guide="{key}"')
         used_images |= images
         toc_html = '<ol>' + ''.join(f'<li><a href="#{anchor}">{esc(label)}</a></li>' for anchor, label in toc) + '</ol>'
         content = f'''<div class="breadcrumbs"><a href="/learning/">Learning Resources</a> / <a href="{BASE}">CAE Synopsys</a> / {title}</div>
-<header class="learning-header"><p class="eyebrow">CAE lab notes · {tools}</p><h1>{title} on CAE</h1><p class="lede">{inline(intro_text)}</p><p class="guide-meta">By Abhinav Nandwani · Tested on CAE, 23 September 2026</p>{actions(key)}</header>
+<header class="learning-header"><p class="eyebrow">CAE lab notes · {tools}</p><h1>{title} on CAE</h1><p class="lede">{inline(intro_text)}</p><p class="guide-meta">By Abhinav Nandwani · Tested on CAE, 23 September 2026</p>{actions(key)}{source_links(code_links[key], key)}</header>
 <div class="guide-layout"><aside class="guide-toc" aria-label="Guide sections"><details open><summary>On this page</summary>{toc_html}</details></aside><article class="guide-content">{rendered}<div class="guide-end"><p><a href="{BASE}">← All CAE guides</a></p>{actions(key)}</div></article></div>'''
         target = out / key / 'index.html'
         target.parent.mkdir(exist_ok=True)
@@ -234,7 +241,7 @@ def build(source):
 {cards()}
 <section class="overview-body"><h2>Start with access</h2><p>Use your own UW NetID to open <a href="https://guacamole.cae.wisc.edu">CAE Guacamole</a>. Complete the UW web sign-in and then the Linux desktop login. Each guide includes the full access walkthrough, terminal basics, and the Synopsys environment setup.</p><p>You need CAE access and its licensed tool environment. The teaching source is public; the tools and libraries stay on CAE. See the <a href="https://kb.wisc.edu/cae/163323">official CAE login instructions</a> if you cannot reach the desktop.</p>
 <h2>One lab, three ways to explore it</h2><p>Verification follows stimulus and checks through simulation. RTL connects source behavior to mapped hardware. Synthesis and physical design follow constraints, reports, and initial placement. You can work through your guide independently.</p><div class="guide-note"><p>This is a one-register teaching exercise. Initial placement is not a completed place-and-route or signoff flow, and its timing and area are not accelerator PPA estimates. The <a href="{REPO}/blob/main/VALIDATION.md"{event('GitHub click', 'all')}>validation record</a> lists what was tested and the remaining limits.</p></div>
-<h2>Keep the lab locally</h2><p>Clone the repository on your laptop, then follow your guide to copy it to CAE. The repository also explains cloning directly on the CAE host.</p><div class="code-block" data-section="clone"><pre><code>git clone {REPO}.git</code></pre></div><p>The HTML pages and PDFs come from the same manuscripts. Download a PDF for offline reading, or keep a Git clone for the sources, screenshots, and runnable lab. Screenshots retain the original demonstration folder; use the current paths in the command blocks.</p></section>'''
+<h2>Example code</h2>{source_links(code_links['rtl'] + code_links['pd'][2:])}<p>The HTML pages and PDFs use the same manuscripts. Screenshots retain the original demonstration folder; use the paths in the command blocks.</p></section>'''
     (out / 'index.html').write_text(page('Synopsys on CAE', 'Visual guides to verification, RTL development, synthesis and physical design on UW–Madison CAE.', BASE, overview))
     index = f'''<header class="learning-header"><p class="eyebrow">Notes, walkthroughs, and runnable examples</p><h1>Learning Resources</h1><p class="lede">Practical guides from work I have tested myself. Read online, keep a PDF, and use the companion code to follow along.</p></header>
 <div class="resource-list"><article class="resource-row"><span class="number">01</span><div><h2><a href="{BASE}">Synopsys on CAE →</a></h2><p>Three detailed guides to verification, RTL development, and synthesis and physical design on UW–Madison CAE. Includes Guacamole access, terminal commands, GUI walkthroughs, and a shared register lab.</p><p class="tools">3 guides · HTML + PDF · Runnable lab on GitHub</p></div></article></div>'''

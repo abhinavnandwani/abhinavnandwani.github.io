@@ -80,7 +80,7 @@ uv run python scripts/serve_livereload.py
 
 The canonical CAE guide manuscripts, PDFs, and lab live in
 [cae-synopsys-guides](https://github.com/abhinavnandwani/cae-synopsys-guides).
-Clone it alongside this repository, then regenerate the web editions with:
+Regenerate the web editions with:
 
 ```bash
 python3 scripts/build_learning.py --source ../cae-synopsys-guides
