@@ -4,20 +4,20 @@
     "verification": {
       "sections": 16,
       "code_blocks": 6,
-      "expanded_manuscript_sha256": "b040d7237b3fefa80cb2527d50e9428daf1865645582b596950ae3fa77af0872",
-      "pdf_sha256": "b52d26dba184e979fdeeb5c5d361fcadae929b11f9c71802cbab558feab26ac6"
+      "expanded_manuscript_sha256": "0e5de0b3d9a2396cec0f8e147ccd2803c95abfec756a804b81b64b5b615687c4",
+      "pdf_sha256": "5c1fbc297d4d84365591714c3daf942eb93f6698c607f8a7e023217f6cde5e97"
     },
     "rtl": {
-      "sections": 15,
+      "sections": 14,
       "code_blocks": 9,
-      "expanded_manuscript_sha256": "016248b3d6aaa37dbf02d3d419829e515c6068cff83c4143111098b1e2802d53",
-      "pdf_sha256": "79609824b4b8b7c1e5a716f02a19d328487bbdfbc72e9e0e94d79774356bca4b"
+      "expanded_manuscript_sha256": "fd76a53855301d4cc8f3f02b6cb5acce9174e773f68fb911d23c575c65520d43",
+      "pdf_sha256": "c11ad6925d580b4f94b874ce935c9bfeab5565479475019d272614c3b2a6586c"
     },
     "pd": {
-      "sections": 19,
+      "sections": 18,
       "code_blocks": 13,
-      "expanded_manuscript_sha256": "ff6a57da154866dc9ac4cbdff83f858fa8100e1f33b8da83df7ecc6cbbc15922",
-      "pdf_sha256": "d4c37cf9ed220cd9930d2f1e71e13a08044617433db915bf1e97d5328cbb2b3b"
+      "expanded_manuscript_sha256": "c11dff32629422525a4708c68cffcf6f84c0a871073a617162557d60ea440712",
+      "pdf_sha256": "ed6d3b7212d89f31bda968884add202056c83b14a07b458ef7ef01c649551822"
     }
   },
   "images": [
